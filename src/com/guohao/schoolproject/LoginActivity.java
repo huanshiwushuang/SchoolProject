@@ -35,7 +35,7 @@ public class LoginActivity extends Activity {
 	
 	
 	public void login(View view) {
-		Util.showToast(LoginActivity.this, "µã»÷µÇÂ¼°´Å¥");
+		MainActivity.actionStart(LoginActivity.this);
 	}
 	public void registe(View view) {
 		RegisteActivity.actionStart(LoginActivity.this);

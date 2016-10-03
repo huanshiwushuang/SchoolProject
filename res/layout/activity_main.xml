@@ -5,17 +5,18 @@
     android:orientation="vertical" >
 
     <com.guohao.custom.Title
+        android:id="@+id/id_custom_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
     </com.guohao.custom.Title>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
+    <com.guohao.custom.MyViewPager
+        android:id="@+id/id_myviewpager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:background="#fff"
+        android:background="#EFEFEF"
         android:flipInterval="30"
         android:persistentDrawingCache="animation" />
 
@@ -23,37 +24,36 @@
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="#fff"
-        android:gravity="center_vertical"
         android:orientation="horizontal" >
 
         <LinearLayout
             android:id="@+id/id_linearlayout_tab01"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:orientation="vertical" >
 
             <ImageView
                 android:id="@+id/id_imageview_recommend"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
-                android:src="@drawable/img310" />
+                android:src="@drawable/img311" />
 
             <TextView
                 android:id="@+id/id_textview_recommend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="答题"
-                android:textColor="#087f78" />
+                android:textColor="#666" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/id_linearlayout_tab02"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:orientation="vertical" >
 
             <ImageView
@@ -67,15 +67,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="我"
-                android:textColor="#c9bda6" />
+                android:textColor="#666" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/id_linearlayout_tab03"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:orientation="vertical" >
 
             <ImageView
@@ -89,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="设置"
-                android:textColor="#c9bda6" />
+                android:textColor="#666" />
         </LinearLayout>
     </LinearLayout>
 
