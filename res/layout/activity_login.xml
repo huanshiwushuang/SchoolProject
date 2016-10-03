@@ -70,13 +70,14 @@
                 android:layout_marginLeft="10dp"
                 android:src="@drawable/img85" />
         </RelativeLayout>
+
         <Button
             style="@style/StyleButtonLogin"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="25dp"
-            android:onClick="login"
             android:clickable="true"
+            android:onClick="login"
             android:text="登录" />
 
         <RelativeLayout
@@ -88,8 +89,8 @@
                 android:id="@+id/id_textview_registe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="registe"
                 android:clickable="true"
+                android:onClick="registe"
                 android:text="注册新用户"
                 android:textColor="#999"
                 android:textSize="13sp" />
@@ -98,8 +99,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:onClick="forgetPwd"
                 android:clickable="true"
+                android:onClick="forgetPwd"
                 android:text="@string/forget_pwd_textview"
                 android:textColor="#999"
                 android:textSize="13sp" />
@@ -123,20 +124,27 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="loginWeiXin"
-                android:clickable="true"
                 android:orientation="vertical" >
 
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:src="@drawable/img105" />
-
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="微信登录"
-                    android:textColor="#999" />
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:onClick="loginWeiXin"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:src="@drawable/img105" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="微信登录"
+                        android:textColor="#999" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -144,20 +152,27 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="loginQQ"
-                android:clickable="true"
                 android:orientation="vertical" >
 
-                <ImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:src="@drawable/img94" />
-
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="QQ登录"
-                    android:textColor="#999" />
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:onClick="loginQQ"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:src="@drawable/img94" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="QQ登录"
+                        android:textColor="#999" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
@@ -165,8 +180,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@id/id_linearlayout_login_other"
-            android:gravity="center_vertical"
             android:layout_marginBottom="30dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal" >
 
             <View

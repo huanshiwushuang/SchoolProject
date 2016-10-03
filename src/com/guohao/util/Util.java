@@ -31,7 +31,7 @@ public class Util {
             	toast = Toast.makeText(context, message, Toast.LENGTH_SHORT); 
             	toast.show(); 
             }else{  
-                oldMsg = message ;  
+                oldMsg = message;
                 toast = Toast.makeText(context, message, Toast.LENGTH_SHORT); 
                 toast.show();
             }  
