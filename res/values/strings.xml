@@ -4,5 +4,7 @@
     <string name="app_name">SchoolProject</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    
+    <string name="input_phone_num"><font size="14">请输入手机号(数字)</font></string>
 
 </resources>
