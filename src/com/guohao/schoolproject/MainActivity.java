@@ -44,9 +44,11 @@ public class MainActivity extends FragmentActivity implements OnClickListener,On
 		setContentView(R.layout.activity_main);
 		
 		initView();
+		initData();
 		initAdapter();
 	}
 	
+
 	private void initAdapter() {
 		myViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
 			
@@ -78,7 +80,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener,On
 			}
 		});
 	}
-
+	private void initData() {
+		customTitle.setTitleText("答题");
+	}
 	private void initView() {
 		layouts = new ArrayList<LinearLayout>();
 		
@@ -115,12 +119,15 @@ public class MainActivity extends FragmentActivity implements OnClickListener,On
 		switch (v.getId()) {
 		case R.id.id_linearlayout_tab01:
 			myViewPager.setCurrentItem(0, false);
+			customTitle.setTitleText("答题");
 			break;
 		case R.id.id_linearlayout_tab02:
 			myViewPager.setCurrentItem(1, false);
+			customTitle.setTitleText("个人中心");
 			break;
 		case R.id.id_linearlayout_tab03:
 			myViewPager.setCurrentItem(2, false);
+			customTitle.setTitleText("设置");
 			break;
 		}
 	}

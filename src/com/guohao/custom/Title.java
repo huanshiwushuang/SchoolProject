@@ -38,6 +38,8 @@ public class Title extends LinearLayout implements OnClickListener {
 		title = (TextView) view.findViewById(R.id.id_textview_title);
 		titleOther = (TextView) view.findViewById(R.id.id_textview_title_other);
 	}
+	
+	//---set---
 	public void setImageVisibility(int flag) {
 		backImg.setVisibility(flag);
 	}
@@ -46,6 +48,13 @@ public class Title extends LinearLayout implements OnClickListener {
 	}
 	public void setTitleOtherText(String text) {
 		titleOther.setText(text);
+	}
+	//---getter
+	public TextView getTitle() {
+		return title;
+	}
+	public TextView getTitleOther() {
+		return titleOther;
 	}
 	
 	@Override

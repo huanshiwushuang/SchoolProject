@@ -1,12 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:MeBg="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#EFEFEF"
     android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="第二个" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="208dp"
+        android:background="#30BAE9" >
+
+        <TextView
+            android:id="@+id/id_imageview_user_pic_text"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="user_2351560"
+            android:textColor="#fff" />
+
+        <ImageView
+            android:id="@+id/id_imageview_user_pic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/id_imageview_user_pic_text"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/img341" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="15dp"
+        android:layout_weight="1"
+        android:scrollbarSize="3dp"
+        android:scrollbarThumbVertical="@color/scrollBar" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <com.guohao.custom.MeBg
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                MeBg:text01="昵称"
+                MeBg:text02="user_2351560" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="#E0E0E0" />
+
+            <com.guohao.custom.MeBg
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                MeBg:text01="姓名"
+                MeBg:text02="未设置" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="#E0E0E0" />
+
+            <com.guohao.custom.MeBg
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                MeBg:text01="性别"
+                MeBg:text02="男" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="#E0E0E0" />
+
+            <com.guohao.custom.MeBg
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                MeBg:text01="电话"
+                MeBg:text02="18283933002" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="#E0E0E0" />
+
+            <com.guohao.custom.MeBg
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                MeBg:text01="邮箱"
+                MeBg:text02="未设置" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="#E0E0E0" />
+
+            <com.guohao.custom.MeBg
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                MeBg:text01="岗位"
+                MeBg:text02="接触网工" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
