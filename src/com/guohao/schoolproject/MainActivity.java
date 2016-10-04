@@ -8,7 +8,7 @@ import com.guohao.custom.Title;
 import com.guohao.fragment.AnswerFragment;
 import com.guohao.fragment.MeFragment;
 import com.guohao.fragment.SettingFragment;
-import com.guohao.schoolproject.R.layout;
+import com.guohao.util.Util;
 
 import android.content.Context;
 import android.content.Intent;
@@ -147,5 +147,18 @@ public class MainActivity extends FragmentActivity implements OnClickListener,On
 		img.setImageResource(afterChecked[arg0]);
 		text.setTextColor(Color.parseColor("#30BAE9"));
 		
+	}
+	//---点击事件---碎片01---写在 xml 文件里
+	public void clickExamTest(View view) {
+		Util.showToast(MainActivity.this, "考试测评");
+	}
+	public void clickBookRead(View view) {
+		Util.showToast(MainActivity.this, "书籍查看");
+	}
+	public void clickErrorTopic(View view) {
+		Util.showToast(MainActivity.this, "错题书籍");
+	}
+	public void clickMyRecord(View view) {
+		Util.showToast(MainActivity.this, "我的记录");
 	}
 }

@@ -3,7 +3,6 @@ package com.guohao.fragment;
 import com.guohao.custom.Title;
 import com.guohao.schoolproject.MainActivity;
 import com.guohao.schoolproject.R;
-import com.guohao.util.Util;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -39,19 +38,4 @@ public class AnswerFragment extends Fragment {
 		customTitle = mainActivity.getCustomTitle();
 	}
 	
-	
-	
-	//---事件---
-	public void clickExamTest(View view) {
-		Util.showToast(getActivity(), "考试测评");
-	}
-	public void clickBookRead(View view) {
-		Util.showToast(getActivity(), "书籍查看");
-	}
-	public void clickErrorTopic(View view) {
-		Util.showToast(getActivity(), "错题书籍");
-	}
-	public void clickMyRecord(View view) {
-		Util.showToast(getActivity(), "我的记录");
-	}
 }
