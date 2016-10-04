@@ -104,21 +104,26 @@ public class MainActivity extends FragmentActivity implements OnClickListener,On
 		Intent intent = new Intent(context, MainActivity.class);
 		context.startActivity(intent);
 	}
-
+	
+	//---getter---
+	public Title getCustomTitle() {
+		return customTitle;
+	}
+	//---ÊÂ¼þ---
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.id_linearlayout_tab01:
+			myViewPager.setCurrentItem(0, false);
 			break;
 		case R.id.id_linearlayout_tab02:
+			myViewPager.setCurrentItem(1, false);
 			break;
 		case R.id.id_linearlayout_tab03:
-			break;
-		default:
+			myViewPager.setCurrentItem(2, false);
 			break;
 		}
 	}
-
 	@Override
 	public void onPageScrollStateChanged(int arg0) {
 		
