@@ -43,6 +43,7 @@
             android:orientation="vertical" >
 
             <com.guohao.custom.MeBg
+                android:id="@+id/id_mebg01"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 MeBg:text01="昵称"
@@ -56,6 +57,7 @@
                 android:background="#E0E0E0" />
 
             <com.guohao.custom.MeBg
+                android:id="@+id/id_mebg02"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 MeBg:text01="姓名"
@@ -69,6 +71,7 @@
                 android:background="#E0E0E0" />
 
             <com.guohao.custom.MeBg
+                android:id="@+id/id_mebg03"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 MeBg:text01="性别"
@@ -82,6 +85,7 @@
                 android:background="#E0E0E0" />
 
             <com.guohao.custom.MeBg
+                android:id="@+id/id_mebg04"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 MeBg:text01="电话"
@@ -95,6 +99,7 @@
                 android:background="#E0E0E0" />
 
             <com.guohao.custom.MeBg
+                android:id="@+id/id_mebg05"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 MeBg:text01="邮箱"
@@ -108,6 +113,7 @@
                 android:background="#E0E0E0" />
 
             <com.guohao.custom.MeBg
+                android:id="@+id/id_mebg06"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 MeBg:text01="岗位"

@@ -12,7 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:text="text01"
         android:textSize="16sp" />
 
     <ImageView
@@ -30,7 +29,6 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="5dp"
         android:layout_toLeftOf="@id/id_imageview_next"
-        android:text="text02"
         android:textColor="#CDCDCD"
         android:textSize="13sp" />
 

@@ -4,4 +4,8 @@
         <attr name="text01" format="string" />
         <attr name="text02" format="string" />
     </declare-styleable>
+    <declare-styleable name="SettingBg">
+        <attr name="img" format="reference" />
+        <attr name="text" format="string" />
+    </declare-styleable>
 </resources>
