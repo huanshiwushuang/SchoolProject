@@ -2,7 +2,9 @@ package com.guohao.util;
 
 import com.guohao.custom.MyAlertDialog;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.widget.Toast;
 
 public class Util {
@@ -31,9 +33,8 @@ public class Util {
         oneTime = twoTime;
     }  
     
-    private static MyAlertDialog alertDialog;
     public static MyAlertDialog showAlertDialog(Context context, String message, int flag) {
-    	alertDialog = new MyAlertDialog(context);
+    	MyAlertDialog alertDialog = new MyAlertDialog(context);
     	alertDialog.setTitle("提示信息");
     	alertDialog.setMessage(message);
     	alertDialog.setYesText("确定");
@@ -41,5 +42,11 @@ public class Util {
     	alertDialog.setFlag(flag);
     	alertDialog.show();
     	return alertDialog;
+	}
+    
+    public static DisplayMetrics getDisplayMetrics(Activity activity) {
+		DisplayMetrics metrics = new DisplayMetrics();
+		activity.getWindow().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		return metrics;
 	}
 }
