@@ -38,6 +38,10 @@
             android:name="com.guohao.schoolproject.MainActivity">
             
         </activity>
+        <activity 
+            android:name="com.guohao.schoolproject.AnswerShowActivity">
+            
+        </activity>
     </application>
 
 </manifest>

@@ -109,10 +109,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener,On
 		context.startActivity(intent);
 	}
 	
-	//---getter---
-	public Title getCustomTitle() {
-		return customTitle;
-	}
 	//---事件---
 	@Override
 	public void onClick(View v) {
@@ -157,15 +153,15 @@ public class MainActivity extends FragmentActivity implements OnClickListener,On
 	}
 	//---点击事件---碎片01---写在 xml 文件里
 	public void clickExamTest(View view) {
-		Util.showToast(MainActivity.this, "考试测评");
+		AnswerShowActivity.actionStart(MainActivity.this, AnswerShowActivity.Exam_Test);
 	}
 	public void clickBookRead(View view) {
-		Util.showToast(MainActivity.this, "书籍查看");
+		AnswerShowActivity.actionStart(MainActivity.this, AnswerShowActivity.Book_Read);
 	}
 	public void clickErrorTopic(View view) {
-		Util.showToast(MainActivity.this, "错题书籍");
+		AnswerShowActivity.actionStart(MainActivity.this, AnswerShowActivity.Error_Content);
 	}
 	public void clickMyRecord(View view) {
-		Util.showToast(MainActivity.this, "我的记录");
+		AnswerShowActivity.actionStart(MainActivity.this, AnswerShowActivity.My_Record);
 	}
 }
