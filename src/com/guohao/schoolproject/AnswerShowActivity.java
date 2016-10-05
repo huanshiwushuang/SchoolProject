@@ -1,7 +1,11 @@
 package com.guohao.schoolproject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.guohao.custom.AnswerShowBg;
 import com.guohao.custom.Title;
+import com.guohao.java.AnswerShowAdapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,9 +13,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.FrameLayout.LayoutParams;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 public class AnswerShowActivity extends Activity {
 	private static int flag = 0;
@@ -22,10 +25,14 @@ public class AnswerShowActivity extends Activity {
 	
 	private Title customTitle;
 	private int imageId;
-	private LinearLayout allLayout,contentLayout;
+	private LinearLayout allLayout;
+	private ListView listView;
 	private Activity mActivity;
 	private String testString;
 	private View view;
+	
+	private List<Object[]> list;
+	private AnswerShowAdapter adapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,22 +43,15 @@ public class AnswerShowActivity extends Activity {
 		initData();
 		//测试所用---模拟请求到的数据
 		initNetworkData();
+		initAdapter();
 	}
 	
+	private void initAdapter() {
+		listView.setAdapter(adapter);
+	}
 	private void initNetworkData() {
-		for (int i = 0; i < 5; i++) {
-			AnswerShowBg answerShowBg = new AnswerShowBg(mActivity);
-			answerShowBg.setImage(imageId);
-			answerShowBg.setText(testString);
-			
-			contentLayout.addView(answerShowBg);
-			if (i != 4) {
-				View view = new View(mActivity);
-				view.setBackgroundColor(Color.parseColor("#E0E0E0"));
-				FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, 1);
-				view.setLayoutParams(params);
-				contentLayout.addView(view);
-			}
+		for (int i = 0; i < 15; i++) {
+			list.add(new Object[]{imageId,testString});
 		}
 	}
 	private void initData() {
@@ -83,11 +83,14 @@ public class AnswerShowActivity extends Activity {
 		}
 	}
 	private void initView() {
+		mActivity = AnswerShowActivity.this;
+		list = new ArrayList<Object[]>();
+		adapter = new AnswerShowAdapter(mActivity, R.layout.custom_answer_show_bg, list);
 		customTitle = (Title) findViewById(R.id.id_custom_title);
 		allLayout = (LinearLayout) findViewById(R.id.id_linearlayout);
-		contentLayout = (LinearLayout) findViewById(R.id.id_linearlayout_content);
+		listView = (ListView) findViewById(R.id.id_listview);
 		view = findViewById(R.id.id_view_space);
-		mActivity = AnswerShowActivity.this;
+		
 	}
 
 
