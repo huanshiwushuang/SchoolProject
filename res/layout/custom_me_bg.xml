@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="45dp"
-    android:background="#fff"
+    android:background="@drawable/custom_selector_me_listview_bg"
     android:gravity="center_vertical"
     android:paddingLeft="10dp"
     android:paddingRight="10dp" >

@@ -1,5 +1,9 @@
 package com.guohao.custom;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.guohao.adapter.MeListviewBgAdapter;
 import com.guohao.schoolproject.R;
 import com.guohao.util.Util;
 
@@ -10,17 +14,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class MeBg extends FrameLayout implements OnClickListener {
 	private View view;
 	private Context mContext;
 	private TextView textView01,textView02;
+	private LayoutInflater inflater;
 
 	public MeBg(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		mContext = context;
-		view = LayoutInflater.from(mContext).inflate(R.layout.custom_me_bg, this);
+		inflater = LayoutInflater.from(mContext);
+		
+		view = inflater.inflate(R.layout.custom_me_bg, this);
 		textView01 = (TextView) view.findViewById(R.id.id_textview_text01);
 		textView02 = (TextView) view.findViewById(R.id.id_textview_text02);
 		
@@ -60,7 +68,13 @@ public class MeBg extends FrameLayout implements OnClickListener {
 			Util.showToast(mContext, "邮箱");
 			break;
 		case R.id.id_mebg06:
-			Util.showToast(mContext, "岗位");
+			int imgId = R.drawable.img265;
+			String[] strings = {"接触网工","电力线路工","配电值班员","变电值班员","高压试工员","继电保护工","接触网工","电力线路工"};
+			List<Object[]> list = new ArrayList<Object[]>();
+			for (int i = 0; i < strings.length; i++) {
+				list.add(new Object[]{imgId,strings[i]});
+			}
+			Util.showAlertDialog02(mContext, list);
 			break;
 		}
 	}

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/custom_shape_alertdialog_bg"
+    android:orientation="vertical" >
+
+    <ListView
+        android:id="@+id/id_listview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_weight="1"
+        android:divider="@null"
+        android:scrollbarSize="3dp"
+        android:scrollbarThumbVertical="@color/scrollBar" >
+    </ListView>
+
+    <View
+        android:id="@+id/id_view_space"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="#E0E0E0" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp" >
+
+        <TextView
+            android:id="@+id/id_textview_yes"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/custom_selector_alertdialog_ok_bg"
+            android:gravity="center"
+            android:text="确定"
+            android:textColor="#4FB7AD" />
+
+        <TextView
+            android:id="@+id/id_textview_no"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/id_textview_yes"
+            android:background="@drawable/custom_selector_alertdialog_ok_bg"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="#4FB7AD" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,5 +1,8 @@
 package com.guohao.custom;
 
+import java.util.List;
+
+import com.guohao.adapter.MeListviewBgAdapter;
 import com.guohao.schoolproject.LoginActivity;
 import com.guohao.schoolproject.R;
 import com.guohao.util.Util;
@@ -11,36 +14,47 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
-public class MyAlertDialog implements OnClickListener {
+public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 	private Context mContext;
 	private View v;
 	private AlertDialog dialog;
 	private AlertDialog.Builder builder;
 	private int width,height;
 	public int screenWidth,screenHeight;
+	private LayoutInflater inflater;
 	
+	private int flag = 1;
+	private TextView mYes,mNo;
 	//---布局01---退出和注销的布局---默认
-	public final static int Layout01 = 1;
-	private TextView mTitle,mMessage,mYes,mNo;
-	private int flag = 2;
+	public final static int Layout01 = 2;
+	private TextView mTitle,mMessage;
 	public final static int Exit = 3;
 	public final static int ReLogin = 4;
-	//---布局02---
-//	public final static int Layout02 = 5;
+	//---布局02---碎片02--->岗位
+	public final static int Layout02 = 5;
+	private ListView listView;
+	private List<Object[]> list;
+	private int clickPosition = -1;
+	private MeListviewBgAdapter adapter;
 	
 	//当前布局
 	private static int currentLayout = Layout01;
 	
-	public MyAlertDialog(Context context) {
-		this(context, currentLayout);
+	//---构造函数---布局01
+	public MyAlertDialog(Context context, int layout) {
+		this(context,layout,null);
 	}
-	//第二个参数是布局 子view
-	public MyAlertDialog(Context context,int selectLayout) {
+	//---构造函数---布局02
+	public MyAlertDialog(Context context, int layout, List<Object[]> list) {
 		mContext = context;
-		currentLayout = selectLayout;
+		currentLayout = layout;
+		this.list = list;
 		
 		initView();
 		initData();
@@ -53,6 +67,11 @@ public class MyAlertDialog implements OnClickListener {
 			mYes.setOnClickListener(this);
 			mNo.setOnClickListener(this);
 			break;
+		case Layout02:
+			mYes.setOnClickListener(this);
+			mNo.setOnClickListener(this);
+			listView.setOnItemClickListener(this);
+			break;
 		}
 	}
 	private void initData() {
@@ -61,17 +80,31 @@ public class MyAlertDialog implements OnClickListener {
 		screenHeight = metrics.heightPixels;
 		width = (int) (screenWidth/(1.13));
 		height = (int) (screenHeight/4.3);
+		
+		switch (currentLayout) {
+		case Layout02:
+			adapter = new MeListviewBgAdapter(mContext, R.layout.custom_me_listview_radio, list);
+			listView.setAdapter(adapter);
+			break;
+		}
 	}
 	private void initView() {
 		builder = new AlertDialog.Builder(mContext);
+		inflater = LayoutInflater.from(mContext);
 		
 		switch (currentLayout) {
 		case Layout01:
-			v = LayoutInflater.from(mContext).inflate(R.layout.custom_alertdialog, new FrameLayout(mContext));
+			v = inflater.inflate(R.layout.custom_alertdialog, new FrameLayout(mContext));
 			mTitle = (TextView) v.findViewById(R.id.id_textview_title);
 			mMessage = (TextView) v.findViewById(R.id.id_textview_message);
 			mYes = (TextView) v.findViewById(R.id.id_textview_yes);
 			mNo = (TextView) v.findViewById(R.id.id_textview_no);
+			break;
+		case Layout02:
+			v = inflater.inflate(R.layout.custom_me_listview, new FrameLayout(mContext));
+			mYes = (TextView) v.findViewById(R.id.id_textview_yes);
+			mNo = (TextView) v.findViewById(R.id.id_textview_no);
+			listView = (ListView) v.findViewById(R.id.id_listview);
 			break;
 		}
 	}
@@ -84,22 +117,22 @@ public class MyAlertDialog implements OnClickListener {
 	public void setMessage(String message) {
 		mMessage.setText(message);
 	}
-	public void setYesText(String text) {
-		mYes.setText(text);
-	}
-	public void setNoText(String text) {
-		mNo.setText(text);
-	}
 	//---指明当前点击 确定按钮的作用---在switch里面
 	public void setFlag(int flag) {
 		this.flag = flag;
 	}
 	
 	//---通用方法-------------------------------------------------------------------------
+	public void setYesText(String text) {
+		mYes.setText(text);
+	}
+	public void setNoText(String text) {
+		mNo.setText(text);
+	}
 	public void setWidth(int width) {
 		this.width = width;
 	}
-	public void height(int height) {
+	public void setheight(int height) {
 		this.height = height; 
 	}
 	//---getter---
@@ -149,6 +182,25 @@ public class MyAlertDialog implements OnClickListener {
 				break;
 			}
 			break;
+		case Layout02:
+			switch (v.getId()) {
+			case R.id.id_textview_yes:
+				Util.showToast(mContext, "确定---");
+				break;
+			case R.id.id_textview_no:
+				dismiss();
+				break;
+			}
+			break;
 		}
+	}
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		list.get(position)[0] = R.drawable.img296;
+		if (clickPosition != -1) {
+			list.get(clickPosition)[0] = R.drawable.img265;
+		}
+		adapter.notifyDataSetChanged();
+		clickPosition = position;
 	}
 }

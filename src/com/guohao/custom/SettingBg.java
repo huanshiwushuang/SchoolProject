@@ -47,10 +47,10 @@ public class SettingBg extends FrameLayout implements OnClickListener {
 			Util.showToast(mContext, "修改密码");
 			break;
 		case R.id.id_setting04:
-			Util.showAlertDialog(mContext, "是否确认注销？", MyAlertDialog.ReLogin);
+			Util.showAlertDialog01(mContext, "是否确认注销？", MyAlertDialog.ReLogin);
 			break;
 		case R.id.id_setting05:
-			Util.showAlertDialog(mContext, "是否退出程序？", MyAlertDialog.Exit);
+			Util.showAlertDialog01(mContext, "是否退出程序？", MyAlertDialog.Exit);
 			break;
 		case R.id.id_setting06:
 			Util.showToast(mContext, "关于");

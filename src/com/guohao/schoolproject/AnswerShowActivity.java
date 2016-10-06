@@ -3,9 +3,9 @@ package com.guohao.schoolproject;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.guohao.adapter.AnswerShowAdapter;
 import com.guohao.custom.AnswerShowBg;
 import com.guohao.custom.Title;
-import com.guohao.java.AnswerShowAdapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -33,6 +33,7 @@ public class AnswerShowActivity extends Activity {
 	
 	private List<Object[]> list;
 	private AnswerShowAdapter adapter;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +91,6 @@ public class AnswerShowActivity extends Activity {
 		allLayout = (LinearLayout) findViewById(R.id.id_linearlayout);
 		listView = (ListView) findViewById(R.id.id_listview);
 		view = findViewById(R.id.id_view_space);
-		
 	}
 
 

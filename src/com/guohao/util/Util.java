@@ -1,7 +1,10 @@
 package com.guohao.util;
 
+import java.util.List;
+
 import com.guohao.custom.MyAlertDialog;
 
+import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
 import android.util.DisplayMetrics;
@@ -33,13 +36,26 @@ public class Util {
         oneTime = twoTime;
     }  
     
-    public static MyAlertDialog showAlertDialog(Context context, String message, int flag) {
-    	MyAlertDialog alertDialog = new MyAlertDialog(context);
+    private static MyAlertDialog alertDialog;
+    public static MyAlertDialog showAlertDialog01(Context context, String message, int flag) {
+    	alertDialog = new MyAlertDialog(context, MyAlertDialog.Layout01);
     	alertDialog.setTitle("提示信息");
     	alertDialog.setMessage(message);
     	alertDialog.setYesText("确定");
     	alertDialog.setNoText("取消");
     	alertDialog.setFlag(flag);
+    	alertDialog.show();
+    	return alertDialog;
+	}
+    public static MyAlertDialog showAlertDialog02(Context context, List<Object[]> list) {
+    	alertDialog = new MyAlertDialog(context,MyAlertDialog.Layout02,list);
+    	int width = alertDialog.getScreenWidth()/15*13;
+    	int height = alertDialog.getScreenHeight()/22*20;
+    	
+    	alertDialog.setYesText("确定");
+    	alertDialog.setNoText("取消");
+    	alertDialog.setWidth(width);
+    	alertDialog.setheight(height);
     	alertDialog.show();
     	return alertDialog;
 	}

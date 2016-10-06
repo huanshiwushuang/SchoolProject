@@ -1,4 +1,4 @@
-package com.guohao.java;
+package com.guohao.adapter;
 
 import java.util.List;
 
