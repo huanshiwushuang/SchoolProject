@@ -42,6 +42,14 @@
             android:name="com.guohao.schoolproject.AnswerShowActivity">
             
         </activity>
+        <activity 
+            android:name="com.guohao.schoolproject.MeSetActivity">
+            
+        </activity>
+        <activity 
+            android:name="com.guohao.schoolproject.SettingActivity">
+            
+        </activity>
     </application>
 
 </manifest>

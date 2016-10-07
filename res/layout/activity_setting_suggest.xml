@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEE"
+    android:orientation="vertical" >
+
+    <com.guohao.custom.Title
+        android:id="@+id/id_custom_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <EditText
+            android:id="@+id/id_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="15dp"
+            android:background="#fff"
+            android:padding="10dp"
+            android:textCursorDrawable="@drawable/custom_shape_cursor"
+            android:textSize="13sp"
+            android:gravity="left"
+            android:hint="请输入您的宝贵意见"
+            android:inputType="textMultiLine"
+            android:maxLength="255"
+            android:scrollbarSize="3dp"
+            android:scrollbarThumbVertical="@color/scrollBar"
+            android:scrollbars="vertical" />
+
+        <TextView
+            android:id="@+id/id_textview_length"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@id/id_edittext"
+            android:layout_below="@id/id_edittext"
+            android:textColor="#999"
+            android:background="#fff"
+            android:gravity="right"
+            android:text="255" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <Button
+            android:id="@+id/id_submit"
+            style="@style/StyleButtonLogin"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="1dp"
+            android:text="提交" />
+    </RelativeLayout>
+
+</LinearLayout>

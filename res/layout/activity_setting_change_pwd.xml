@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEE"
+    android:orientation="vertical" >
+
+    <com.guohao.custom.Title
+        android:id="@+id/id_custom_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp" >
+
+            <EditText
+                android:id="@+id/id_edittext_pwd01"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#fff"
+                android:hint="@string/input_phone_num4"
+                android:inputType="number"
+                android:maxLength="11"
+                android:paddingLeft="45dp"
+                android:paddingRight="12dp"
+                android:textCursorDrawable="@drawable/custom_shape_cursor"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/img87" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="13dp" >
+
+            <EditText
+                android:id="@+id/id_edittext_pwd02"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#fff"
+                android:hint="@string/input_phone_num5"
+                android:inputType="textPassword"
+                android:paddingLeft="45dp"
+                android:paddingRight="12dp"
+                android:textCursorDrawable="@drawable/custom_shape_cursor"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/img85" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/id_submit"
+            style="@style/StyleButtonLogin"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="13dp"
+            android:clickable="true"
+            android:onClick="login"
+            android:text="登录" />
+    </LinearLayout>
+
+</LinearLayout>

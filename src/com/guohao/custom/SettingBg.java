@@ -1,6 +1,7 @@
 package com.guohao.custom;
 
 import com.guohao.schoolproject.R;
+import com.guohao.schoolproject.SettingActivity;
 import com.guohao.util.Util;
 
 import android.content.Context;
@@ -41,10 +42,10 @@ public class SettingBg extends FrameLayout implements OnClickListener {
 			Util.showToast(mContext, "版本更新");
 			break;
 		case R.id.id_setting02:
-			Util.showToast(mContext, "意见反馈");
+			SettingActivity.actionStart(mContext, SettingActivity.SUGGEST);
 			break;
 		case R.id.id_setting03:
-			Util.showToast(mContext, "修改密码");
+			SettingActivity.actionStart(mContext, SettingActivity.CHANGE_PWD);
 			break;
 		case R.id.id_setting04:
 			Util.showAlertDialog01(mContext, "是否确认注销？", MyAlertDialog.ReLogin);
@@ -53,7 +54,7 @@ public class SettingBg extends FrameLayout implements OnClickListener {
 			Util.showAlertDialog01(mContext, "是否退出程序？", MyAlertDialog.Exit);
 			break;
 		case R.id.id_setting06:
-			Util.showToast(mContext, "关于");
+			SettingActivity.actionStart(mContext, SettingActivity.ABOUT);
 			break;
 		}
 	}

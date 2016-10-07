@@ -7,6 +7,8 @@ import com.guohao.custom.MyAlertDialog;
 import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.widget.Toast;
 
@@ -59,10 +61,21 @@ public class Util {
     	alertDialog.show();
     	return alertDialog;
 	}
+    public static MyAlertDialog showAlertDialog03(Context context, List<Object[]> list) {
+    	alertDialog = new MyAlertDialog(context,MyAlertDialog.Layout03,list);
+    	int height = (int) (alertDialog.getScreenHeight()/3.6);
+    	alertDialog.setheight(height);
+    	alertDialog.show();
+    	return alertDialog;
+	}
     
     public static DisplayMetrics getDisplayMetrics(Activity activity) {
 		DisplayMetrics metrics = new DisplayMetrics();
 		activity.getWindow().getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		return metrics;
+	}
+    
+    public static SharedPreferences getPreference(Context context) {
+		return PreferenceManager.getDefaultSharedPreferences(context);
 	}
 }

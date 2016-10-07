@@ -158,10 +158,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener,On
 	public void clickBookRead(View view) {
 		AnswerShowActivity.actionStart(MainActivity.this, AnswerShowActivity.Book_Read);
 	}
-	public void clickErrorTopic(View view) {
-		AnswerShowActivity.actionStart(MainActivity.this, AnswerShowActivity.Error_Content);
-	}
-	public void clickMyRecord(View view) {
-		AnswerShowActivity.actionStart(MainActivity.this, AnswerShowActivity.My_Record);
-	}
+//	public void clickErrorTopic(View view) {
+//		AnswerShowActivity.actionStart(MainActivity.this, AnswerShowActivity.Error_Content);
+//	}
+//	public void clickMyRecord(View view) {
+//		AnswerShowActivity.actionStart(MainActivity.this, AnswerShowActivity.My_Record);
+//	}
 }

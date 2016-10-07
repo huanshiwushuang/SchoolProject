@@ -15,17 +15,19 @@
         android:id="@+id/id_view_space"
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="#00000000"
-        android:visibility="gone" />
+        android:background="#00000000" />
 
-    <ListView
-        android:id="@+id/id_listview"
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto" 
+        android:id="@+id/id_pulllistview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:fastScrollEnabled="false"  
         android:orientation="vertical"
+        ptr:ptrDrawable="@drawable/default_ptr_flip"
+        ptr:ptrAnimationStyle="flip"  
         android:scrollbarSize="3dp"
-        android:scrollbarThumbVertical="@color/scrollBar" >
-    </ListView>
+        android:scrollbarThumbVertical="@color/scrollBar" />
 
 </LinearLayout>

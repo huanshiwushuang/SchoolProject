@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.guohao.adapter.MeListviewBgAdapter;
+import com.guohao.schoolproject.MeSetActivity;
 import com.guohao.schoolproject.R;
 import com.guohao.util.Util;
 
@@ -53,19 +54,25 @@ public class MeBg extends FrameLayout implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.id_mebg01:
-			Util.showToast(mContext, "昵称");
+			MeSetActivity.actionStart(mContext, MeSetActivity.OTHER_NAME);
 			break;
 		case R.id.id_mebg02:
-			Util.showToast(mContext, "姓名");
+			MeSetActivity.actionStart(mContext, MeSetActivity.NAME);
 			break;
 		case R.id.id_mebg03:
-			Util.showToast(mContext, "性别");
+			int imageId = R.drawable.img265;
+			String[] sex = {"男","女"};
+			List<Object[]> lists = new ArrayList<Object[]>();
+			for (int i = 0; i < sex.length; i++) {
+				lists.add(new Object[]{imageId,sex[i]});
+			}
+			Util.showAlertDialog03(mContext, lists);
 			break;
 		case R.id.id_mebg04:
 			Util.showToast(mContext, "电话");
 			break;
 		case R.id.id_mebg05:
-			Util.showToast(mContext, "邮箱");
+			MeSetActivity.actionStart(mContext, MeSetActivity.EMAIL);
 			break;
 		case R.id.id_mebg06:
 			int imgId = R.drawable.img265;

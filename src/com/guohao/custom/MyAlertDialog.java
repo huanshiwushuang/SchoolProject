@@ -42,6 +42,8 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 	private List<Object[]> list;
 	private int clickPosition = -1;
 	private MeListviewBgAdapter adapter;
+	//---布局03---碎片02--->性别
+	public final static int Layout03 = 6;
 	
 	//当前布局
 	private static int currentLayout = Layout01;
@@ -50,7 +52,7 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 	public MyAlertDialog(Context context, int layout) {
 		this(context,layout,null);
 	}
-	//---构造函数---布局02
+	//---构造函数---布局02 和 03
 	public MyAlertDialog(Context context, int layout, List<Object[]> list) {
 		mContext = context;
 		currentLayout = layout;
@@ -72,6 +74,9 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 			mNo.setOnClickListener(this);
 			listView.setOnItemClickListener(this);
 			break;
+		case Layout03:
+			listView.setOnItemClickListener(this);
+			break;
 		}
 	}
 	private void initData() {
@@ -83,6 +88,10 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 		
 		switch (currentLayout) {
 		case Layout02:
+			adapter = new MeListviewBgAdapter(mContext, R.layout.custom_me_listview_radio, list);
+			listView.setAdapter(adapter);
+			break;
+		case Layout03:
 			adapter = new MeListviewBgAdapter(mContext, R.layout.custom_me_listview_radio, list);
 			listView.setAdapter(adapter);
 			break;
@@ -104,6 +113,10 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 			v = inflater.inflate(R.layout.custom_me_listview, new FrameLayout(mContext));
 			mYes = (TextView) v.findViewById(R.id.id_textview_yes);
 			mNo = (TextView) v.findViewById(R.id.id_textview_no);
+			listView = (ListView) v.findViewById(R.id.id_listview);
+			break;
+		case Layout03:
+			v = inflater.inflate(R.layout.custom_me_sex, new FrameLayout(mContext));
 			listView = (ListView) v.findViewById(R.id.id_listview);
 			break;
 		}
@@ -202,5 +215,14 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 		}
 		adapter.notifyDataSetChanged();
 		clickPosition = position;
+		
+		switch (currentLayout) {
+		case Layout02:
+			
+			break;
+		case Layout03:
+			
+			break;
+		}
 	}
 }

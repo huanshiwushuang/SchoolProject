@@ -8,6 +8,8 @@
     <string name="input_phone_num"><font size="14">请输入手机号(数字)</font></string>
     <string name="input_phone_num2"><font size="14">请输入11位手机号</font></string>
     <string name="input_phone_num3"><font size="14">请输入原11位手机号</font></string>
+    <string name="input_phone_num4"><font size="14">输入6-16位旧密码</font></string>
+    <string name="input_phone_num5"><font size="14">输入6-16位新密码</font></string>
     
     <string name="forget_pwd_textview"><u>忘记密码？</u></string>
     <string name="input_pwd"><font size="14">请输入密码(数字或字母)</font></string>
