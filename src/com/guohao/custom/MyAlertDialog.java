@@ -198,7 +198,7 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 		case Layout02:
 			switch (v.getId()) {
 			case R.id.id_textview_yes:
-				Util.showToast(mContext, "确定---");
+				Util.showToast(mContext, "确定");
 				break;
 			case R.id.id_textview_no:
 				dismiss();

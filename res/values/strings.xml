@@ -5,7 +5,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     
-    <string name="input_phone_num"><font size="14">请输入手机号(数字)</font></string>
+    <string name="input_phone_num"><font size="14">请输入学号(数字)</font></string>
     <string name="input_phone_num2"><font size="14">请输入11位手机号</font></string>
     <string name="input_phone_num3"><font size="14">请输入原11位手机号</font></string>
     <string name="input_phone_num4"><font size="14">输入6-16位旧密码</font></string>

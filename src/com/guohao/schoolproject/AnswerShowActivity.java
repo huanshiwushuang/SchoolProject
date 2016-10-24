@@ -19,9 +19,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-public class AnswerShowActivity extends Activity implements OnRefreshListener<ListView> {
+public class AnswerShowActivity extends Activity implements OnRefreshListener<ListView>,OnItemClickListener {
 	private static int flag = 0;
 	public static final int Exam_Test = 1;
 	public static final int Book_Read = 2;
@@ -41,12 +43,16 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 		setContentView(R.layout.activity_answer_show);
 		
 		initView();
-		initData();
+		initBaseData();
 		//测试所用---模拟请求到的数据
 		initNetworkData();
 		initAdapter();
+		initListener();
 	}
 	
+	private void initListener() {
+		pullListView.setOnItemClickListener(this);
+	}
 	private void initAdapter() {
 		pullListView.setAdapter(adapter);
 	}
@@ -55,7 +61,7 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 			list.add(new Object[]{imageId,testString});
 		}
 	}
-	private void initData() {
+	private void initBaseData() {
 		customTitle.setImageVisibility(View.VISIBLE);
 		switch (flag) {
 		case Exam_Test:
@@ -102,5 +108,18 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 				pullListView.onRefreshComplete();
 			}
 		}, 3*1000);
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		Util.showToast(mActivity, "您点击了第："+position+" 个");
+		switch (flag) {
+		case Exam_Test:
+			ExamDetail.actionStart(mActivity);
+			break;
+		case Book_Read:
+			ChapterListActivity.actionStart(mActivity);
+			break;
+		}
 	}
 }

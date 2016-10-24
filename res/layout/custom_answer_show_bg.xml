@@ -26,6 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="12dp"
+        android:ellipsize="end"
         android:layout_toRightOf="@id/id_imageview"
         android:textSize="14sp" />
 
