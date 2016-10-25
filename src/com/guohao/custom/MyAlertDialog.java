@@ -14,9 +14,12 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -44,11 +47,15 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 	private MeListviewBgAdapter adapter;
 	//---布局03---碎片02--->性别
 	public final static int Layout03 = 6;
+	//---布局04---正在加载......
+	public final static int Layout04 = 7;
+	private ImageView rotateImage;
+	private TextView loadingPrompt;
 	
 	//当前布局
 	private static int currentLayout = Layout01;
 	
-	//---构造函数---布局01
+	//---构造函数---布局01、布局04
 	public MyAlertDialog(Context context, int layout) {
 		this(context,layout,null);
 	}
@@ -95,6 +102,10 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 			adapter = new MeListviewBgAdapter(mContext, R.layout.custom_me_listview_radio, list);
 			listView.setAdapter(adapter);
 			break;
+		case Layout04:
+			Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.custom_rotate_image);
+			rotateImage.startAnimation(animation);
+			break;
 		}
 	}
 	private void initView() {
@@ -119,6 +130,11 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 			v = inflater.inflate(R.layout.custom_me_sex, new FrameLayout(mContext));
 			listView = (ListView) v.findViewById(R.id.id_listview);
 			break;
+		case Layout04:
+			v = inflater.inflate(R.layout.custom_alertdialog_loading, new FrameLayout(mContext));
+			rotateImage = (ImageView) v.findViewById(R.id.id_imageview_rotate);
+			loadingPrompt = (TextView) v.findViewById(R.id.id_textview_prompt);
+			break;
 		}
 	}
 
@@ -129,6 +145,12 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 	}
 	public void setMessage(String message) {
 		mMessage.setText(message);
+	}
+	//---布局04---
+	public void setLoadingPrompt(String text) {
+		if (loadingPrompt != null) {
+			loadingPrompt.setText(text);
+		}
 	}
 	//---指明当前点击 确定按钮的作用---在switch里面
 	public void setFlag(int flag) {
@@ -159,6 +181,11 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 		dialog = builder.show();
 		dialog.setContentView(v);
 		dialog.getWindow().setLayout(width, height);
+	}
+	public void setCancelable(Boolean flag) {
+		if (dialog != null) {
+			dialog.setCancelable(flag);
+		}
 	}
 	public void dismiss() {
 		if (dialog != null) {

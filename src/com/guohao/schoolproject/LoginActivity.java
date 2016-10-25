@@ -17,6 +17,7 @@ import com.guohao.util.Util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -34,6 +35,7 @@ public class LoginActivity extends Activity {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
 			case ok:
+				Util.dismiss();
 				try {
 					JSONObject object = new JSONObject(msg.obj.toString());
 					String status = object.getString("status");
@@ -48,6 +50,7 @@ public class LoginActivity extends Activity {
 				}
 				break;
 			case error:
+				Util.dismiss();
 				Util.showToast(activity, msg.obj.toString());
 				break;
 			}
@@ -89,6 +92,12 @@ public class LoginActivity extends Activity {
 			Util.showToast(activity, "密码有误");
 			return;
 		}
+		NetworkInfo info = Util.getNetworkInfo(activity);
+		if (info == null || !info.isAvailable()) {
+			Util.showToast(activity, "无可用网络");
+			return;
+		}
+		Util.showAlertDialog04(activity, "正在登录......");
 		//构建参数
 		List<KV> list = new ArrayList<KV>();
 		list.add(new KV("stuNumber", account));

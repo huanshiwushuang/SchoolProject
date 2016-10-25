@@ -8,6 +8,8 @@ import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.widget.Toast;
@@ -68,13 +70,36 @@ public class Util {
     	alertDialog.show();
     	return alertDialog;
 	}
+    public static MyAlertDialog showAlertDialog04(Context context, String prompt) {
+    	alertDialog = new MyAlertDialog(context, MyAlertDialog.Layout04);
+		int screenHeight = alertDialog.getScreenHeight();
+		alertDialog.setLoadingPrompt(prompt);
+		alertDialog.setheight((int)(screenHeight/5.6));
+		alertDialog.show();
+		return alertDialog;
+	}
+    public static void setCancelable(Boolean flag) {
+		if (alertDialog != null) {
+			alertDialog.setCancelable(flag);
+		}
+	}
+    public static void dismiss() {
+		if (alertDialog != null) {
+			alertDialog.dismiss();
+		}
+	}
     
     public static DisplayMetrics getDisplayMetrics(Activity activity) {
 		DisplayMetrics metrics = new DisplayMetrics();
 		activity.getWindow().getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		return metrics;
 	}
-    
+    //获取网络信息 info
+  	public static NetworkInfo getNetworkInfo(Context c) {
+  		ConnectivityManager connectivityManager = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
+  		NetworkInfo info = connectivityManager.getActiveNetworkInfo();
+  		return info;
+  	}
     public static SharedPreferences getPreference(Context context) {
 		return PreferenceManager.getDefaultSharedPreferences(context);
 	}

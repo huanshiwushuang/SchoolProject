@@ -71,7 +71,6 @@ public class HttpUtil {
 						e.printStackTrace();
 					}
 				}
-				Log.d("guoaho", "¹þ¹þ1");
 				try {
 					connection.connect();
 					if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
@@ -84,10 +83,10 @@ public class HttpUtil {
 						}
 						callBack.onFinish(builder.toString());
 					}else {
-						callBack.onError(connection.getResponseCode());
+						callBack.onError(Data.NETWORK_EXCEPTION+"£º"+connection.getResponseCode());
 					}
 				} catch (IOException e) {
-					callBack.onError(e.toString());
+					callBack.onError(Data.NETWORK_EXCEPTION+"£º"+e.toString());
 				}
 			}
 		}).start();
