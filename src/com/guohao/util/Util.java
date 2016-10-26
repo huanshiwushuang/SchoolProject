@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.guohao.custom.MyAlertDialog;
 
-import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -51,18 +50,18 @@ public class Util {
     	alertDialog.show();
     	return alertDialog;
 	}
-    public static MyAlertDialog showAlertDialog02(Context context, List<Object[]> list) {
-    	alertDialog = new MyAlertDialog(context,MyAlertDialog.Layout02,list);
-    	int width = alertDialog.getScreenWidth()/15*13;
-    	int height = alertDialog.getScreenHeight()/22*20;
-    	
-    	alertDialog.setYesText("确定");
-    	alertDialog.setNoText("取消");
-    	alertDialog.setWidth(width);
-    	alertDialog.setheight(height);
-    	alertDialog.show();
-    	return alertDialog;
-	}
+//    public static MyAlertDialog showAlertDialog02(Context context, List<Object[]> list) {
+//    	alertDialog = new MyAlertDialog(context,MyAlertDialog.Layout02,list);
+//    	int width = alertDialog.getScreenWidth()/15*13;
+//    	int height = alertDialog.getScreenHeight()/22*20;
+//    	
+//    	alertDialog.setYesText("确定");
+//    	alertDialog.setNoText("取消");
+//    	alertDialog.setWidth(width);
+//    	alertDialog.setheight(height);
+//    	alertDialog.show();
+//    	return alertDialog;
+//	}
     public static MyAlertDialog showAlertDialog03(Context context, List<Object[]> list) {
     	alertDialog = new MyAlertDialog(context,MyAlertDialog.Layout03,list);
     	int height = (int) (alertDialog.getScreenHeight()/3.6);
@@ -75,6 +74,7 @@ public class Util {
 		int screenHeight = alertDialog.getScreenHeight();
 		alertDialog.setLoadingPrompt(prompt);
 		alertDialog.setheight((int)(screenHeight/5.6));
+		alertDialog.setCancelable(false);
 		alertDialog.show();
 		return alertDialog;
 	}
@@ -87,6 +87,12 @@ public class Util {
 		if (alertDialog != null) {
 			alertDialog.dismiss();
 		}
+	}
+    public static Boolean isShowing() {
+		if (alertDialog != null) {
+			return alertDialog.isShowing();
+		}
+		return false;
 	}
     
     public static DisplayMetrics getDisplayMetrics(Activity activity) {

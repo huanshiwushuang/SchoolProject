@@ -1,24 +1,24 @@
 package com.guohao.custom;
 
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 
-import com.guohao.adapter.MeListviewBgAdapter;
-import com.guohao.schoolproject.MeSetActivity;
+//import com.guohao.adapter.MeListviewBgAdapter;
+//import com.guohao.schoolproject.MeSetActivity;
 import com.guohao.schoolproject.R;
-import com.guohao.util.Util;
+//import com.guohao.util.Util;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
+//import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
-import android.widget.ListView;
+//import android.widget.ListView;
 import android.widget.TextView;
 
-public class MeBg extends FrameLayout implements OnClickListener {
+public class MeBg extends FrameLayout /*implements OnClickListener*/ {
 	private View view;
 	private Context mContext;
 	private TextView textView01,textView02;
@@ -40,7 +40,7 @@ public class MeBg extends FrameLayout implements OnClickListener {
 		textView02.setText(text02);
 		typedArray.recycle();
 		
-		setOnClickListener(this);
+//		setOnClickListener(this);
 	}
 
 	public void setTextViewText01(String text) {
@@ -50,39 +50,39 @@ public class MeBg extends FrameLayout implements OnClickListener {
 		textView02.setText(text);
 	}
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.id_mebg01:
-			MeSetActivity.actionStart(mContext, MeSetActivity.OTHER_NAME);
-			break;
-		case R.id.id_mebg02:
-			MeSetActivity.actionStart(mContext, MeSetActivity.NAME);
-			break;
-		case R.id.id_mebg03:
-			int imageId = R.drawable.img265;
-			String[] sex = {"男","女"};
-			List<Object[]> lists = new ArrayList<Object[]>();
-			for (int i = 0; i < sex.length; i++) {
-				lists.add(new Object[]{imageId,sex[i]});
-			}
-			Util.showAlertDialog03(mContext, lists);
-			break;
-		case R.id.id_mebg04:
-			Util.showToast(mContext, "电话");
-			break;
-		case R.id.id_mebg05:
-			MeSetActivity.actionStart(mContext, MeSetActivity.EMAIL);
-			break;
-		case R.id.id_mebg06:
-			int imgId = R.drawable.img265;
-			String[] strings = {"接触网工","电力线路工","配电值班员","变电值班员","高压试工员","继电保护工","接触网工","电力线路工"};
-			List<Object[]> list = new ArrayList<Object[]>();
-			for (int i = 0; i < strings.length; i++) {
-				list.add(new Object[]{imgId,strings[i]});
-			}
-			Util.showAlertDialog02(mContext, list);
-			break;
-		}
-	}
+//	@Override
+//	public void onClick(View v) {
+//		switch (v.getId()) {
+//		case R.id.id_mebg01:
+//			MeSetActivity.actionStart(mContext, MeSetActivity.OTHER_NAME);
+//			break;
+//		case R.id.id_mebg02:
+//			MeSetActivity.actionStart(mContext, MeSetActivity.NAME);
+//			break;
+//		case R.id.id_mebg03:
+//			int imageId = R.drawable.img265;
+//			String[] sex = {"男","女"};
+//			List<Object[]> lists = new ArrayList<Object[]>();
+//			for (int i = 0; i < sex.length; i++) {
+//				lists.add(new Object[]{imageId,sex[i]});
+//			}
+//			Util.showAlertDialog03(mContext, lists);
+//			break;
+//		case R.id.id_mebg04:
+//			Util.showToast(mContext, "电话");
+//			break;
+//		case R.id.id_mebg05:
+//			MeSetActivity.actionStart(mContext, MeSetActivity.EMAIL);
+//			break;
+//		case R.id.id_mebg06:
+//			int imgId = R.drawable.img265;
+//			String[] strings = {"接触网工","电力线路工","配电值班员","变电值班员","高压试工员","继电保护工","接触网工","电力线路工"};
+//			List<Object[]> list = new ArrayList<Object[]>();
+//			for (int i = 0; i < strings.length; i++) {
+//				list.add(new Object[]{imgId,strings[i]});
+//			}
+//			Util.showAlertDialog02(mContext, list);
+//			break;
+//		}
+//	}
 }

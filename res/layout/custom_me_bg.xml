@@ -7,6 +7,7 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp" >
 
+    <!--
     <TextView
         android:id="@+id/id_textview_text01"
         android:layout_width="wrap_content"
@@ -31,5 +32,23 @@
         android:layout_toLeftOf="@id/id_imageview_next"
         android:textColor="#CDCDCD"
         android:textSize="13sp" />
+    -->
+
+    <TextView
+        android:id="@+id/id_textview_text01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/id_textview_text02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5dp"
+        android:layout_alignParentRight="true"
+        android:textColor="#CDCDCD"
+        android:textSize="15sp" />
 
 </RelativeLayout>

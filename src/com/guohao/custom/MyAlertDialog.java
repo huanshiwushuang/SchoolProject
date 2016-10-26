@@ -177,14 +177,17 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 	public int getScreenHeight() {
 		return screenHeight;
 	}
+	public AlertDialog getAlertDialog() {
+		return dialog;
+	}
 	public void show() {
 		dialog = builder.show();
 		dialog.setContentView(v);
 		dialog.getWindow().setLayout(width, height);
 	}
 	public void setCancelable(Boolean flag) {
-		if (dialog != null) {
-			dialog.setCancelable(flag);
+		if (builder != null) {
+			builder.setCancelable(flag);
 		}
 	}
 	public void dismiss() {

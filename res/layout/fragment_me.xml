@@ -39,15 +39,15 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical" >
 
             <com.guohao.custom.MeBg
                 android:id="@+id/id_mebg01"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                MeBg:text01="昵称"
-                MeBg:text02="user_2351560" />
+                MeBg:text01="姓名"
+                MeBg:text02="测试" />
 
             <View
                 android:layout_width="match_parent"
@@ -58,8 +58,8 @@
                 android:id="@+id/id_mebg02"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                MeBg:text01="姓名"
-                MeBg:text02="未设置" />
+                MeBg:text01="学号"
+                MeBg:text02="测试" />
 
             <View
                 android:layout_width="match_parent"
@@ -70,10 +70,10 @@
                 android:id="@+id/id_mebg03"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                MeBg:text01="性别"
-                MeBg:text02="男" />
+                MeBg:text01="班级"
+                MeBg:text02="测试" />
 
-            <View
+            <!-- <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:background="#E0E0E0" />
@@ -83,9 +83,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 MeBg:text01="电话"
-                MeBg:text02="18283933002" />
+                MeBg:text02="18283933002" /> -->
 
-            <View
+            <!-- <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:background="#E0E0E0" />
@@ -95,9 +95,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 MeBg:text01="邮箱"
-                MeBg:text02="未设置" />
+                MeBg:text02="未设置" /> -->
 
-            <View
+            <!-- <View
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:background="#E0E0E0" />
@@ -107,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 MeBg:text01="岗位"
-                MeBg:text02="接触网工" />
+                MeBg:text02="接触网工" /> -->
         </LinearLayout>
     </ScrollView>
 

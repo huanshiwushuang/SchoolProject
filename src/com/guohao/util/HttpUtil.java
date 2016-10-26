@@ -16,12 +16,11 @@ import com.guohao.entity.KV;
 import android.util.Log;
 
 public class HttpUtil {
-	private static final String POST = "POST";
-	private static final String GET = "GET";
-	
+	public static final String POST = "POST";
+	public static final String GET = "GET";
+	private static HttpURLConnection connection;
 	
 	public static HttpURLConnection getPostHttpUrlConnection(String address) {
-		HttpURLConnection connection = null;
 		try {
 			URL url = new URL(address);
 			connection = (HttpURLConnection) url.openConnection();
@@ -37,7 +36,6 @@ public class HttpUtil {
 		return connection;
 	}
 	public static HttpURLConnection getGetHttpUrlConnection(String address) {
-		HttpURLConnection connection = null;
 		try {
 			URL url = new URL(address);
 			connection = (HttpURLConnection) url.openConnection();
@@ -83,10 +81,10 @@ public class HttpUtil {
 						}
 						callBack.onFinish(builder.toString());
 					}else {
-						callBack.onError(Data.NETWORK_EXCEPTION+"£º"+connection.getResponseCode());
+						callBack.onError(Data.NETWORK_EXCEPTION);
 					}
 				} catch (IOException e) {
-					callBack.onError(Data.NETWORK_EXCEPTION+"£º"+e.toString());
+					callBack.onError(Data.NETWORK_EXCEPTION);
 				}
 			}
 		}).start();
