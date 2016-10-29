@@ -1,21 +1,44 @@
 package com.guohao.schoolproject;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.guohao.Interface.HttpCallBack;
 import com.guohao.custom.MyViewPager;
 import com.guohao.custom.Title;
+import com.guohao.entity.KV;
 import com.guohao.fragment.AnswerFragment;
 import com.guohao.fragment.MeFragment;
 import com.guohao.fragment.SettingFragment;
+import com.guohao.util.Data;
+import com.guohao.util.HttpUtil;
 import com.guohao.util.Util;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
@@ -25,6 +48,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity implements OnClickListener,OnPageChangeListener {
+	
+	
+	private Activity activity;
 	private Title customTitle;
 	private MyViewPager myViewPager;
 	private LinearLayout tab01,tab02,tab03;
@@ -48,7 +74,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener,On
 		initAdapter();
 	}
 	
-
 	private void initAdapter() {
 		myViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
 			
@@ -85,6 +110,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener,On
 	}
 	private void initView() {
 		layouts = new ArrayList<LinearLayout>();
+		activity = MainActivity.this;
 		
 		customTitle = (Title) findViewById(R.id.id_custom_title);
 		myViewPager = (MyViewPager) findViewById(R.id.id_myviewpager);
@@ -153,15 +179,17 @@ public class MainActivity extends FragmentActivity implements OnClickListener,On
 	}
 	//---点击事件---碎片01---写在 xml 文件里
 	public void clickExamTest(View view) {
-		AnswerShowActivity.actionStart(MainActivity.this, AnswerShowActivity.Exam_Test);
+		AnswerShowActivity.actionStart(activity, AnswerShowActivity.Exam_Test);
 	}
 	public void clickBookRead(View view) {
-		AnswerShowActivity.actionStart(MainActivity.this, AnswerShowActivity.Book_Read);
+		AnswerShowActivity.actionStart(activity, AnswerShowActivity.Book_Read);
 	}
-//	public void clickErrorTopic(View view) {
-//		AnswerShowActivity.actionStart(MainActivity.this, AnswerShowActivity.Error_Content);
-//	}
-//	public void clickMyRecord(View view) {
-//		AnswerShowActivity.actionStart(MainActivity.this, AnswerShowActivity.My_Record);
-//	}
+	//---点击事件---碎片02---写在 xml 文件里（popupwindow）
+	public void takePhoto(View view) {
+		
+	}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+	}
 }

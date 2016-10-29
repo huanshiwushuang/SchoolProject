@@ -22,5 +22,10 @@
         <item name="android:textSize">16sp</item>
         <item name="android:background">@drawable/custom_selector_login_btn</item>
     </style>
+    <style name="StyleSelectPhoto">
+        <item name="android:windowEnterAnimation">@anim/anim_set_select_photo_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_set_select_photo_out</item>
+    </style>
+    
 
 </resources>

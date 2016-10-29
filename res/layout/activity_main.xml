@@ -1,96 +1,108 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    <com.guohao.custom.Title
-        android:id="@+id/id_custom_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    </com.guohao.custom.Title>
-
-    <com.guohao.custom.MyViewPager
-        android:id="@+id/id_myviewpager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:background="#EFEFEF"
-        android:flipInterval="30"
-        android:persistentDrawingCache="animation" />
+    android:layout_height="match_parent" >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="#fff"
-        android:orientation="horizontal" >
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <com.guohao.custom.Title
+            android:id="@+id/id_custom_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </com.guohao.custom.Title>
+
+        <com.guohao.custom.MyViewPager
+            android:id="@+id/id_myviewpager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="#EFEFEF"
+            android:flipInterval="30"
+            android:persistentDrawingCache="animation" />
 
         <LinearLayout
-            android:id="@+id/id_linearlayout_tab01"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical" >
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="#fff"
+            android:orientation="horizontal" >
 
-            <ImageView
-                android:id="@+id/id_imageview_recommend"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:src="@drawable/img311" />
+            <LinearLayout
+                android:id="@+id/id_linearlayout_tab01"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/id_textview_recommend"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="答题"
-                android:textColor="#666" />
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/id_imageview_recommend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:src="@drawable/img311" />
 
-        <LinearLayout
-            android:id="@+id/id_linearlayout_tab02"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical" >
+                <TextView
+                    android:id="@+id/id_textview_recommend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="答题"
+                    android:textColor="#666" />
+            </LinearLayout>
 
-            <ImageView
-                android:id="@+id/id_imageview_all"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:src="@drawable/img80" />
+            <LinearLayout
+                android:id="@+id/id_linearlayout_tab02"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/id_textview_all"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="我"
-                android:textColor="#666" />
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/id_imageview_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:src="@drawable/img80" />
 
-        <LinearLayout
-            android:id="@+id/id_linearlayout_tab03"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical" >
+                <TextView
+                    android:id="@+id/id_textview_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="我"
+                    android:textColor="#666" />
+            </LinearLayout>
 
-            <ImageView
-                android:id="@+id/id_imageview_my"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:src="@drawable/img98" />
+            <LinearLayout
+                android:id="@+id/id_linearlayout_tab03"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/id_textview_my"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="设置"
-                android:textColor="#666" />
+                <ImageView
+                    android:id="@+id/id_imageview_my"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:src="@drawable/img98" />
+
+                <TextView
+                    android:id="@+id/id_textview_my"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="设置"
+                    android:textColor="#666" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+    <View
+        android:id="@+id/id_view_alert_ceng"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#3f000000"
+        android:visibility="gone" />
+
+</RelativeLayout>

@@ -81,9 +81,11 @@ public class HttpUtil {
 						}
 						callBack.onFinish(builder.toString());
 					}else {
+						Log.d("guohao", "´íÎó1£º"+connection.getResponseCode());
 						callBack.onError(Data.NETWORK_EXCEPTION);
 					}
 				} catch (IOException e) {
+					Log.d("guohao", "´íÎó2£º"+e.toString());
 					callBack.onError(Data.NETWORK_EXCEPTION);
 				}
 			}

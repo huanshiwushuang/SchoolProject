@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <View
+        android:id="@+id/id_view_dismiss"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_shape_select_photo_bg"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/id_textview_take_photo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="拍照"
+            android:textColor="#30BAE9" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:background="#ccc" />
+
+        <TextView
+            android:id="@+id/id_textview_select_photo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="从相册选择"
+            android:textColor="#30BAE9" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/id_textview_cancle"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/custom_shape_select_photo_bg"
+        android:gravity="center"
+        android:text="取消"
+        android:textColor="#30BAE9" />
+
+</LinearLayout>

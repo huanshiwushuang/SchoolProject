@@ -43,6 +43,7 @@ public class SettingActivity extends Activity implements OnClickListener,TextWat
 	public static final int ABOUT = 3;
 	private Activity activity;
 	private MyAlertDialog myAlertDialog;
+	private String pwdNew;
 	
 	private Title customTitle;
 	
@@ -62,6 +63,10 @@ public class SettingActivity extends Activity implements OnClickListener,TextWat
 					JSONObject object = new JSONObject(msg.obj.toString());
 					String status = object.getString("status");
 					if (status.equals("1")) {
+						Editor editor = Util.getPreference(activity).edit();
+						editor.putString(Data.PWD, pwdNew);
+						editor.commit();
+						
 						Util.showToast(activity, object.getString("msg"));
 						finish();
 					}else {
@@ -138,7 +143,7 @@ public class SettingActivity extends Activity implements OnClickListener,TextWat
 			break;
 		case CHANGE_PWD:
 			String pwdOld = editText.getText().toString();
-			String pwdNew = editText02.getText().toString();
+			pwdNew = editText02.getText().toString();
 			Boolean isPwdOKOld = StringUtil.checkPwd(pwdOld);
 			if (!isPwdOKOld) {
 				Util.showToast(activity, "∑«∑®æ…√‹¬Î");

@@ -1,5 +1,9 @@
 package com.guohao.util;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import com.guohao.custom.MyAlertDialog;
@@ -50,18 +54,6 @@ public class Util {
     	alertDialog.show();
     	return alertDialog;
 	}
-//    public static MyAlertDialog showAlertDialog02(Context context, List<Object[]> list) {
-//    	alertDialog = new MyAlertDialog(context,MyAlertDialog.Layout02,list);
-//    	int width = alertDialog.getScreenWidth()/15*13;
-//    	int height = alertDialog.getScreenHeight()/22*20;
-//    	
-//    	alertDialog.setYesText("确定");
-//    	alertDialog.setNoText("取消");
-//    	alertDialog.setWidth(width);
-//    	alertDialog.setheight(height);
-//    	alertDialog.show();
-//    	return alertDialog;
-//	}
     public static MyAlertDialog showAlertDialog03(Context context, List<Object[]> list) {
     	alertDialog = new MyAlertDialog(context,MyAlertDialog.Layout03,list);
     	int height = (int) (alertDialog.getScreenHeight()/3.6);
@@ -108,5 +100,18 @@ public class Util {
   	}
     public static SharedPreferences getPreference(Context context) {
 		return PreferenceManager.getDefaultSharedPreferences(context);
+	}
+    public static String inputStreamToString(InputStream in) {
+		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+		String line = "";
+		StringBuilder builder = new StringBuilder();
+		try {
+			while ((line = reader.readLine()) != null) {
+				builder.append(line);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return builder.toString();
 	}
 }

@@ -40,6 +40,9 @@ public class LoginActivity extends Activity implements OnKeyListener {
 	
 	private MyAlertDialog myAlertDialog;
 	
+	private String account;
+	private String password;
+	
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			Log.d("guohao", msg.obj.toString());
@@ -61,6 +64,9 @@ public class LoginActivity extends Activity implements OnKeyListener {
 						editor.putString(Data.CLASS_NO, object.getString("classNo"));
 						editor.putString(Data.ID, object.getString("id"));
 						editor.putString(Data.TOKEN, object.getString("token"));
+						
+						editor.putString(Data.ACCOUNT, account);
+						editor.putString(Data.PWD, password);
 						editor.commit();
 						
 						MainActivity.actionStart(activity);
@@ -103,8 +109,8 @@ public class LoginActivity extends Activity implements OnKeyListener {
 	
 	
 	public void login(View view) {
-		String account = phoneNum.getText().toString();
-		String password = pwd.getText().toString();
+		account = phoneNum.getText().toString();
+		password = pwd.getText().toString();
 		Boolean isAccountOK = StringUtil.checkAccount(account);
 		if (!isAccountOK) {
 			Util.showToast(activity, "非法账户");
@@ -120,8 +126,6 @@ public class LoginActivity extends Activity implements OnKeyListener {
 			Util.showToast(activity, "无可用网络");
 			return;
 		}
-		//隐藏键盘
-		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		//弹出正在登陆提示框
 		myAlertDialog = Util.showAlertDialog04(activity, "正在登录......");
 		myAlertDialog.getAlertDialog().setOnKeyListener(this);
