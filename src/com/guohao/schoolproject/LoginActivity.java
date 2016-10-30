@@ -45,7 +45,6 @@ public class LoginActivity extends Activity implements OnKeyListener {
 	
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
-			Log.d("guohao", msg.obj.toString());
 			switch (msg.what) {
 			case HttpCallBack.CALL_BACK_OK:
 				Util.dismiss();

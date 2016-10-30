@@ -29,17 +29,23 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.provider.MediaStore.Images.Media;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Gravity;
@@ -58,6 +64,7 @@ import android.view.View.OnTouchListener;
 public class MeFragment extends Fragment implements OnClickListener,OnDismissListener {
 	private final int TAKE_PHOTO = 1;
 	private final int CROP_PHOTO = 2;
+	private final int CHOOSE_PHOTO = 3;
 	private Activity activity;
 	
 	private View view;
@@ -68,6 +75,8 @@ public class MeFragment extends Fragment implements OnClickListener,OnDismissLis
 	private String name,stuNumber,grade,headImage;
 	private PopupWindow popupWindow;
 	private Uri uri;
+	private File file;
+	private Intent intent;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -88,7 +97,6 @@ public class MeFragment extends Fragment implements OnClickListener,OnDismissLis
 		meBg01.setTextViewText02(name);
 		meBg02.setTextViewText02(stuNumber);
 		meBg03.setTextViewText02(grade);
-		Log.d("guohao", "我的图片地址："+headImage);
 		setHeadImage(headImage);
 	}
 	public void setHeadImage(String address) {
@@ -153,22 +161,25 @@ public class MeFragment extends Fragment implements OnClickListener,OnDismissLis
 			popupWindow.dismiss();
 			break;
 		case R.id.id_textview_take_photo:
-			File file = new File(Data.PATH_PHOTO, "/headImage.jpg");
+			file = new File(Data.PATH_PHOTO, "headImage.jpg");
 			if (file.exists()) {
 				file.delete();
 			}
+			file.getParentFile().mkdirs();
 			try {
 				file.createNewFile();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			uri = Uri.fromFile(file);
-			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+			intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 			intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
 			startActivityForResult(intent, TAKE_PHOTO);
 			break;
 		case R.id.id_textview_select_photo:
-			Util.showToast(activity, "选择相册");
+			intent = new Intent(Intent.ACTION_GET_CONTENT);
+			intent.setType("image/*");
+			startActivityForResult(intent, CHOOSE_PHOTO);
 			break;
 		case R.id.id_textview_cancle:
 			popupWindow.dismiss();
@@ -208,7 +219,6 @@ public class MeFragment extends Fragment implements OnClickListener,OnDismissLis
 					public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
 						Util.dismiss();
 						String response = new String(responseBody);
-						Log.d("guohao", "数据："+response);
 						try {
 							JSONObject object = new JSONObject(response);
 							String status = object.getString("status");
@@ -237,8 +247,83 @@ public class MeFragment extends Fragment implements OnClickListener,OnDismissLis
 				});
 			}
 			break;
+		case CHOOSE_PHOTO:
+			if (resultCode == Activity.RESULT_OK) {
+				String imagePath = null;
+				if (Build.VERSION.SDK_INT >= 19) {//4.4及以上的系统
+					imagePath = getImageAbove4_4(data);
+				}else {
+					imagePath = getImageBelow4_4(data);
+				}
+				if (imagePath != null) {
+					File imageFile = new File(imagePath);
+					Uri imageUri = Uri.fromFile(imageFile);
+					if (imageFile.exists()) {
+						file = new File(Data.PATH_PHOTO, "headImage.jpg");
+						if (file.exists()) {
+							file.delete();
+						}
+						file.getParentFile().mkdirs();
+						try {
+							file.createNewFile();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						
+						uri = Uri.fromFile(file);
+						Intent intent = new Intent("com.android.camera.action.CROP");
+						intent.setDataAndType(imageUri, "image/*");
+						intent.putExtra("scale", true);
+						intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+						startActivityForResult(intent, CROP_PHOTO);
+					}
+				}
+			}
+			break;
 		}
 	}
+	
+	@TargetApi(19)
+	private String getImageAbove4_4(Intent data) {
+		String imagePath = null;
+		Uri uri = data.getData();
+		if (DocumentsContract.isDocumentUri(activity, uri)) {
+			//如果是document类型的Uri，则通过 document id进行处理
+			String docId = DocumentsContract.getDocumentId(uri);
+			if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
+				String id = docId.split(":")[1];//解析出数字格式的id
+				String selection = MediaStore.Images.Media._ID + "=" + id;
+				imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
+			}else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
+				Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(docId));
+				imagePath = getImagePath(contentUri, null);
+			}
+		}else if ("content".equalsIgnoreCase(uri.getScheme())) {
+			//如果不是document 类型的uri，则使用普通方式处理
+			imagePath = getImagePath(uri, null);
+		}
+		return imagePath;
+	}
+	private String getImageBelow4_4(Intent data) {
+		Uri uri = data.getData();
+		String imagePath = getImagePath(uri, null);
+		return imagePath;
+	}
+	
+	private String getImagePath(Uri uri, String selection) {
+		String path = null;
+		//通过Uri 和 selection 来获取真实的图片路径
+		Cursor cursor = activity.getContentResolver().query(uri, null, selection, null, null);
+		if (cursor != null) {
+			if (cursor.moveToFirst()) {
+				path = cursor.getString(cursor.getColumnIndex(Media.DATA));
+			}
+			cursor.close();
+		}
+		return path;
+	}
+	
+
 	@Override
 	public void onDismiss() {
 		alertCeng.setVisibility(View.GONE);
