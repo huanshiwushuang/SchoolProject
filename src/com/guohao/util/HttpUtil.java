@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.List;
 
 import com.guohao.Interface.HttpCallBack;
@@ -35,8 +36,22 @@ public class HttpUtil {
 		}
 		return connection;
 	}
-	public static HttpURLConnection getGetHttpUrlConnection(String address) {
+	public static HttpURLConnection getGetHttpUrlConnection(String address, List<KV> list) {
+		Boolean once = true;
 		try {
+			for (int i = 0; i < list.size(); i++) {
+				KV kv = list.get(i);
+				String k = URLEncoder.encode(kv.getKey(), Data.ENCODE);
+				String v = URLEncoder.encode(kv.getValue(), Data.ENCODE);
+				if (once) {
+					once = false;
+					address += "?";
+				}
+				address += k+"="+v;
+				if (i != list.size()-1) {
+					address += "&";
+				}
+			}
 			URL url = new URL(address);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod(GET);
@@ -81,11 +96,9 @@ public class HttpUtil {
 						}
 						callBack.onFinish(builder.toString());
 					}else {
-						Log.d("guohao", "´íÎó1£º"+connection.getResponseCode());
 						callBack.onError(Data.NETWORK_EXCEPTION);
 					}
 				} catch (IOException e) {
-					Log.d("guohao", "´íÎó2£º"+e.toString());
 					callBack.onError(Data.NETWORK_EXCEPTION);
 				}
 			}

@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 public class AnswerShowAdapter extends ArrayAdapter<Object[]> {
 	private List<Object[]> list;
+	private Boolean isDisplayNext = true;
 
 	public AnswerShowAdapter(Context context, int resource, List<Object[]> objects) {
 		super(context, resource, objects);
@@ -30,6 +31,7 @@ public class AnswerShowAdapter extends ArrayAdapter<Object[]> {
 			viewHolder = new ViewHolder();
 			viewHolder.imageView = (ImageView) convertView.findViewById(R.id.id_imageview);
 			viewHolder.textView = (TextView) convertView.findViewById(R.id.id_textview);
+			viewHolder.imageView2 = (ImageView) convertView.findViewById(R.id.id_imageview_next);
 			convertView.setTag(viewHolder);
 		}else {
 			viewHolder = (ViewHolder) convertView.getTag();
@@ -39,12 +41,18 @@ public class AnswerShowAdapter extends ArrayAdapter<Object[]> {
 		String text = (String) objects[1];
 		viewHolder.imageView.setImageResource(imageId);
 		viewHolder.textView.setText(text);
+		if (isDisplayNext == false) {
+			viewHolder.imageView2.setVisibility(View.GONE);
+		}
 		return convertView;
 	}
-	
+	public void setDisplayNext(Boolean b) {
+		isDisplayNext = b;
+	}
 	class ViewHolder {
 		ImageView imageView;
 		TextView textView;
+		ImageView imageView2;
 	}
 
 }

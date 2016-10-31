@@ -3,6 +3,8 @@ package com.guohao.util;
 import android.os.Environment;
 
 public class Data {
+	//统一编码
+	public static final String ENCODE = "UTF-8";
 	//IP
 	public static final String IP = "http://61.157.243.107:8080";
 	//项目名字
@@ -13,6 +15,8 @@ public class Data {
 	public static final String URL_CHANGE_PWD = IP+PROJECT_NAME+"/api/users/modifyPassword";
 	//修改头像地址
 	public static final String URL_CHANGE_HEAD_PHOTO = IP+PROJECT_NAME+"/api/users/modifyHead";
+	//获取课程地址
+	public static final String URL_GET_COURSE = IP+PROJECT_NAME+"/api/course/getCourses";
 	
 	//根路径
 	public static final String PATH_APP_ROOT = Environment.getExternalStorageDirectory()+"/SchoolExam";

@@ -1,44 +1,22 @@
 package com.guohao.schoolproject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.guohao.Interface.HttpCallBack;
 import com.guohao.custom.MyViewPager;
 import com.guohao.custom.Title;
-import com.guohao.entity.KV;
 import com.guohao.fragment.AnswerFragment;
 import com.guohao.fragment.MeFragment;
 import com.guohao.fragment.SettingFragment;
-import com.guohao.util.Data;
-import com.guohao.util.HttpUtil;
 import com.guohao.util.Util;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
@@ -182,13 +160,21 @@ public class MainActivity extends FragmentActivity implements OnClickListener,On
 		AnswerShowActivity.actionStart(activity, AnswerShowActivity.Exam_Test);
 	}
 	public void clickBookRead(View view) {
-		AnswerShowActivity.actionStart(activity, AnswerShowActivity.Book_Read);
+		AnswerShowActivity.actionStart(activity, AnswerShowActivity.Exam_Record);
 	}
 	public void clickMyRecord(View view) {
-		Util.showToast(activity, "我的记录");
+		AnswerShowActivity.actionStart(activity, AnswerShowActivity.My_Course);
 	}
+
+	private long lastTime = 0;
 	@Override
-	protected void onDestroy() {
-		super.onDestroy();
+	public void onBackPressed() {
+		long thisTime = System.currentTimeMillis();
+		if ((thisTime -lastTime) > 2*1000 || lastTime == 0) {
+			Util.showToast(activity, "再次点击退出");
+		}else {
+			finish();
+		}
+		lastTime = thisTime;
 	}
 }
