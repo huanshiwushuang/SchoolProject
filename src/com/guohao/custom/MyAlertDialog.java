@@ -10,6 +10,7 @@ import com.guohao.util.Util;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences.Editor;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -210,6 +211,10 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 			case R.id.id_textview_yes:
 				switch (flag) {
 				case ReLogin:
+					//注销，清除所有键值对
+					Editor editor = Util.getPreference(mContext).edit();
+					editor.clear();
+					editor.commit();
 					dismiss();
 					LoginActivity.actionStart(mContext);
 					((Activity)mContext).finish();

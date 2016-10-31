@@ -184,9 +184,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener,On
 	public void clickBookRead(View view) {
 		AnswerShowActivity.actionStart(activity, AnswerShowActivity.Book_Read);
 	}
-	//---点击事件---碎片02---写在 xml 文件里（popupwindow）
-	public void takePhoto(View view) {
-		
+	public void clickMyRecord(View view) {
+		Util.showToast(activity, "我的记录");
 	}
 	@Override
 	protected void onDestroy() {
