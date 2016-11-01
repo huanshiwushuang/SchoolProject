@@ -17,6 +17,8 @@ public class Data {
 	public static final String URL_CHANGE_HEAD_PHOTO = IP+PROJECT_NAME+"/api/users/modifyHead";
 	//获取课程地址
 	public static final String URL_GET_COURSE = IP+PROJECT_NAME+"/api/course/getCourses";
+	//获取试卷地址
+	public static final String URL_GET_EXAM_PAPER = IP+PROJECT_NAME+"/api/exams/getExams";
 	
 	//根路径
 	public static final String PATH_APP_ROOT = Environment.getExternalStorageDirectory()+"/SchoolExam";
@@ -31,7 +33,7 @@ public class Data {
 	
 	
 	
-	//用户输入---数据保存
+	//用户输入---数据保存--------------------------------------
 	//用户账户---学号
 	public static final String ACCOUNT = "account";
 	//用户密码
@@ -55,4 +57,20 @@ public class Data {
 	//令牌
 	public static final String TOKEN = "token";
 	
+	//考试试卷---点击的哪一套试卷，将该套试卷的属性保存下来---------------------------------------------------------
+	public static final String EXAM_PAPER_isDelete = "exam_paper_isdelete";
+	public static final String EXAM_PAPER_totalScore = "exam_paper_totalscore";
+	public static final String EXAM_PAPER_passScore = "exam_paper_passscore";
+	public static final String EXAM_PAPER_mode = "exam_paper_mode";
+	public static final String EXAM_PAPER_createAdmin = "exam_paper_createadmin";
+	public static final String EXAM_PAPER_createTime = "exam_paper_createtime";
+	public static final String EXAM_PAPER_isSelectType = "exam_paper_isselecttype";
+	public static final String EXAM_PAPER_name = "exam_paper_name";
+	public static final String EXAM_PAPER_classNo = "exam_paper_classno";
+	public static final String EXAM_PAPER_course = "exam_paper_course";
+	public static final String EXAM_PAPER_id = "exam_paper_id";
+	public static final String EXAM_PAPER_beginTime = "exam_paper_begintime";
+	public static final String EXAM_PAPER_endTime = "exam_paper_endtime";
+	public static final String EXAM_PAPER_examTime = "exam_paper_examtime";
+	public static final String EXAM_PAPER_descript = "exam_paper_descript";
 }

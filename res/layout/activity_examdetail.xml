@@ -86,14 +86,52 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="考试题目"
+                        android:text="考试名称"
                         android:textColor="#9D9D9D" />
+
+                    <TextView
+                        android:id="@+id/id_textview_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp" >
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="这是题目" />
+                        android:gravity="center_horizontal"
+                        android:text="考试课程"
+                        android:textColor="#9D9D9D" />
+
+                    <TextView
+                        android:id="@+id/id_textview_course"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp" >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="考试班级"
+                        android:textColor="#9D9D9D" />
+
+                    <TextView
+                        android:id="@+id/id_textview_class"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -109,10 +147,10 @@
                         android:textColor="#9D9D9D" />
 
                     <TextView
+                        android:id="@+id/id_textview_time"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="5分钟" />
+                        android:layout_weight="1" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -124,14 +162,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="合格标准"
+                        android:text="总分数"
                         android:textColor="#9D9D9D" />
 
                     <TextView
+                        android:id="@+id/id_textview_total_grade"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="100分" />
+                        android:layout_weight="1" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -143,14 +181,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="有效时间"
+                        android:text="及格分数"
                         android:textColor="#9D9D9D" />
 
                     <TextView
+                        android:id="@+id/id_textview_pass_grade"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="不限时" />
+                        android:layout_weight="1" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -162,14 +200,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="考试状态"
+                        android:text="开始时间"
                         android:textColor="#9D9D9D" />
 
                     <TextView
+                        android:id="@+id/id_textview_start_time"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="练习" />
+                        android:layout_weight="1" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -181,14 +219,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center_horizontal"
-                        android:text="考试模式"
+                        android:text="结束时间"
                         android:textColor="#9D9D9D" />
 
                     <TextView
+                        android:id="@+id/id_textview_end_time"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="正式考试" />
+                        android:layout_weight="1" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -204,29 +242,10 @@
                         android:textColor="#9D9D9D" />
 
                     <TextView
+                        android:id="@+id/id_textview_description"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="1" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp" >
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:text="题型范围"
-                        android:textColor="#9D9D9D" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围题型范围" />
+                        android:layout_weight="1" />
                 </LinearLayout>
 
                 
