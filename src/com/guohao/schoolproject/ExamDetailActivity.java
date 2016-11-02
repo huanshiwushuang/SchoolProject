@@ -15,7 +15,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-public class ExamDetail extends Activity {
+public class ExamDetailActivity extends Activity {
 	private Title customTitle;
 	private Activity mActivity;
 	private TextView examName,examCourse,examClass,examTime,totalGrade,passGrade,startTime,endTime,examDescription;
@@ -46,17 +46,12 @@ public class ExamDetail extends Activity {
 		
 		long tempLong = p.getLong(Data.EXAM_PAPER_beginTime, -1);
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",new Locale("zh", "CN"));
-		if (tempLong == -1) {
-			startTime.setText("");
-		}else {
-			
+		if (tempLong != -1) {
 			startTime.setText(format.format(tempLong));
 		}
 		
 		tempLong = p.getLong(Data.EXAM_PAPER_endTime, -1);
-		if (tempLong == -1) {
-			endTime.setText("");
-		}else {
+		if (tempLong != -1) {
 			endTime.setText(format.format(tempLong));
 		}
 		
@@ -65,7 +60,7 @@ public class ExamDetail extends Activity {
 
 	private void initView() {
 		customTitle = (Title) findViewById(R.id.id_custom_title);
-		mActivity = ExamDetail.this;
+		mActivity = ExamDetailActivity.this;
 		p = Util.getPreference(mActivity);
 		
 		examName = (TextView) findViewById(R.id.id_textview_name);
@@ -81,11 +76,11 @@ public class ExamDetail extends Activity {
 	}
 	
 	public void startExam(View view) {
-		Util.showToast(mActivity, "¿ªÊ¼¿¼ÊÔ");
+		StartExamActivity.actionStart(mActivity);
 	}
 	
 	public static void actionStart(Context context) {
-		Intent intent = new Intent(context, ExamDetail.class);
+		Intent intent = new Intent(context, ExamDetailActivity.class);
 		context.startActivity(intent);
 	}
 }

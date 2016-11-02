@@ -30,6 +30,7 @@ public class ShowActivity extends Activity {
 	
 	private SharedPreferences p;
 	private Activity activity;
+	private NetworkInfo info;
 	private Handler handler2 = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
@@ -88,7 +89,7 @@ public class ShowActivity extends Activity {
 			Util.showToast(activity, "非法密码");
 			return;
 		}
-		NetworkInfo info = Util.getNetworkInfo(activity);
+		info = Util.getNetworkInfo(activity);
 		if (info == null || !info.isAvailable()) {
 			Util.showToast(activity, "无可用网络");
 			return;
@@ -131,12 +132,15 @@ public class ShowActivity extends Activity {
 		activity = ShowActivity.this;
 		p = Util.getPreference(activity);
 		handler = new Handler();
+		info = Util.getNetworkInfo(activity);
 		r = new Runnable() {
 			@Override
 			public void run() {
 				isTimeOK = true;
 				//这里需要登录，跳转不同的界面
 				if (account.equals("") || password.equals("")) {
+					jumpLogin();
+				}else if (info == null || !info.isAvailable()) {
 					jumpLogin();
 				}else if (isLoginOK) {
 					jumpMain();

@@ -301,7 +301,7 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 			editor.putInt(Data.EXAM_PAPER_examTime, examPaper.getExamTime());
 			editor.putString(Data.EXAM_PAPER_descript, examPaper.getDescript());
 			editor.commit();
-			ExamDetail.actionStart(mActivity);
+			ExamDetailActivity.actionStart(mActivity);
 			break;
 		case Exam_Record:
 			ChapterListActivity.actionStart(mActivity);

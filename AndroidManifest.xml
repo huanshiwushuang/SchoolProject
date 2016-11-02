@@ -57,11 +57,15 @@
             
         </activity>
         <activity 
-            android:name="com.guohao.schoolproject.ExamDetail">
+            android:name="com.guohao.schoolproject.ExamDetailActivity">
             
         </activity>
         <activity 
             android:name="com.guohao.schoolproject.ChapterListActivity">
+            
+        </activity>
+        <activity 
+            android:name="com.guohao.schoolproject.StartExamActivity">
             
         </activity>
     </application>
