@@ -8,16 +8,24 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
 
-public class StartExamActivity extends Activity implements OnClickListener {
+public class StartExamActivity extends Activity implements OnClickListener,OnDismissListener {
 	private Activity mActivity;
 	private SharedPreferences p;
 	
@@ -28,8 +36,11 @@ public class StartExamActivity extends Activity implements OnClickListener {
 	private ImageView tiType;
 	private TextView ti;
 	private ListView listView;
+	private View alertCeng;
+	private LinearLayout chooseTi;
 	
 	private Runnable r;
+	private PopupWindow popupWindow;
 	
 	private long startTime,endTime,examTime,nextTime;
 	private Boolean onlyOnce = true;
@@ -76,6 +87,10 @@ public class StartExamActivity extends Activity implements OnClickListener {
 		customTitle = (Title) findViewById(R.id.id_custom_title);
 		timeTitle = customTitle.getTitle();
 		submit = customTitle.getTitleOther();
+		submit.setOnClickListener(this);
+		alertCeng = findViewById(R.id.id_view_alert_ceng);
+		chooseTi = (LinearLayout) findViewById(R.id.id_linearlayout_choose_ti);
+		chooseTi.setOnClickListener(this);
 		
 		tiType = (ImageView) findViewById(R.id.id_imageview_ti_type);
 		ti = (TextView) findViewById(R.id.id_textview_ti);
@@ -114,6 +129,34 @@ public class StartExamActivity extends Activity implements OnClickListener {
 		case R.id.id_textview_title_other:
 			Util.showToast(mActivity, "交卷");
 			break;
+		case R.id.id_linearlayout_choose_ti:
+			//弹出层
+			alertCeng.setVisibility(View.VISIBLE);
+			
+			View view = LayoutInflater.from(mActivity).inflate(R.layout.custom_select_ti, new FrameLayout(mActivity));
+			//点击 popup外面，dismiss。
+			View dismissView = view.findViewById(R.id.id_view_dismiss);
+			dismissView.setOnClickListener(this);
+			
+			popupWindow = new PopupWindow(view, 
+					WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+			// 设置popWindow弹出窗体可点击，这句话必须添加，并且是true
+			popupWindow.setFocusable(true);
+			
+			// 实例化一个ColorDrawable颜色为半透明 ---必要的，当背景不为空的时候，才能够返回键 dismiss
+			ColorDrawable dw = new ColorDrawable(0x00000000);
+			popupWindow.setBackgroundDrawable(dw);
+			
+			// 设置popWindow的显示和消失动画
+			popupWindow.setAnimationStyle(R.style.StyleSelectPhoto);
+			//设置dismiss监听事件
+			popupWindow.setOnDismissListener(this);
+			// 在底部显示
+			popupWindow.showAtLocation(v, Gravity.BOTTOM, 0, 0);
+			break;
+		case R.id.id_view_dismiss:
+			popupWindow.dismiss();
+			break;
 		}
 	}
 	
@@ -127,5 +170,10 @@ public class StartExamActivity extends Activity implements OnClickListener {
 	protected void onDestroy() {
 		super.onDestroy();
 		handler.removeCallbacksAndMessages(null);
+	}
+
+	@Override
+	public void onDismiss() {
+		alertCeng.setVisibility(View.GONE);
 	}
 }

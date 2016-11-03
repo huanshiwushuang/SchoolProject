@@ -19,6 +19,8 @@ public class Data {
 	public static final String URL_GET_COURSE = IP+PROJECT_NAME+"/api/course/getCourses";
 	//获取试卷地址
 	public static final String URL_GET_EXAM_PAPER = IP+PROJECT_NAME+"/api/exams/getExams";
+	//获取试题地址
+	public static final String URL_GET_EXAM_TI = IP+PROJECT_NAME+"/api/items/getItems";
 	
 	//根路径
 	public static final String PATH_APP_ROOT = Environment.getExternalStorageDirectory()+"/SchoolExam";
