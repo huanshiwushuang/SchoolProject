@@ -15,8 +15,8 @@
             android:layout_height="wrap_content" >
         </com.guohao.custom.Title>
 
-        <com.guohao.custom.MyViewPager
-            android:id="@+id/id_myviewpager"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/id_viewpager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_gravity="center"
@@ -67,9 +67,10 @@
                 android:gravity="center" >
 
                 <TextView
+                    android:id="@+id/id_textview_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="5/6" />
+                    android:text="1/1" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

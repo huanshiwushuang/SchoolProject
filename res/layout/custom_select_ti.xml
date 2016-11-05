@@ -35,11 +35,12 @@
                     android:textColor="#999" />
 
                 <TextView
+                    android:id="@+id/id_textview_ti_index"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:text="1/1"
+                    android:text="0/0"
                     android:textColor="#999" />
             </RelativeLayout>
         </LinearLayout>

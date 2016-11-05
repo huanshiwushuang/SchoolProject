@@ -1,15 +1,12 @@
 package com.guohao.schoolproject;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,13 +19,14 @@ import com.guohao.util.HttpUtil;
 import com.guohao.util.Util;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
@@ -43,6 +41,8 @@ public class ExamDetailActivity extends Activity {
 	private TextView examName,examCourse,examClass,examTime,totalGrade,passGrade,startTime,endTime,examDescription;
 	private SharedPreferences p;
 	private SQLiteDatabase db;
+	private Boolean getExamPaperOK = true;
+	
 	private Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
@@ -57,9 +57,20 @@ public class ExamDetailActivity extends Activity {
 						JSONObject chooseOne = object.getJSONObject("单选题");
 						JSONObject chooseMore = object.getJSONObject("多选题");
 						JSONObject judge = object.getJSONObject("判断题");
-						Log.d("guohao", "单选题："+chooseOne.toString());
-						Log.d("guohao", "多选题："+chooseMore.toString());
-						Log.d("guohao", "判断题："+judge.toString());
+						//特别重要---删除数据库---之前存在的数据---试卷、试题
+						//删除之前存在的试题，之后插入这次的试题。
+						db.delete(Data.EXAM_PAPER_TABLE_NAME, null, null);
+						
+						saveExamTiInSqlite(chooseOne, Data.CHOOSE_ONE_TI);
+						saveExamTiInSqlite(chooseMore, Data.CHOOSE_MORE_TI);
+						saveExamTiInSqlite(judge, Data.JUDGE_TI);
+						
+						//根据数据库存储是否出错，决定是否跳转
+						if (getExamPaperOK) {
+							StartExamActivity.actionStart(mActivity);
+						}else {
+							Util.showToast(mActivity, "试题解析、存储错误！");
+						}
 					}else {
 						Util.showToast(mActivity, object.getString("msg"));
 					}
@@ -83,6 +94,49 @@ public class ExamDetailActivity extends Activity {
 		
 		initView();
 		initBaseData();
+	}
+
+	protected void saveExamTiInSqlite(JSONObject tiObject, String tiType) {
+		try {
+			int examPaperId = p.getInt(Data.EXAM_PAPER_id, -1);
+			int itemScore = tiObject.getInt("itemScore");
+			int selectScore = tiObject.getInt("selectScore");
+			ContentValues values = new ContentValues();
+			JSONArray array = tiObject.getJSONArray("items");
+			for (int i = 0; i < array.length(); i++) {
+				tiObject = array.getJSONObject(i);
+				int score = tiObject.getInt("score");
+				int answerCount = tiObject.getInt("answerCount");
+				String strandAnswer = tiObject.getString("strandAnswer");
+				String selectAnswers = tiObject.getString("selectAnswers");
+				String createAdmin = tiObject.getString("createAdmin");
+				long createTime = tiObject.getLong("createTime");
+				String course = tiObject.getString("course");
+				int id = tiObject.getInt("id");
+				String content = tiObject.getString("content");
+				values.clear();
+				values.put("examPaperId", examPaperId);
+				values.put("itemScore", itemScore);
+				values.put("selectScore", selectScore);
+				values.put("examTiType", tiType);
+				values.put("score", score);
+				values.put("answerCount", answerCount);
+				values.put("strandAnswer", strandAnswer);
+				values.put("selectAnswers", selectAnswers);
+				values.put("createAdmin", createAdmin);
+				values.put("createTime", createTime);
+				values.put("course", course);
+				values.put("id", id);
+				values.put("content", content);
+				long rowId = db.insert(Data.EXAM_PAPER_TABLE_NAME, null, values);
+				if (rowId == -1) {
+					getExamPaperOK = false;
+				}
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+			getExamPaperOK = false;
+		}
 	}
 
 	private void initBaseData() {
@@ -133,7 +187,6 @@ public class ExamDetailActivity extends Activity {
 	public void startExam(View view) {
 		//这里点击---开始考试---获取试卷id对应的试题---存储到数据库----使用时，再读取出来
 		//获取试题成功，并存储成功才跳转到答题界面。
-//		StartExamActivity.actionStart(mActivity);
 		//创建---数据库
 		PackageManager manager = getPackageManager();
 		PackageInfo info = null;
@@ -142,7 +195,7 @@ public class ExamDetailActivity extends Activity {
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
 		}
-		MySqliteOpenHelper helper = new MySqliteOpenHelper(mActivity, "SchoolExam.db", null, info.versionCode);
+		MySqliteOpenHelper helper = new MySqliteOpenHelper(mActivity, Data.SCHOOL_PROJECT_DB, null, info.versionCode);
 		db = helper.getReadableDatabase();
 		//请求数据
 		if (db != null) {

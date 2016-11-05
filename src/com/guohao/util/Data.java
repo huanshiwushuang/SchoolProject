@@ -30,6 +30,12 @@ public class Data {
 	public static final String NETWORK_EXCEPTION = "ÍøÂçÒì³£";
 	
 	
+	//Êý¾Ý¿â
+	public static final String SCHOOL_PROJECT_DB = "schoolProject.db";
+	public static final String EXAM_PAPER_TABLE_NAME = "examPaperTableName";
+	public static final String CHOOSE_ONE_TI = "chooseOneTi";
+	public static final String CHOOSE_MORE_TI = "chooseMoreTi";
+	public static final String JUDGE_TI = "judgeTi";
 	
 	
 	

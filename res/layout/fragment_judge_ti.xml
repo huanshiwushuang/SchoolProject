@@ -11,33 +11,26 @@
         android:layout_margin="11dp"
         android:src="@drawable/img307" />
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:scrollbarSize="3dp"
-        android:scrollbarThumbVertical="@color/scrollBar" >
+        android:orientation="vertical" >
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/id_textview_ti"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_marginBottom="8dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="1。（）工作领导人不得直接参加操作，必须在现场不间断地进行监护" />
 
-            <TextView
-                android:id="@+id/id_textview_ti"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="1。（）工作领导人不得直接参加操作，必须在现场不间断地进行监护" />
-
-            <ListView
-                android:id="@+id/id_listview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-            </ListView>
-        </LinearLayout>
-    </ScrollView>
+        <ListView
+            android:id="@+id/id_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </ListView>
+    </LinearLayout>
 
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.guohao.java;
 
+import com.guohao.util.Data;
 import com.guohao.util.Util;
 
 import android.content.Context;
@@ -9,12 +10,12 @@ import android.util.Log;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class MySqliteOpenHelper extends SQLiteOpenHelper {
-	public static final String CREATE_TABLE_EXAM_PAPER = "create table examPaper"
+	public static final String CREATE_TABLE_EXAM_PAPER = "create table "+Data.EXAM_PAPER_TABLE_NAME
 			+ "("
 				+ "dataId integer primary key autoincrement,"
 				+ "examPaperId integer,"
-				+ "GradeOne integer,"
-				+ "GradeAll integer"
+				+ "itemScore integer,"
+				+ "selectScore integer,"
 				+ "examTiType text,"
 				+ "score integer,"
 				+ "answerCount integer,"
@@ -22,10 +23,10 @@ public class MySqliteOpenHelper extends SQLiteOpenHelper {
 				+ "selectAnswers text,"
 				+ "createAdmin text,"
 				+ "createTime real,"
-				+ "typeName text,"
 				+ "course text,"
 				+ "id integer,"
-				+ "content text"
+				+ "content text,"
+				+ "chooseAnswer text"
 			+ ")";
 	private Context mContext;
 	
