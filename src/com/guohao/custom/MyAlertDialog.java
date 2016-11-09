@@ -21,7 +21,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 public class MyAlertDialog implements OnClickListener,OnItemClickListener {
@@ -40,14 +39,10 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 	private TextView mTitle,mMessage;
 	public final static int Exit = 3;
 	public final static int ReLogin = 4;
-	//---布局02---碎片02--->岗位
-	public final static int Layout02 = 5;
-	private ListView listView;
+	
 	private List<Object[]> list;
 	private int clickPosition = -1;
 	private MeListviewBgAdapter adapter;
-	//---布局03---碎片02--->性别
-	public final static int Layout03 = 6;
 	//---布局04---正在加载......
 	public final static int Layout04 = 7;
 	private ImageView rotateImage;
@@ -77,14 +72,6 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 			mYes.setOnClickListener(this);
 			mNo.setOnClickListener(this);
 			break;
-		case Layout02:
-			mYes.setOnClickListener(this);
-			mNo.setOnClickListener(this);
-			listView.setOnItemClickListener(this);
-			break;
-		case Layout03:
-			listView.setOnItemClickListener(this);
-			break;
 		}
 	}
 	private void initData() {
@@ -95,14 +82,6 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 		height = (int) (screenHeight/4.3);
 		
 		switch (currentLayout) {
-		case Layout02:
-			adapter = new MeListviewBgAdapter(mContext, R.layout.custom_me_listview_radio, list);
-			listView.setAdapter(adapter);
-			break;
-		case Layout03:
-			adapter = new MeListviewBgAdapter(mContext, R.layout.custom_me_listview_radio, list);
-			listView.setAdapter(adapter);
-			break;
 		case Layout04:
 			Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.custom_rotate_image);
 			rotateImage.startAnimation(animation);
@@ -120,16 +99,6 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 			mMessage = (TextView) v.findViewById(R.id.id_textview_message);
 			mYes = (TextView) v.findViewById(R.id.id_textview_yes);
 			mNo = (TextView) v.findViewById(R.id.id_textview_no);
-			break;
-		case Layout02:
-			v = inflater.inflate(R.layout.custom_me_listview, new FrameLayout(mContext));
-			mYes = (TextView) v.findViewById(R.id.id_textview_yes);
-			mNo = (TextView) v.findViewById(R.id.id_textview_no);
-			listView = (ListView) v.findViewById(R.id.id_listview);
-			break;
-		case Layout03:
-			v = inflater.inflate(R.layout.custom_me_sex, new FrameLayout(mContext));
-			listView = (ListView) v.findViewById(R.id.id_listview);
 			break;
 		case Layout04:
 			v = inflater.inflate(R.layout.custom_alertdialog_loading, new FrameLayout(mContext));
@@ -230,16 +199,6 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 				break;
 			}
 			break;
-		case Layout02:
-			switch (v.getId()) {
-			case R.id.id_textview_yes:
-				Util.showToast(mContext, "确定");
-				break;
-			case R.id.id_textview_no:
-				dismiss();
-				break;
-			}
-			break;
 		}
 	}
 	@Override
@@ -250,14 +209,5 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 		}
 		adapter.notifyDataSetChanged();
 		clickPosition = position;
-		
-		switch (currentLayout) {
-		case Layout02:
-			
-			break;
-		case Layout03:
-			
-			break;
-		}
 	}
 }

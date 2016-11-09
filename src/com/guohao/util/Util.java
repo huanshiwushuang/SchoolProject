@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.List;
 
 import com.guohao.custom.MyAlertDialog;
 
@@ -51,13 +50,6 @@ public class Util {
     	alertDialog.setYesText("确定");
     	alertDialog.setNoText("取消");
     	alertDialog.setFlag(flag);
-    	alertDialog.show();
-    	return alertDialog;
-	}
-    public static MyAlertDialog showAlertDialog03(Context context, List<Object[]> list) {
-    	alertDialog = new MyAlertDialog(context,MyAlertDialog.Layout03,list);
-    	int height = (int) (alertDialog.getScreenHeight()/3.6);
-    	alertDialog.setheight(height);
     	alertDialog.show();
     	return alertDialog;
 	}
