@@ -65,10 +65,7 @@ public class ChooseMoreTiFragment extends Fragment implements OnItemClickListene
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		for (int i = 0; i < list.size(); i++) {
-			list.get(i)[1] = "0";
-		}
-		list.get(position)[1] = "1";
+		list.get(position)[1] = list.get(position)[1].equals("0")? "1" : "0";
 		myTiAdapter.notifyDataSetChanged();
 	}
 	

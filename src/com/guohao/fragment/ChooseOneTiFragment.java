@@ -66,7 +66,6 @@ public class ChooseOneTiFragment extends Fragment implements OnItemClickListener
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		Util.showToast(getContext(), "µ¯³ö");
 		for (int i = 0; i < list.size(); i++) {
 			list.get(i)[1] = "0";
 		}
