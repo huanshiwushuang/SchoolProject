@@ -72,7 +72,7 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 						JSONArray array = object.getJSONArray("courses");
 						for (int i = 0; i < array.length(); i++) {
 							object = array.getJSONObject(i);
-							testString = object.getString("course")+"£¨"+object.getString("name")+"£©";
+							testString = object.getString("course")+"ï¼ˆ"+object.getString("name")+"ï¼‰";
 							list.add(new Object[]{imageId,testString});
 						}
 						adapter.notifyDataSetChanged();
@@ -152,7 +152,7 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 		
 		initView();
 		initBaseData();
-		//²âÊÔËùÓÃ---Ä£ÄâÇëÇóµ½µÄÊý¾Ý
+		//æµ‹è¯•æ‰€ç”¨---æ¨¡æ‹Ÿè¯·æ±‚åˆ°çš„æ•°æ®
 		initNetworkData();
 		initAdapter();
 		initListener();
@@ -169,7 +169,7 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 		HttpURLConnection connection = null;
 		switch (flag) {
 		case Exam_Test:
-			Util.showAlertDialog04(mActivity, "ÕýÔÚÇëÇóÊý¾Ý......");
+			Util.showAlertDialog04(mActivity, "æ­£åœ¨è¯·æ±‚æ•°æ®......");
 			mList = new ArrayList<KV>();
 			mList.add(new KV("token", token));
 			connection = HttpUtil.getGetHttpUrlConnection(Data.URL_GET_EXAM_PAPER,mList);
@@ -191,7 +191,7 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 			});
 			break;
 		case My_Course:
-			Util.showAlertDialog04(mActivity, "ÕýÔÚÇëÇóÊý¾Ý......");
+			Util.showAlertDialog04(mActivity, "æ­£åœ¨è¯·æ±‚æ•°æ®......");
 			mList = new ArrayList<KV>();
 			mList.add(new KV("token", token));
 			connection = HttpUtil.getGetHttpUrlConnection(Data.URL_GET_COURSE,mList);
@@ -225,21 +225,21 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 		token = p.getString(Data.TOKEN, "");
 		switch (flag) {
 		case Exam_Test:
-			customTitle.setTitleText("ÊÔ¾íÑ¡Ôñ");
+			customTitle.setTitleText("è¯•å·é€‰æ‹©");
 			imageId = R.drawable.img42;
-			testString = "ÊÔ¾íÑ¡Ôñ";
-			//´æ´¢---ÇëÇóµ½µÄÊÔ¾í¡£
+			testString = "è¯•å·é€‰æ‹©";
+			//å­˜å‚¨---è¯·æ±‚åˆ°çš„è¯•å·ã€‚
 			examPapers = new ArrayList<ExamPaper>();
 			break;
 		case Exam_Record:
-			customTitle.setTitleText("¿¼ÊÔ¼ÇÂ¼");
+			customTitle.setTitleText("è€ƒè¯•è®°å½•");
 			imageId = R.drawable.img15;
-			testString = "¿¼ÊÔ¼ÇÂ¼";
+			testString = "è€ƒè¯•è®°å½•";
 			break;
 		case My_Course:
-			customTitle.setTitleText("ÎÒµÄ¿Î³Ì");
+			customTitle.setTitleText("æˆ‘çš„è¯¾ç¨‹");
 			imageId = R.drawable.img347;
-			testString = "ÎÒµÄ¿Î³Ì";
+			testString = "æˆ‘çš„è¯¾ç¨‹";
 			adapter.setDisplayNext(false);
 			break;
 		}
@@ -254,9 +254,9 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 		pullListView = (PullToRefreshListView) findViewById(R.id.id_pulllistview);
 		pullListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
 		ILoadingLayout loadingLayout = pullListView.getLoadingLayoutProxy();
-		loadingLayout.setPullLabel("ÏÂÀ­Ë¢ÐÂ");
-		loadingLayout.setRefreshingLabel("ÕýÔÚË¢ÐÂ...");
-		loadingLayout.setReleaseLabel("ËÉ¿ªË¢ÐÂ");
+		loadingLayout.setPullLabel("ä¸‹æ‹‰åˆ·æ–°");
+		loadingLayout.setRefreshingLabel("æ­£åœ¨åˆ·æ–°...");
+		loadingLayout.setReleaseLabel("æ¾å¼€åˆ·æ–°");
 		pullListView.setOnRefreshListener(this);
 	}
 

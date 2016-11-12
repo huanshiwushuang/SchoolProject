@@ -3,34 +3,34 @@ package com.guohao.util;
 import android.os.Environment;
 
 public class Data {
-	//Í³Ò»±àÂë
+	//ç»Ÿä¸€ç¼–ç 
 	public static final String ENCODE = "UTF-8";
 	//IP
 	public static final String IP = "http://61.157.243.107:8080";
-	//ÏîÄ¿Ãû×Ö
+	//é¡¹ç›®åå­—
 	public static final String PROJECT_NAME = "/Exam";
-	//µÇÂ¼µØÖ·
+	//ç™»å½•åœ°å€
 	public static final String URL_LOGIN = IP+PROJECT_NAME+"/api/users/login";
-	//ĞŞ¸ÄÃÜÂëµØÖ·
+	//ä¿®æ”¹å¯†ç åœ°å€
 	public static final String URL_CHANGE_PWD = IP+PROJECT_NAME+"/api/users/modifyPassword";
-	//ĞŞ¸ÄÍ·ÏñµØÖ·
+	//ä¿®æ”¹å¤´åƒåœ°å€
 	public static final String URL_CHANGE_HEAD_PHOTO = IP+PROJECT_NAME+"/api/users/modifyHead";
-	//»ñÈ¡¿Î³ÌµØÖ·
+	//è·å–è¯¾ç¨‹åœ°å€
 	public static final String URL_GET_COURSE = IP+PROJECT_NAME+"/api/course/getCourses";
-	//»ñÈ¡ÊÔ¾íµØÖ·
+	//è·å–è¯•å·åœ°å€
 	public static final String URL_GET_EXAM_PAPER = IP+PROJECT_NAME+"/api/exams/getExams";
-	//»ñÈ¡ÊÔÌâµØÖ·
+	//è·å–è¯•é¢˜åœ°å€
 	public static final String URL_GET_EXAM_TI = IP+PROJECT_NAME+"/api/items/getItems";
 	
-	//¸ùÂ·¾¶
+	//æ ¹è·¯å¾„
 	public static final String PATH_APP_ROOT = Environment.getExternalStorageDirectory()+"/SchoolExam";
-	//Í¼Æ¬±£´æÂ·¾¶
+	//å›¾ç‰‡ä¿å­˜è·¯å¾„
 	public static final String PATH_PHOTO = PATH_APP_ROOT+"/Image";
 	
-	public static final String NETWORK_EXCEPTION = "ÍøÂçÒì³£";
+	public static final String NETWORK_EXCEPTION = "ç½‘ç»œå¼‚å¸¸";
 	
 	
-	//Êı¾İ¿â
+	//æ•°æ®åº“
 	public static final String SCHOOL_PROJECT_DB = "schoolProject.db";
 	public static final String EXAM_PAPER_TABLE_NAME = "examPaperTableName";
 	public static final String CHOOSE_ONE_TI = "chooseOneTi";
@@ -41,31 +41,31 @@ public class Data {
 	
 	
 	
-	//ÓÃ»§ÊäÈë---Êı¾İ±£´æ--------------------------------------
-	//ÓÃ»§ÕË»§---Ñ§ºÅ
+	//ç”¨æˆ·è¾“å…¥---æ•°æ®ä¿å­˜--------------------------------------
+	//ç”¨æˆ·è´¦æˆ·---å­¦å·
 	public static final String ACCOUNT = "account";
-	//ÓÃ»§ÃÜÂë
+	//ç”¨æˆ·å¯†ç 
 	public static final String PWD = "pwd";
 	
-	//---±¾µØÊı¾İ±£´æ---
-	//Ñ§ºÅ
+	//---æœ¬åœ°æ•°æ®ä¿å­˜---
+	//å­¦å·
 	public static final String STU_NUMBER = "stuNumber";
-	//°à¼¶
+	//ç­çº§
 	public static final String GRADE = "garde";
-	//ÃÜÂë
+	//å¯†ç 
 	public static final String PASSWORD = "password";
-	//Í·ÏñÂ·¾¶
+	//å¤´åƒè·¯å¾„
 	public static final String HEAD_IMAGE = "headImage";
-	//ĞÕÃû
+	//å§“å
 	public static final String NAME = "name";
 	//
 	public static final String CLASS_NO = "classNo";
 	//
 	public static final String ID = "id";
-	//ÁîÅÆ
+	//ä»¤ç‰Œ
 	public static final String TOKEN = "token";
 	
-	//¿¼ÊÔÊÔ¾í---µã»÷µÄÄÄÒ»Ì×ÊÔ¾í£¬½«¸ÃÌ×ÊÔ¾íµÄÊôĞÔ±£´æÏÂÀ´---------------------------------------------------------
+	//è€ƒè¯•è¯•å·---ç‚¹å‡»çš„å“ªä¸€å¥—è¯•å·ï¼Œå°†è¯¥å¥—è¯•å·çš„å±æ€§ä¿å­˜ä¸‹æ¥---------------------------------------------------------
 	public static final String EXAM_PAPER_isDelete = "exam_paper_isdelete";
 	public static final String EXAM_PAPER_totalScore = "exam_paper_totalscore";
 	public static final String EXAM_PAPER_passScore = "exam_paper_passscore";

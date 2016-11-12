@@ -5,7 +5,14 @@ import java.util.List;
 
 import com.guohao.adapter.MyTiAdapter;
 import com.guohao.schoolproject.R;
+import com.guohao.schoolproject.StartExamActivity;
+import com.guohao.util.Data;
+import com.guohao.util.StringUtil;
+import com.guohao.util.Util;
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -26,6 +33,7 @@ public class JudgeTiFragment extends Fragment implements OnItemClickListener {
 	private String[] answers;
 	
 	private MyTiAdapter myTiAdapter;
+	private SQLiteDatabase db;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,6 +47,7 @@ public class JudgeTiFragment extends Fragment implements OnItemClickListener {
 		listview = (ListView) view.findViewById(R.id.id_listview);
 		listview.setOnItemClickListener(this);
 		list = new ArrayList<String[]>();
+		db = Util.getDatabase(getActivity());
 		myTiAdapter = new MyTiAdapter(getContext(), R.layout.custom_exam_ti_radio_bg, list);
 	}
 
@@ -46,6 +55,8 @@ public class JudgeTiFragment extends Fragment implements OnItemClickListener {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		initBaseData();
+		//恢复已选中的选项
+		initLocalData();
 	}
 	
 	private void initBaseData() {
@@ -55,7 +66,22 @@ public class JudgeTiFragment extends Fragment implements OnItemClickListener {
 		}
 		listview.setAdapter(myTiAdapter);
 	}
-
+	private void initLocalData() {
+		int dianIndex = tiContent.getText().toString().indexOf(".");
+		int currentIndex = Integer.valueOf(tiContent.getText().toString().substring(0, dianIndex))-1;
+		Cursor cursor = db.query(Data.EXAM_PAPER_TABLE_NAME, new String[]{"chooseAnswer"}, "dataId=?", new String[]{((StartExamActivity)getActivity()).getDataId(currentIndex)+""}, null, null, null);
+		String chooseAnswer = "";
+		while (cursor.moveToNext()) {
+			chooseAnswer = cursor.getString(cursor.getColumnIndex("chooseAnswer"));
+		}
+		if (!StringUtil.isEmpty(chooseAnswer)) {
+			String[] tempArray = chooseAnswer.split("\\|");
+			for (int i = 0; i < tempArray.length; i++) {
+				list.get(Integer.valueOf(tempArray[i]))[1] = "1";
+			}
+			myTiAdapter.notifyDataSetChanged();
+		}
+	}
 	public void setTiContent(String content) {
 		tiString = content;
 	}
@@ -70,5 +96,11 @@ public class JudgeTiFragment extends Fragment implements OnItemClickListener {
 		}
 		list.get(position)[1] = "1";
 		myTiAdapter.notifyDataSetChanged();
+		//保存答案到数据库
+		ContentValues values = new ContentValues();
+		values.put("chooseAnswer", position);
+		int dianIndex = tiContent.getText().toString().indexOf(".");
+		int currentIndex = Integer.valueOf(tiContent.getText().toString().substring(0, dianIndex))-1;
+		db.update(Data.EXAM_PAPER_TABLE_NAME, values, "dataId=?", new String[]{((StartExamActivity)getActivity()).getDataId(currentIndex)+""});
 	}
 }

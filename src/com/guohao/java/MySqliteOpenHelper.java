@@ -39,7 +39,7 @@ public class MySqliteOpenHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(CREATE_TABLE_EXAM_PAPER);
-		Util.showToast(mContext, "Ö´ÐÐÁË---´´½¨±íÃüÁî");
+		Util.showToast(mContext, "æ‰§è¡Œäº†---åˆ›å»ºè¡¨å‘½ä»¤");
 	}
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

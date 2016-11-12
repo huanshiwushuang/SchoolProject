@@ -39,7 +39,7 @@ public class SettingBg extends FrameLayout implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.id_setting01:
-			Util.showToast(mContext, "°æ±¾¸üĞÂ");
+			Util.showToast(mContext, "ç‰ˆæœ¬æ›´æ–°");
 			break;
 		case R.id.id_setting02:
 			SettingActivity.actionStart(mContext, SettingActivity.SUGGEST);
@@ -48,10 +48,10 @@ public class SettingBg extends FrameLayout implements OnClickListener {
 			SettingActivity.actionStart(mContext, SettingActivity.CHANGE_PWD);
 			break;
 		case R.id.id_setting04:
-			Util.showAlertDialog01(mContext, "ÊÇ·ñÈ·ÈÏ×¢Ïú£¿", MyAlertDialog.ReLogin);
+			Util.showAlertDialog01(mContext, "æ˜¯å¦ç¡®è®¤æ³¨é”€ï¼Ÿ", MyAlertDialog.ReLogin);
 			break;
 		case R.id.id_setting05:
-			Util.showAlertDialog01(mContext, "ÊÇ·ñÍË³ö³ÌĞò£¿", MyAlertDialog.Exit);
+			Util.showAlertDialog01(mContext, "æ˜¯å¦é€€å‡ºç¨‹åºï¼Ÿ", MyAlertDialog.Exit);
 			break;
 		case R.id.id_setting06:
 			SettingActivity.actionStart(mContext, SettingActivity.ABOUT);

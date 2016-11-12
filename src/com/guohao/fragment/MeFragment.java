@@ -102,7 +102,7 @@ public class MeFragment extends Fragment implements OnClickListener,OnDismissLis
 	public void setHeadImage(String address) {
 		address = Data.IP+Data.PROJECT_NAME+(address.startsWith("/")? address : (address ="/"+address))+"?random="+System.currentTimeMillis();
 		ImageLoader loader = ImageLoader.getInstance();
-		Log.d("guohao", "Í¼Æ¬µØÖ·£º"+address);
+		Log.d("guohao", "å›¾ç‰‡åœ°å€ï¼š"+address);
 		loader.displayImage(address, headImageView);
 	}
 	private void initData() {
@@ -126,11 +126,11 @@ public class MeFragment extends Fragment implements OnClickListener,OnDismissLis
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.id_imageview_user_pic:
-			//µ¯³ö²ã
+			//å¼¹å‡ºå±‚
 			alertCeng.setVisibility(View.VISIBLE);
 			
 			View view = LayoutInflater.from(getActivity()).inflate(R.layout.custom_select_photo, new FrameLayout(getActivity()));
-			//µã»÷ popupÍâÃæ£¬dismiss¡£
+			//ç‚¹å‡» popupå¤–é¢ï¼Œdismissã€‚
 			View dismissView = view.findViewById(R.id.id_view_dismiss);
 			dismissView.setOnClickListener(this);
 			
@@ -143,18 +143,18 @@ public class MeFragment extends Fragment implements OnClickListener,OnDismissLis
 			
 			popupWindow = new PopupWindow(view, 
 					WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-			// ÉèÖÃpopWindowµ¯³ö´°Ìå¿Éµã»÷£¬Õâ¾ä»°±ØĞëÌí¼Ó£¬²¢ÇÒÊÇtrue
+			// è®¾ç½®popWindowå¼¹å‡ºçª—ä½“å¯ç‚¹å‡»ï¼Œè¿™å¥è¯å¿…é¡»æ·»åŠ ï¼Œå¹¶ä¸”æ˜¯true
 			popupWindow.setFocusable(true);
 			
-			// ÊµÀı»¯Ò»¸öColorDrawableÑÕÉ«Îª°ëÍ¸Ã÷ ---±ØÒªµÄ£¬µ±±³¾°²»Îª¿ÕµÄÊ±ºò£¬²ÅÄÜ¹»·µ»Ø¼ü dismiss
+			// å®ä¾‹åŒ–ä¸€ä¸ªColorDrawableé¢œè‰²ä¸ºåŠé€æ˜ ---å¿…è¦çš„ï¼Œå½“èƒŒæ™¯ä¸ä¸ºç©ºçš„æ—¶å€™ï¼Œæ‰èƒ½å¤Ÿè¿”å›é”® dismiss
 			ColorDrawable dw = new ColorDrawable(0x00000000);
 			popupWindow.setBackgroundDrawable(dw);
 			
-			// ÉèÖÃpopWindowµÄÏÔÊ¾ºÍÏûÊ§¶¯»­
+			// è®¾ç½®popWindowçš„æ˜¾ç¤ºå’Œæ¶ˆå¤±åŠ¨ç”»
 			popupWindow.setAnimationStyle(R.style.StyleSelectPhoto);
-			//ÉèÖÃdismiss¼àÌıÊÂ¼ş
+			//è®¾ç½®dismissç›‘å¬äº‹ä»¶
 			popupWindow.setOnDismissListener(this);
-			// ÔÚµ×²¿ÏÔÊ¾
+			// åœ¨åº•éƒ¨æ˜¾ç¤º
 			popupWindow.showAtLocation(v, Gravity.BOTTOM, 0, 0);
 			break;
 		case R.id.id_view_dismiss:
@@ -204,7 +204,7 @@ public class MeFragment extends Fragment implements OnClickListener,OnDismissLis
 			if (resultCode == Activity.RESULT_OK) {
 				//dismiss
 				popupWindow.dismiss();
-				Util.showAlertDialog04(activity, "ÕıÔÚ¸üĞÂÍ·Ïñ......");
+				Util.showAlertDialog04(activity, "æ­£åœ¨æ›´æ–°å¤´åƒ......");
 				
 				AsyncHttpClient client = new AsyncHttpClient();
 				RequestParams params = new RequestParams();
@@ -223,14 +223,14 @@ public class MeFragment extends Fragment implements OnClickListener,OnDismissLis
 							JSONObject object = new JSONObject(response);
 							String status = object.getString("status");
 							if (status.equals("1")) {
-								Util.showToast(activity, "ÉÏ´«³É¹¦");
+								Util.showToast(activity, "ä¸Šä¼ æˆåŠŸ");
 								
 								object = object.getJSONObject("user");
 								String headImage = object.getString("headImage");
 								Editor editor = Util.getPreference(activity).edit();
 								editor.putString(Data.HEAD_IMAGE, headImage);
 								editor.commit();
-								//¸üĞÂÍ·Ïñºó£¬ÎªÁË±ÜÃâ»º´æ£¬ĞëÌí¼ÓËæ»ú²ÎÊı
+								//æ›´æ–°å¤´åƒåï¼Œä¸ºäº†é¿å…ç¼“å­˜ï¼Œé¡»æ·»åŠ éšæœºå‚æ•°
 								setHeadImage(headImage);
 							}else {
 								Util.showToast(activity, object.getString("msg"));
@@ -250,7 +250,7 @@ public class MeFragment extends Fragment implements OnClickListener,OnDismissLis
 		case CHOOSE_PHOTO:
 			if (resultCode == Activity.RESULT_OK) {
 				String imagePath = null;
-				if (Build.VERSION.SDK_INT >= 19) {//4.4¼°ÒÔÉÏµÄÏµÍ³
+				if (Build.VERSION.SDK_INT >= 19) {//4.4åŠä»¥ä¸Šçš„ç³»ç»Ÿ
 					imagePath = getImageAbove4_4(data);
 				}else {
 					imagePath = getImageBelow4_4(data);
@@ -288,10 +288,10 @@ public class MeFragment extends Fragment implements OnClickListener,OnDismissLis
 		String imagePath = null;
 		Uri uri = data.getData();
 		if (DocumentsContract.isDocumentUri(activity, uri)) {
-			//Èç¹ûÊÇdocumentÀàĞÍµÄUri£¬ÔòÍ¨¹ı document id½øĞĞ´¦Àí
+			//å¦‚æœæ˜¯documentç±»å‹çš„Uriï¼Œåˆ™é€šè¿‡ document idè¿›è¡Œå¤„ç†
 			String docId = DocumentsContract.getDocumentId(uri);
 			if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
-				String id = docId.split(":")[1];//½âÎö³öÊı×Ö¸ñÊ½µÄid
+				String id = docId.split(":")[1];//è§£æå‡ºæ•°å­—æ ¼å¼çš„id
 				String selection = MediaStore.Images.Media._ID + "=" + id;
 				imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
 			}else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
@@ -299,7 +299,7 @@ public class MeFragment extends Fragment implements OnClickListener,OnDismissLis
 				imagePath = getImagePath(contentUri, null);
 			}
 		}else if ("content".equalsIgnoreCase(uri.getScheme())) {
-			//Èç¹û²»ÊÇdocument ÀàĞÍµÄuri£¬ÔòÊ¹ÓÃÆÕÍ¨·½Ê½´¦Àí
+			//å¦‚æœä¸æ˜¯document ç±»å‹çš„uriï¼Œåˆ™ä½¿ç”¨æ™®é€šæ–¹å¼å¤„ç†
 			imagePath = getImagePath(uri, null);
 		}
 		return imagePath;
@@ -312,7 +312,7 @@ public class MeFragment extends Fragment implements OnClickListener,OnDismissLis
 	
 	private String getImagePath(Uri uri, String selection) {
 		String path = null;
-		//Í¨¹ıUri ºÍ selection À´»ñÈ¡ÕæÊµµÄÍ¼Æ¬Â·¾¶
+		//é€šè¿‡Uri å’Œ selection æ¥è·å–çœŸå®çš„å›¾ç‰‡è·¯å¾„
 		Cursor cursor = activity.getContentResolver().query(uri, null, selection, null, null);
 		if (cursor != null) {
 			if (cursor.moveToFirst()) {

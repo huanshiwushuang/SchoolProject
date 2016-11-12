@@ -35,19 +35,19 @@ public class MeSetActivity extends Activity implements OnClickListener {
 	private void initData() {
 		switch (flag) {
 		case OTHER_NAME:
-			customTitle.setTitleText("êÇ³Æ");
-			textView.setText("ÊäÈëÄúµÄ¸öĞÔêÇ³Æ");
+			customTitle.setTitleText("æ˜µç§°");
+			textView.setText("è¾“å…¥æ‚¨çš„ä¸ªæ€§æ˜µç§°");
 			break;
 		case NAME:
-			customTitle.setTitleText("ĞÕÃû");
-			textView.setText("ÊäÈëÄúµÄÕæÊµĞÕÃû");
+			customTitle.setTitleText("å§“å");
+			textView.setText("è¾“å…¥æ‚¨çš„çœŸå®å§“å");
 			break;
 		case EMAIL:
-			customTitle.setTitleText("ÓÊÏä");
-			textView.setText("ÊäÈëÄúµÄÓÊÏä");
+			customTitle.setTitleText("é‚®ç®±");
+			textView.setText("è¾“å…¥æ‚¨çš„é‚®ç®±");
 			break;
 		}
-		customTitle.setTitleOtherText("Íê³É");
+		customTitle.setTitleOtherText("å®Œæˆ");
 		customTitle.setImageVisibility(View.VISIBLE);
 	}
 
@@ -59,7 +59,7 @@ public class MeSetActivity extends Activity implements OnClickListener {
 	}
 	@Override
 	public void onClick(View v) {
-		Util.showToast(MeSetActivity.this, "Íê³É");
+		Util.showToast(MeSetActivity.this, "å®Œæˆ");
 	}
 
 

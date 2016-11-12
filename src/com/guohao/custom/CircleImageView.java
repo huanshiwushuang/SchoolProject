@@ -49,7 +49,7 @@ public class CircleImageView extends ImageView {
 	}
 	
 	/**
-     * »ñÈ¡Ô²ĞÎÍ¼Æ¬·½·¨
+     * è·å–åœ†å½¢å›¾ç‰‡æ–¹æ³•
      * @param bitmap
      * @param pixels
      * @return Bitmap
@@ -64,37 +64,37 @@ public class CircleImageView extends ImageView {
     	int minBianBitmap = Math.min(widthBitmap, heightBitmap);
     	int maxBianBitmap = Math.max(widthBitmap, heightBitmap);
     	
-    	//ÏÈ½«Í¼Æ¬µÄ¿í¸ß×ª»»ÎªµÈ±ß£¨²Ã¼ô£¬ÒÔ×î¶Ì±ßÎª³¤¶È£©
+    	//å…ˆå°†å›¾ç‰‡çš„å®½é«˜è½¬æ¢ä¸ºç­‰è¾¹ï¼ˆè£å‰ªï¼Œä»¥æœ€çŸ­è¾¹ä¸ºé•¿åº¦ï¼‰
     	Bitmap output = Bitmap.createBitmap
     			(bitmap, 
     			widthBitmap > heightBitmap ? (maxBianBitmap-minBianBitmap)/2 : 0,
     			widthBitmap > heightBitmap ? 0 : (maxBianBitmap-minBianBitmap)/2,
     			minBianBitmap, minBianBitmap);
-    	//ÔÙ½«Í¼Æ¬µÄ¿í¸ßµÈ±ÈÀıËõ·ÅÎªÓëImageViewÈİÆ÷Ò»ÑùµÄ¿í¸ß£¨´ËÊ±µÄÍ¼Æ¬ÊÇÒ»¸öÕı·½ĞÎ£¬±ß³¤µÈÓÚImageView£©
+    	//å†å°†å›¾ç‰‡çš„å®½é«˜ç­‰æ¯”ä¾‹ç¼©æ”¾ä¸ºä¸ImageViewå®¹å™¨ä¸€æ ·çš„å®½é«˜ï¼ˆæ­¤æ—¶çš„å›¾ç‰‡æ˜¯ä¸€ä¸ªæ­£æ–¹å½¢ï¼Œè¾¹é•¿ç­‰äºImageViewï¼‰
     	output= Bitmap.createScaledBitmap(output, widthThis, heightThis, true);
     	
     	Bitmap drawPaper = Bitmap.createBitmap(output.getWidth(), output.getHeight(), Config.ARGB_8888);
-        //¹¹½¨»­°å
+        //æ„å»ºç”»æ¿
         Canvas canvas = new Canvas(drawPaper);
-        //»­°åÖÃÎªÍ¸Ã÷
+        //ç”»æ¿ç½®ä¸ºé€æ˜
         canvas.drawARGB(0, 0, 0, 0);
-        //¹¹½¨»­±Ê---ÓÍÆá»­±Ê
+        //æ„å»ºç”»ç¬”---æ²¹æ¼†ç”»ç¬”
         paint.setAntiAlias(true);
         paint.setColor(0xffff0000);
         
     	
-        //ÏÈ»­Ò»¸öÔ²ĞÎ
+        //å…ˆç”»ä¸€ä¸ªåœ†å½¢
         canvas.drawCircle(widthThis/2, heightThis/2, (Math.min(widthThis, heightThis))/2, paint);  
-        //È¡Ô­Í¼£¨canvasÉÏµÄÎªÔ­Í¼SRC£¬»­±ÊÒª»­µÄÎªÄ¿±êÍ¼DST£©Ïà½»µÄ²¿·Ö£¨Mode.SRC_IN£©
-        //ÏêÏ¸²Î¼û£ºhttp://folksy.iteye.com/blog/1488629  £¨ĞÂÀË²©¿ÍÓĞ×ªÔØ£©
+        //å–åŸå›¾ï¼ˆcanvasä¸Šçš„ä¸ºåŸå›¾SRCï¼Œç”»ç¬”è¦ç”»çš„ä¸ºç›®æ ‡å›¾DSTï¼‰ç›¸äº¤çš„éƒ¨åˆ†ï¼ˆMode.SRC_INï¼‰
+        //è¯¦ç»†å‚è§ï¼šhttp://folksy.iteye.com/blog/1488629  ï¼ˆæ–°æµªåšå®¢æœ‰è½¬è½½ï¼‰
         paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
         
-        //½ØÈ¡BitmapÍ¼Æ¬µÄÄÚÈİÇøÓò£¬Ä¬ÈÏÎªÍ¼Æ¬µÄ×óÉÏ-ÓÒÏÂ£¨ÕâÀïÎªÁË½ØÈ¡µ½Í¼Æ¬µÄÖĞ¼äÄØ£¬Ğë¼ÆËã£©
-        //Í¼Æ¬À´Ô´ÇøÓò·¶Î§
+        //æˆªå–Bitmapå›¾ç‰‡çš„å†…å®¹åŒºåŸŸï¼Œé»˜è®¤ä¸ºå›¾ç‰‡çš„å·¦ä¸Š-å³ä¸‹ï¼ˆè¿™é‡Œä¸ºäº†æˆªå–åˆ°å›¾ç‰‡çš„ä¸­é—´å‘¢ï¼Œé¡»è®¡ç®—ï¼‰
+        //å›¾ç‰‡æ¥æºåŒºåŸŸèŒƒå›´
         Rect rectFrom = new Rect(0, 0, output.getWidth(), output.getHeight());
-        //»­µ½canvasµÄÄ¿±êÇøÓò·¶Î§
+        //ç”»åˆ°canvasçš„ç›®æ ‡åŒºåŸŸèŒƒå›´
         Rect rectTo = new Rect(0, 0, output.getWidth(), output.getHeight());
-        //ÔÙ»­Ò»¸ö¾ØĞÎ
+        //å†ç”»ä¸€ä¸ªçŸ©å½¢
         canvas.drawBitmap(output, rectFrom, rectTo, paint);
         return drawPaper;  
     }

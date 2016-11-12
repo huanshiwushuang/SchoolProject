@@ -109,7 +109,7 @@ public class SettingActivity extends Activity implements OnClickListener,TextWat
 		customTitle.setImageVisibility(View.VISIBLE);
 		switch (flag) {
 		case SUGGEST:
-			customTitle.setTitleText("Òâ¼û·´À¡");
+			customTitle.setTitleText("æ„è§åé¦ˆ");
 			editText = (EditText) findViewById(R.id.id_edittext);
 			submit = (Button) findViewById(R.id.id_submit);
 			contentLength = (TextView) findViewById(R.id.id_textview_length);
@@ -117,14 +117,14 @@ public class SettingActivity extends Activity implements OnClickListener,TextWat
 			editText.addTextChangedListener(this);
 			break;
 		case CHANGE_PWD:
-			customTitle.setTitleText("ĞŞ¸ÄÃÜÂë");
+			customTitle.setTitleText("ä¿®æ”¹å¯†ç ");
 			editText = (EditText) findViewById(R.id.id_edittext_pwd01);
 			editText02 = (EditText) findViewById(R.id.id_edittext_pwd02);
 			submit = (Button) findViewById(R.id.id_submit);
 			submit.setOnClickListener(this);
 			break;
 		case ABOUT:
-			customTitle.setTitleText("¹ØÓÚ");
+			customTitle.setTitleText("å…³äº");
 			break;
 		}
 	}
@@ -139,42 +139,42 @@ public class SettingActivity extends Activity implements OnClickListener,TextWat
 	public void onClick(View v) {
 		switch (flag) {
 		case SUGGEST:
-			Util.showToast(SettingActivity.this, "½¨ÒéÌá½»");
+			Util.showToast(SettingActivity.this, "å»ºè®®æäº¤");
 			break;
 		case CHANGE_PWD:
 			String pwdOld = editText.getText().toString();
 			pwdNew = editText02.getText().toString();
 			Boolean isPwdOKOld = StringUtil.checkPwd(pwdOld);
 			if (!isPwdOKOld) {
-				Util.showToast(activity, "·Ç·¨¾ÉÃÜÂë");
+				Util.showToast(activity, "éæ³•æ—§å¯†ç ");
 				return;
 			}
 			Boolean isPwdOKNew = StringUtil.checkPwd(pwdNew);
 			if (!isPwdOKNew) {
-				Util.showToast(activity, "·Ç·¨ĞÂÃÜÂë");
+				Util.showToast(activity, "éæ³•æ–°å¯†ç ");
 				return;
 			}
 			String encodePwd = Util.getPreference(activity).getString(Data.PASSWORD, "");
 			if (!StringUtil.encodeMD5(pwdOld).equals(encodePwd)) {
-				Util.showToast(activity, "¾ÉÃÜÂë´íÎó");
+				Util.showToast(activity, "æ—§å¯†ç é”™è¯¯");
 				return;
 			}
 			NetworkInfo info = Util.getNetworkInfo(activity);
 			if (info == null || !info.isAvailable()) {
-				Util.showToast(activity, "ÎŞ¿ÉÓÃÍøÂç");
+				Util.showToast(activity, "æ— å¯ç”¨ç½‘ç»œ");
 				return;
 			}
-			//Òş²Ø¼üÅÌ
+			//éšè—é”®ç›˜
 			getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-			//µ¯³öÕıÔÚµÇÂ½ÌáÊ¾¿ò
-			myAlertDialog = Util.showAlertDialog04(activity, "ÕıÔÚĞŞ¸ÄÃÜÂë......");
+			//å¼¹å‡ºæ­£åœ¨ç™»é™†æç¤ºæ¡†
+			myAlertDialog = Util.showAlertDialog04(activity, "æ­£åœ¨ä¿®æ”¹å¯†ç ......");
 			myAlertDialog.getAlertDialog().setOnKeyListener(this);
-			//¹¹½¨²ÎÊı
+			//æ„å»ºå‚æ•°
 			List<KV> list = new ArrayList<KV>();
 			list.add(new KV("token", Util.getPreference(activity).getString(Data.TOKEN, "")));
 			list.add(new KV("oldPsd", pwdOld));
 			list.add(new KV("newPsd", pwdNew));
-			//·¢ÆğPOSTµÇÂ¼ÇëÇó
+			//å‘èµ·POSTç™»å½•è¯·æ±‚
 			HttpURLConnection connection = HttpUtil.getPostHttpUrlConnection(Data.URL_CHANGE_PWD);
 			connection.setConnectTimeout(6*1000);
 			connection.setReadTimeout(6*1000);

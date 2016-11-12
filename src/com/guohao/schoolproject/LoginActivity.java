@@ -94,7 +94,7 @@ public class LoginActivity extends Activity implements OnKeyListener {
 		initData();
 	}
 	private void initData() {
-		customTitle.setTitleText("µÇÂ¼");
+		customTitle.setTitleText("ç™»å½•");
 	}
 	private void initView() {
 		customTitle = (Title) findViewById(R.id.id_custom_title);
@@ -112,27 +112,27 @@ public class LoginActivity extends Activity implements OnKeyListener {
 		password = pwd.getText().toString();
 		Boolean isAccountOK = StringUtil.checkAccount(account);
 		if (!isAccountOK) {
-			Util.showToast(activity, "·Ç·¨ÕË»§");
+			Util.showToast(activity, "éæ³•è´¦æˆ·");
 			return;
 		}
 		Boolean isPwdOK = StringUtil.checkPwd(password);
 		if (!isPwdOK) {
-			Util.showToast(activity, "·Ç·¨ÃÜÂë");
+			Util.showToast(activity, "éæ³•å¯†ç ");
 			return;
 		}
 		NetworkInfo info = Util.getNetworkInfo(activity);
 		if (info == null || !info.isAvailable()) {
-			Util.showToast(activity, "ÎŞ¿ÉÓÃÍøÂç");
+			Util.showToast(activity, "æ— å¯ç”¨ç½‘ç»œ");
 			return;
 		}
-		//µ¯³öÕıÔÚµÇÂ½ÌáÊ¾¿ò
-		myAlertDialog = Util.showAlertDialog04(activity, "ÕıÔÚµÇÂ¼......");
+		//å¼¹å‡ºæ­£åœ¨ç™»é™†æç¤ºæ¡†
+		myAlertDialog = Util.showAlertDialog04(activity, "æ­£åœ¨ç™»å½•......");
 		myAlertDialog.getAlertDialog().setOnKeyListener(this);
-		//¹¹½¨²ÎÊı
+		//æ„å»ºå‚æ•°
 		List<KV> list = new ArrayList<KV>();
 		list.add(new KV("stuNumber", account));
 		list.add(new KV("password", password));
-		//·¢ÆğPOSTµÇÂ¼ÇëÇó
+		//å‘èµ·POSTç™»å½•è¯·æ±‚
 		HttpURLConnection connection = HttpUtil.getPostHttpUrlConnection(Data.URL_LOGIN);
 		connection.setConnectTimeout(6*1000);
 		connection.setReadTimeout(6*1000);
@@ -163,10 +163,10 @@ public class LoginActivity extends Activity implements OnKeyListener {
 		overridePendingTransition(R.anim.anim_in_trans, R.anim.anim_out_trans);
 	}
 	public void loginWeiXin(View view) {
-		Util.showToast(LoginActivity.this, "µã»÷Î¢ĞÅµÇÂ¼");
+		Util.showToast(LoginActivity.this, "ç‚¹å‡»å¾®ä¿¡ç™»å½•");
 	}
 	public void loginQQ(View view) {
-		Util.showToast(LoginActivity.this, "µã»÷QQµÇÂ¼");
+		Util.showToast(LoginActivity.this, "ç‚¹å‡»QQç™»å½•");
 	}
 	
 	@Override

@@ -24,7 +24,7 @@ public class ForgetPwdActivity extends Activity {
 	}
 	
 	private void initData() {
-		customTitle.setTitleText("忘记密码");
+		customTitle.setTitleText("蹇樿瀵嗙爜");
 		customTitle.setImageVisibility(View.VISIBLE);
 	}
 	private void initView() {
@@ -36,10 +36,10 @@ public class ForgetPwdActivity extends Activity {
 	
 	
 	public void check(View view) {
-		Util.showToast(ForgetPwdActivity.this, "发送验证码");
+		Util.showToast(ForgetPwdActivity.this, "鍙戦�侀獙璇佺爜");
 	}
 	public void registe(View view) {
-		Util.showToast(ForgetPwdActivity.this, "修改");
+		Util.showToast(ForgetPwdActivity.this, "淇敼");
 	}
 	
 	public static void actionStart(Context context) {

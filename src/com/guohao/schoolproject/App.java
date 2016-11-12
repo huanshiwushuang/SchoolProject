@@ -28,7 +28,7 @@ public class App extends Application {
 	}
 
 	public static void initImageLoader(Context context) {
-		//»º´æÍ¼Æ¬Ä¿Â¼
+		//ç¼“å­˜å›¾ç‰‡ç›®å½•
 		File cacheDir = StorageUtils.getOwnCacheDirectory(context, Data.PATH_PHOTO+"/cache");
 		DisplayImageOptions options = new DisplayImageOptions.Builder()
 				.showImageForEmptyUri(R.drawable.img341)
@@ -54,7 +54,7 @@ public class App extends Application {
 		config.diskCacheSize(50*1024*1024);
 		config.diskCache(new UnlimitedDiskCache(cacheDir));
 		config.tasksProcessingOrder(QueueProcessingType.LIFO);
-//		config.writeDebugLogs(); // Èç¹û APP ÉÏÊĞ£¬¾ÍÒÆ³ıËü£¬ÕâÊÇ´òÓ¡ÈÕÖ¾µÄ
+//		config.writeDebugLogs(); // å¦‚æœ APP ä¸Šå¸‚ï¼Œå°±ç§»é™¤å®ƒï¼Œè¿™æ˜¯æ‰“å°æ—¥å¿—çš„
 		config.defaultDisplayImageOptions(options);
 		// Initialize ImageLoader with configuration.
 		ImageLoader.getInstance().init(config.build());

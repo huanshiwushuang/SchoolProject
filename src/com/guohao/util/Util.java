@@ -6,10 +6,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import com.guohao.custom.MyAlertDialog;
+import com.guohao.java.MySqliteOpenHelper;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
@@ -45,10 +48,10 @@ public class Util {
     private static MyAlertDialog alertDialog;
     public static MyAlertDialog showAlertDialog01(Context context, String message, int flag) {
     	alertDialog = new MyAlertDialog(context, MyAlertDialog.Layout01);
-    	alertDialog.setTitle("提示信息");
+    	alertDialog.setTitle("鎻愮ず淇℃伅");
     	alertDialog.setMessage(message);
-    	alertDialog.setYesText("确定");
-    	alertDialog.setNoText("取消");
+    	alertDialog.setYesText("纭畾");
+    	alertDialog.setNoText("鍙栨秷");
     	alertDialog.setFlag(flag);
     	alertDialog.show();
     	return alertDialog;
@@ -78,13 +81,23 @@ public class Util {
 		}
 		return false;
 	}
-    
+    public static SQLiteDatabase getDatabase(Activity activity) {
+    	int version = 0;
+    	SQLiteDatabase db = null;
+		try {
+			version = activity.getPackageManager().getPackageInfo(activity.getPackageName(), 0).versionCode;
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+		}
+    	db = new MySqliteOpenHelper(activity, Data.SCHOOL_PROJECT_DB, null, version).getReadableDatabase();
+		return db;
+	}
     public static DisplayMetrics getDisplayMetrics(Activity activity) {
 		DisplayMetrics metrics = new DisplayMetrics();
 		activity.getWindow().getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		return metrics;
 	}
-    //获取网络信息 info
+    //鑾峰彇缃戠粶淇℃伅 info
   	public static NetworkInfo getNetworkInfo(Context c) {
   		ConnectivityManager connectivityManager = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
   		NetworkInfo info = connectivityManager.getActiveNetworkInfo();

@@ -34,7 +34,7 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 	
 	private int flag = 1;
 	private TextView mYes,mNo;
-	//---²¼¾Ö01---ÍË³öºÍ×¢ÏúµÄ²¼¾Ö---Ä¬ÈÏ
+	//---å¸ƒå±€01---é€€å‡ºå’Œæ³¨é”€çš„å¸ƒå±€---é»˜è®¤
 	public final static int Layout01 = 2;
 	private TextView mTitle,mMessage;
 	public final static int Exit = 3;
@@ -43,19 +43,19 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 	private List<Object[]> list;
 	private int clickPosition = -1;
 	private MeListviewBgAdapter adapter;
-	//---²¼¾Ö04---ÕıÔÚ¼ÓÔØ......
+	//---å¸ƒå±€04---æ­£åœ¨åŠ è½½......
 	public final static int Layout04 = 7;
 	private ImageView rotateImage;
 	private TextView loadingPrompt;
 	
-	//µ±Ç°²¼¾Ö
+	//å½“å‰å¸ƒå±€
 	private static int currentLayout = Layout01;
 	
-	//---¹¹Ôìº¯Êı---²¼¾Ö01¡¢²¼¾Ö04
+	//---æ„é€ å‡½æ•°---å¸ƒå±€01ã€å¸ƒå±€04
 	public MyAlertDialog(Context context, int layout) {
 		this(context,layout,null);
 	}
-	//---¹¹Ôìº¯Êı---²¼¾Ö02 ºÍ 03
+	//---æ„é€ å‡½æ•°---å¸ƒå±€02 å’Œ 03
 	public MyAlertDialog(Context context, int layout, List<Object[]> list) {
 		mContext = context;
 		currentLayout = layout;
@@ -109,25 +109,25 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 	}
 
 	
-	//---²¼¾Ö01---ÉèÖÃ----------------------------------------------------------------------
+	//---å¸ƒå±€01---è®¾ç½®----------------------------------------------------------------------
 	public void setTitle(String title) {
 		mTitle.setText(title);
 	}
 	public void setMessage(String message) {
 		mMessage.setText(message);
 	}
-	//---²¼¾Ö04---
+	//---å¸ƒå±€04---
 	public void setLoadingPrompt(String text) {
 		if (loadingPrompt != null) {
 			loadingPrompt.setText(text);
 		}
 	}
-	//---Ö¸Ã÷µ±Ç°µã»÷ È·¶¨°´Å¥µÄ×÷ÓÃ---ÔÚswitchÀïÃæ
+	//---æŒ‡æ˜å½“å‰ç‚¹å‡» ç¡®å®šæŒ‰é’®çš„ä½œç”¨---åœ¨switché‡Œé¢
 	public void setFlag(int flag) {
 		this.flag = flag;
 	}
 	
-	//---Í¨ÓÃ·½·¨-------------------------------------------------------------------------
+	//---é€šç”¨æ–¹æ³•-------------------------------------------------------------------------
 	public void setYesText(String text) {
 		mYes.setText(text);
 	}
@@ -180,7 +180,7 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 			case R.id.id_textview_yes:
 				switch (flag) {
 				case ReLogin:
-					//×¢Ïú£¬Çå³ıËùÓĞ¼üÖµ¶Ô
+					//æ³¨é”€ï¼Œæ¸…é™¤æ‰€æœ‰é”®å€¼å¯¹
 					Editor editor = Util.getPreference(mContext).edit();
 					editor.clear();
 					editor.commit();

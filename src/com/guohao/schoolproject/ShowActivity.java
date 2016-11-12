@@ -81,24 +81,24 @@ public class ShowActivity extends Activity {
 		}
 		Boolean isAccountOK = StringUtil.checkAccount(account);
 		if (!isAccountOK) {
-			Util.showToast(activity, "·Ç·¨ÕË»§");
+			Util.showToast(activity, "éæ³•è´¦æˆ·");
 			return;
 		}
 		Boolean isPwdOK = StringUtil.checkPwd(password);
 		if (!isPwdOK) {
-			Util.showToast(activity, "·Ç·¨ÃÜÂë");
+			Util.showToast(activity, "éæ³•å¯†ç ");
 			return;
 		}
 		info = Util.getNetworkInfo(activity);
 		if (info == null || !info.isAvailable()) {
-			Util.showToast(activity, "ÎŞ¿ÉÓÃÍøÂç");
+			Util.showToast(activity, "æ— å¯ç”¨ç½‘ç»œ");
 			return;
 		}
-		//¹¹½¨²ÎÊı
+		//æ„å»ºå‚æ•°
 		List<KV> list = new ArrayList<KV>();
 		list.add(new KV("stuNumber", account));
 		list.add(new KV("password", password));
-		//·¢ÆğPOSTµÇÂ¼ÇëÇó
+		//å‘èµ·POSTç™»å½•è¯·æ±‚
 		HttpURLConnection connection = HttpUtil.getPostHttpUrlConnection(Data.URL_LOGIN);
 		connection.setConnectTimeout(6*1000);
 		connection.setReadTimeout(6*1000);
@@ -137,7 +137,7 @@ public class ShowActivity extends Activity {
 			@Override
 			public void run() {
 				isTimeOK = true;
-				//ÕâÀïĞèÒªµÇÂ¼£¬Ìø×ª²»Í¬µÄ½çÃæ
+				//è¿™é‡Œéœ€è¦ç™»å½•ï¼Œè·³è½¬ä¸åŒçš„ç•Œé¢
 				if (account.equals("") || password.equals("")) {
 					jumpLogin();
 				}else if (info == null || !info.isAvailable()) {

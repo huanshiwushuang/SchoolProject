@@ -24,7 +24,7 @@ public class RegisteActivity extends Activity {
 	}
 
 	private void initData() {
-		customTitle.setTitleText("×¢²á");
+		customTitle.setTitleText("æ³¨å†Œ");
 		customTitle.setImageVisibility(View.VISIBLE);
 	}
 	private void initView() {
@@ -37,10 +37,10 @@ public class RegisteActivity extends Activity {
 	
 	
 	public void check(View view) {
-		Util.showToast(RegisteActivity.this, "·¢ËÍÑéÖ¤Âë");
+		Util.showToast(RegisteActivity.this, "å‘é€éªŒè¯ç ");
 	}
 	public void registe(View view) {
-		Util.showToast(RegisteActivity.this, "×¢²á");
+		Util.showToast(RegisteActivity.this, "æ³¨å†Œ");
 	}
 	
 	

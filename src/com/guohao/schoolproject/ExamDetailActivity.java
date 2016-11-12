@@ -54,22 +54,22 @@ public class ExamDetailActivity extends Activity {
 					String status = object.getString("status");
 					if (status.equals("1")) {
 						object = object.getJSONObject("items");
-						JSONObject chooseOne = object.getJSONObject("µ¥Ñ¡Ìâ");
-						JSONObject chooseMore = object.getJSONObject("¶àÑ¡Ìâ");
-						JSONObject judge = object.getJSONObject("ÅĞ¶ÏÌâ");
-						//ÌØ±ğÖØÒª---É¾³ıÊı¾İ¿â---Ö®Ç°´æÔÚµÄÊı¾İ---ÊÔ¾í¡¢ÊÔÌâ
-						//É¾³ıÖ®Ç°´æÔÚµÄÊÔÌâ£¬Ö®ºó²åÈëÕâ´ÎµÄÊÔÌâ¡£
+						JSONObject chooseOne = object.getJSONObject("å•é€‰é¢˜");
+						JSONObject chooseMore = object.getJSONObject("å¤šé€‰é¢˜");
+						JSONObject judge = object.getJSONObject("åˆ¤æ–­é¢˜");
+						//ç‰¹åˆ«é‡è¦---åˆ é™¤æ•°æ®åº“---ä¹‹å‰å­˜åœ¨çš„æ•°æ®---è¯•å·ã€è¯•é¢˜
+						//åˆ é™¤ä¹‹å‰å­˜åœ¨çš„è¯•é¢˜ï¼Œä¹‹åæ’å…¥è¿™æ¬¡çš„è¯•é¢˜ã€‚
 						db.delete(Data.EXAM_PAPER_TABLE_NAME, null, null);
 						
 						saveExamTiInSqlite(chooseOne, Data.CHOOSE_ONE_TI);
 						saveExamTiInSqlite(chooseMore, Data.CHOOSE_MORE_TI);
 						saveExamTiInSqlite(judge, Data.JUDGE_TI);
 						
-						//¸ù¾İÊı¾İ¿â´æ´¢ÊÇ·ñ³ö´í£¬¾ö¶¨ÊÇ·ñÌø×ª
+						//æ ¹æ®æ•°æ®åº“å­˜å‚¨æ˜¯å¦å‡ºé”™ï¼Œå†³å®šæ˜¯å¦è·³è½¬
 						if (getExamPaperOK) {
 							StartExamActivity.actionStart(mActivity);
 						}else {
-							Util.showToast(mActivity, "ÊÔÌâ½âÎö¡¢´æ´¢´íÎó£¡");
+							Util.showToast(mActivity, "è¯•é¢˜è§£æã€å­˜å‚¨é”™è¯¯ï¼");
 						}
 					}else {
 						Util.showToast(mActivity, object.getString("msg"));
@@ -141,17 +141,17 @@ public class ExamDetailActivity extends Activity {
 
 	private void initBaseData() {
 		customTitle.setImageVisibility(View.VISIBLE);
-		customTitle.setTitleText("¿¼ÊÔÏêÇé");
+		customTitle.setTitleText("è€ƒè¯•è¯¦æƒ…");
 		
 		examName.setText(p.getString(Data.EXAM_PAPER_name, ""));
 		examCourse.setText(p.getString(Data.EXAM_PAPER_course, ""));
 		examClass.setText(p.getString(Data.EXAM_PAPER_classNo, ""));
 		int tempInt = p.getInt(Data.EXAM_PAPER_examTime, -1);
-		examTime.setText(tempInt == -1 ? "" : tempInt+"·ÖÖÓ");
+		examTime.setText(tempInt == -1 ? "" : tempInt+"åˆ†é’Ÿ");
 		tempInt = p.getInt(Data.EXAM_PAPER_totalScore, -1);
-		totalGrade.setText(tempInt == -1 ? "" : tempInt+"·Ö");
+		totalGrade.setText(tempInt == -1 ? "" : tempInt+"åˆ†");
 		tempInt = p.getInt(Data.EXAM_PAPER_passScore, -1);
-		passGrade.setText(tempInt == -1 ? "" : tempInt+"·Ö");
+		passGrade.setText(tempInt == -1 ? "" : tempInt+"åˆ†");
 		
 		long tempLong = p.getLong(Data.EXAM_PAPER_beginTime, -1);
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",new Locale("zh", "CN"));
@@ -185,9 +185,9 @@ public class ExamDetailActivity extends Activity {
 	}
 	
 	public void startExam(View view) {
-		//ÕâÀïµã»÷---¿ªÊ¼¿¼ÊÔ---»ñÈ¡ÊÔ¾íid¶ÔÓ¦µÄÊÔÌâ---´æ´¢µ½Êı¾İ¿â----Ê¹ÓÃÊ±£¬ÔÙ¶ÁÈ¡³öÀ´
-		//»ñÈ¡ÊÔÌâ³É¹¦£¬²¢´æ´¢³É¹¦²ÅÌø×ªµ½´ğÌâ½çÃæ¡£
-		//´´½¨---Êı¾İ¿â
+		//è¿™é‡Œç‚¹å‡»---å¼€å§‹è€ƒè¯•---è·å–è¯•å·idå¯¹åº”çš„è¯•é¢˜---å­˜å‚¨åˆ°æ•°æ®åº“----ä½¿ç”¨æ—¶ï¼Œå†è¯»å–å‡ºæ¥
+		//è·å–è¯•é¢˜æˆåŠŸï¼Œå¹¶å­˜å‚¨æˆåŠŸæ‰è·³è½¬åˆ°ç­”é¢˜ç•Œé¢ã€‚
+		//åˆ›å»º---æ•°æ®åº“
 		PackageManager manager = getPackageManager();
 		PackageInfo info = null;
 		try {
@@ -197,9 +197,9 @@ public class ExamDetailActivity extends Activity {
 		}
 		MySqliteOpenHelper helper = new MySqliteOpenHelper(mActivity, Data.SCHOOL_PROJECT_DB, null, info.versionCode);
 		db = helper.getReadableDatabase();
-		//ÇëÇóÊı¾İ
+		//è¯·æ±‚æ•°æ®
 		if (db != null) {
-			Util.showAlertDialog04(mActivity, "ÕıÔÚÇëÇóÊÔÌâ......");
+			Util.showAlertDialog04(mActivity, "æ­£åœ¨è¯·æ±‚è¯•é¢˜......");
 			List<KV> list = new ArrayList<KV>();
 			list.add(new KV("token", p.getString(Data.TOKEN, "")));
 			list.add(new KV("examId", p.getInt(Data.EXAM_PAPER_id, -1)+""));
@@ -221,7 +221,7 @@ public class ExamDetailActivity extends Activity {
 				}
 			});
 		}else {
-			Util.showToast(mActivity, "SchoolExam.db Êı¾İ¿â´´½¨Ê§°Ü");
+			Util.showToast(mActivity, "SchoolExam.db æ•°æ®åº“åˆ›å»ºå¤±è´¥");
 		}
 	}
 	@Override

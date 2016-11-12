@@ -47,15 +47,15 @@ public class ChapterListActivity extends Activity implements OnClickListener,OnI
 		listview.setAdapter(adapter);
 	}
 	private void initNetworkData() {
-		String testString = "Êé¼®´óÈ«²âÊÔ";
+		String testString = "ä¹¦ç±å¤§å…¨æµ‹è¯•";
 		for (int i = 0; i < 15; i++) {
 			list.add(new Object[]{imageId,testString});
 		}
 	}
 	private void initBaseData() {
 		customTitle.setImageVisibility(View.VISIBLE);
-		customTitle.setTitleText("ÕÂ½ÚÁĞ±í");
-		customTitle.setTitleOtherText("×Ô²â");
+		customTitle.setTitleText("ç« èŠ‚åˆ—è¡¨");
+		customTitle.setTitleOtherText("è‡ªæµ‹");
 	}
 	private void initView() {
 		mActivity = ChapterListActivity.this;
@@ -75,10 +75,10 @@ public class ChapterListActivity extends Activity implements OnClickListener,OnI
 
 	@Override
 	public void onClick(View v) {
-		Util.showToast(mActivity, "×Ô²â");
+		Util.showToast(mActivity, "è‡ªæµ‹");
 	}
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		Util.showToast(mActivity, "Ñ¡ÔñÁËµÚ£º"+position+"¸ö");
+		Util.showToast(mActivity, "é€‰æ‹©äº†ç¬¬ï¼š"+position+"ä¸ª");
 	}
 }

@@ -84,7 +84,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener,On
 		});
 	}
 	private void initData() {
-		customTitle.setTitleText("´ğÌâ");
+		customTitle.setTitleText("ç­”é¢˜");
 	}
 	private void initView() {
 		layouts = new ArrayList<LinearLayout>();
@@ -113,21 +113,21 @@ public class MainActivity extends FragmentActivity implements OnClickListener,On
 		context.startActivity(intent);
 	}
 	
-	//---ÊÂ¼ş---
+	//---äº‹ä»¶---
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.id_linearlayout_tab01:
 			myViewPager.setCurrentItem(0, false);
-			customTitle.setTitleText("´ğÌâ");
+			customTitle.setTitleText("ç­”é¢˜");
 			break;
 		case R.id.id_linearlayout_tab02:
 			myViewPager.setCurrentItem(1, false);
-			customTitle.setTitleText("¸öÈËÖĞĞÄ");
+			customTitle.setTitleText("ä¸ªäººä¸­å¿ƒ");
 			break;
 		case R.id.id_linearlayout_tab03:
 			myViewPager.setCurrentItem(2, false);
-			customTitle.setTitleText("ÉèÖÃ");
+			customTitle.setTitleText("è®¾ç½®");
 			break;
 		}
 	}
@@ -155,7 +155,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener,On
 		text.setTextColor(Color.parseColor("#30BAE9"));
 		
 	}
-	//---µã»÷ÊÂ¼ş---ËéÆ¬01---Ğ´ÔÚ xml ÎÄ¼şÀï
+	//---ç‚¹å‡»äº‹ä»¶---ç¢ç‰‡01---å†™åœ¨ xml æ–‡ä»¶é‡Œ
 	public void clickExamTest(View view) {
 		AnswerShowActivity.actionStart(activity, AnswerShowActivity.Exam_Test);
 	}
@@ -171,7 +171,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener,On
 	public void onBackPressed() {
 		long thisTime = System.currentTimeMillis();
 		if ((thisTime -lastTime) > 2*1000 || lastTime == 0) {
-			Util.showToast(activity, "ÔÙ´Îµã»÷ÍË³ö");
+			Util.showToast(activity, "å†æ¬¡ç‚¹å‡»é€€å‡º");
 		}else {
 			finish();
 		}

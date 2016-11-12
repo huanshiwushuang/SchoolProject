@@ -1,14 +1,11 @@
 package com.guohao.schoolproject;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import com.guohao.custom.Title;
 import com.guohao.entity.ExamTi;
 import com.guohao.fragment.ChooseMoreTiFragment;
 import com.guohao.fragment.ChooseOneTiFragment;
 import com.guohao.fragment.JudgeTiFragment;
-import com.guohao.java.MySqliteOpenHelper;
 import com.guohao.util.Data;
 import com.guohao.util.Util;
 
@@ -28,7 +25,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -36,9 +32,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
@@ -51,8 +45,6 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	private TextView timeTitle;
 	private TextView submit;
 	
-	private TextView ti;
-	private ListView listView;
 	private View alertCeng;
 	private LinearLayout chooseTi;
 	private TextView serialNumber;
@@ -60,7 +52,6 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	private ChooseOneTiFragment oneTiFragment;
 	private ChooseMoreTiFragment moreTiFragment;
 	private JudgeTiFragment judgeTiFragment;
-	private int currentPage = 1;
 	
 	private Runnable r;
 	private PopupWindow popupWindow;
@@ -69,7 +60,7 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	
 	private View windowView;
 	private TextView tiIndex;
-	//¼üÖµ¶Ô£¬¼ü£ºµÚ¼¸¸öFragment£»Öµ£ºÊÔÌâÖ÷¼üid¡£
+	//é”®å€¼å¯¹ï¼Œé”®ï¼šç¬¬å‡ ä¸ªFragmentï¼›å€¼ï¼šè¯•é¢˜ä¸»é”®idã€‚
 	private SparseIntArray tiArray;
 	private int index = 0;
 	
@@ -100,7 +91,6 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 				ExamTi examTi = getExamTi(dataId);
 				if (examTi != null) {
 					String[] answers = examTi.getSelectAnswers().split("\\|");
-					
 					switch (examTi.getExamTiType()) {
 					case Data.CHOOSE_ONE_TI:
 						oneTiFragment = new ChooseOneTiFragment();
@@ -123,7 +113,7 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 					}
 					
 				}else {
-					Util.showToast(mActivity, "¸ÃÌâ²»´æÔÚ£¡");
+					Util.showToast(mActivity, "è¯¥é¢˜ä¸å­˜åœ¨ï¼");
 				}
 				return null;
 			}
@@ -149,34 +139,34 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	}
 
 	private void initLocalData() {
-		//²éÑ¯ÊÔÌâµÄ---Ö÷¼üid£¬´æ´¢µ½ HashMap ÖĞ¡£
+		//æŸ¥è¯¢è¯•é¢˜çš„---ä¸»é”®idï¼Œå­˜å‚¨åˆ° HashMap ä¸­ã€‚
 		queryDataId(tiArray,Data.CHOOSE_ONE_TI);
 		queryDataId(tiArray,Data.CHOOSE_MORE_TI);
 		queryDataId(tiArray,Data.JUDGE_TI);
 		
-		//ÉèÖÃµÚ¼¸Ìâ ºÍ ¹²¼¸Ìâ
+		//è®¾ç½®ç¬¬å‡ é¢˜ å’Œ å…±å‡ é¢˜
 		serialNumber.setText("1/"+tiArray.size());
 		tiIndex.setText("1/"+tiArray.size());
 		
 		customTitle.setImageVisibility(View.VISIBLE);
-		submit.setText("½»¾í");
+		submit.setText("äº¤å·");
 		startTime = p.getLong(Data.EXAM_PAPER_beginTime, -1);
 		endTime = p.getLong(Data.EXAM_PAPER_endTime, -1);
-		//·ÖÖÓ×ª»»³ÉºÁÃë
+		//åˆ†é’Ÿè½¬æ¢æˆæ¯«ç§’
 		examTime = p.getInt(Data.EXAM_PAPER_examTime, -1)*60*1000;
 		if (startTime != -1 && endTime != -1 && examTime != -1) {
-			//¿ªÊ¼´ğÌâºÁÃëÊ±¼ä+ÔÊĞí´ğÌâµÄºÁÃëÊ±¼ä
+			//å¼€å§‹ç­”é¢˜æ¯«ç§’æ—¶é—´+å…è®¸ç­”é¢˜çš„æ¯«ç§’æ—¶é—´
 			long currentTime = System.currentTimeMillis();
 			long temp = currentTime+examTime;
-			//±È½ÏÔÊĞí´ğÌâÊ±¼äµÄ½áÊøÊ±¼ä-ºÍ-ÏµÍ³½áÊø´ğÌâÊ±¼ä£¬È¡×îĞ¡ÖµÎªÖÕÖ¹Ê±¼ä
+			//æ¯”è¾ƒå…è®¸ç­”é¢˜æ—¶é—´çš„ç»“æŸæ—¶é—´-å’Œ-ç³»ç»Ÿç»“æŸç­”é¢˜æ—¶é—´ï¼Œå–æœ€å°å€¼ä¸ºç»ˆæ­¢æ—¶é—´
 			temp = Math.min(endTime, temp);
-			//¼ÆËãµÃµ½Ê£ÓàµÄ¿É´ğÌâµÄÊ±¼ä---ºÁÃëÊı
+			//è®¡ç®—å¾—åˆ°å‰©ä½™çš„å¯ç­”é¢˜çš„æ—¶é—´---æ¯«ç§’æ•°
 			temp -= currentTime;
-			//¼ÆËãµÃµ½Ê£ÓàµÄ¿É´ğÌâµÄÊ±¼ä---ÃëÊı
+			//è®¡ç®—å¾—åˆ°å‰©ä½™çš„å¯ç­”é¢˜çš„æ—¶é—´---ç§’æ•°
 			nextTime = temp/1000;
 			handler.post(r);
 		}else {
-			Util.showToast(mActivity, "ÊÔ¾í¿É´ğÌâÊ±¼ä»ñÈ¡Ê§°Ü£¡");
+			Util.showToast(mActivity, "è¯•å·å¯ç­”é¢˜æ—¶é—´è·å–å¤±è´¥ï¼");
 			finish();
 		}
 	}
@@ -208,7 +198,7 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
 		}
-		db = new MySqliteOpenHelper(mActivity, Data.SCHOOL_PROJECT_DB, null, version).getReadableDatabase();
+		db = Util.getDatabase(mActivity);
 		
 		customTitle = (Title) findViewById(R.id.id_custom_title);
 		timeTitle = customTitle.getTitle();
@@ -219,9 +209,6 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 		chooseTi = (LinearLayout) findViewById(R.id.id_linearlayout_choose_ti);
 		chooseTi.setOnClickListener(this);
 		
-		ti = (TextView) findViewById(R.id.id_textview_ti);
-		listView = (ListView) findViewById(R.id.id_listview);
-		
 		handler = new Handler();
 		r = new Runnable() {
 			@Override
@@ -229,7 +216,7 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 				if (nextTime > 0) {
 					long second = --nextTime;
 					if (second <= 5*60 && onlyOnce) {
-						Util.showToast(mActivity, "Ê£ÓàÊ±¼ä²»¶àÀ²£¡");
+						Util.showToast(mActivity, "å‰©ä½™æ—¶é—´ä¸å¤šå•¦ï¼");
 						onlyOnce = false;
 					}
 					String hours = second/60/60+"";
@@ -238,11 +225,11 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 					hours = (hours.length() < 2 ? "0"+hours : hours );
 					minutes = (minutes.length() < 2 ? "0"+minutes : minutes );
 					seconds = (seconds.length() < 2 ? "0"+seconds : seconds );
-					timeTitle.setText("µ¹¼ÆÊ± "+hours+":"+minutes+":"+seconds);
+					timeTitle.setText("å€’è®¡æ—¶ "+hours+":"+minutes+":"+seconds);
 					if (nextTime > 0) {
 						handler.postDelayed(this, 1*1000);
 					}else {
-						Util.showToast(mActivity, "Ê±¼ä½áÊø£¡");
+						Util.showToast(mActivity, "æ—¶é—´ç»“æŸï¼");
 					}
 				}
 			}
@@ -253,31 +240,31 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.id_textview_title_other:
-			Util.showToast(mActivity, "½»¾í");
+			Util.showToast(mActivity, "äº¤å·");
 			break;
 		case R.id.id_linearlayout_choose_ti:
-			//µ¯³ö²ã
+			//å¼¹å‡ºå±‚
 			alertCeng.setVisibility(View.VISIBLE);
 			
 			
-			//µã»÷ popupÍâÃæ£¬dismiss¡£
+			//ç‚¹å‡» popupå¤–é¢ï¼Œdismissã€‚
 			View dismissView = windowView.findViewById(R.id.id_view_dismiss);
 			dismissView.setOnClickListener(this);
 			
 			popupWindow = new PopupWindow(windowView, 
 					WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-			// ÉèÖÃpopWindowµ¯³ö´°Ìå¿Éµã»÷£¬Õâ¾ä»°±ØĞëÌí¼Ó£¬²¢ÇÒÊÇtrue
+			// è®¾ç½®popWindowå¼¹å‡ºçª—ä½“å¯ç‚¹å‡»ï¼Œè¿™å¥è¯å¿…é¡»æ·»åŠ ï¼Œå¹¶ä¸”æ˜¯true
 			popupWindow.setFocusable(true);
 			
-			// ÊµÀı»¯Ò»¸öColorDrawableÑÕÉ«Îª°ëÍ¸Ã÷ ---±ØÒªµÄ£¬µ±±³¾°²»Îª¿ÕµÄÊ±ºò£¬²ÅÄÜ¹»·µ»Ø¼ü dismiss
+			// å®ä¾‹åŒ–ä¸€ä¸ªColorDrawableé¢œè‰²ä¸ºåŠé€æ˜ ---å¿…è¦çš„ï¼Œå½“èƒŒæ™¯ä¸ä¸ºç©ºçš„æ—¶å€™ï¼Œæ‰èƒ½å¤Ÿè¿”å›é”® dismiss
 			ColorDrawable dw = new ColorDrawable(0x00000000);
 			popupWindow.setBackgroundDrawable(dw);
 			
-			// ÉèÖÃpopWindowµÄÏÔÊ¾ºÍÏûÊ§¶¯»­
+			// è®¾ç½®popWindowçš„æ˜¾ç¤ºå’Œæ¶ˆå¤±åŠ¨ç”»
 			popupWindow.setAnimationStyle(R.style.StyleSelectPhoto);
-			//ÉèÖÃdismiss¼àÌıÊÂ¼ş
+			//è®¾ç½®dismissç›‘å¬äº‹ä»¶
 			popupWindow.setOnDismissListener(this);
-			// ÔÚµ×²¿ÏÔÊ¾
+			// åœ¨åº•éƒ¨æ˜¾ç¤º
 			popupWindow.showAtLocation(v, Gravity.BOTTOM, 0, 0);
 			break;
 		case R.id.id_view_dismiss:
@@ -313,9 +300,11 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	}
 	@Override
 	public void onPageSelected(int index) {
-		currentPage = index;
-		//ÉèÖÃµÚ¼¸Ìâ ºÍ ¹²¼¸Ìâ
+		//è®¾ç½®ç¬¬å‡ é¢˜ å’Œ å…±å‡ é¢˜
 		serialNumber.setText((index+1)+"/"+tiArray.size());
 		tiIndex.setText((index+1)+"/"+tiArray.size());
+	}
+	public int getDataId(int key) {
+		return tiArray.get(key);
 	}
 }

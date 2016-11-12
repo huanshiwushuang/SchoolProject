@@ -68,7 +68,7 @@ public class HttpUtil {
 			@Override
 			public void run() {
 				if (connection.getRequestMethod().equals(POST)) {
-					//Æ´½Ó×Ö·û´®²ÎÊı
+					//æ‹¼æ¥å­—ç¬¦ä¸²å‚æ•°
 					String params = "";
 					for (int i = 0; i < list.size(); i++) {
 						KV kv = list.get(i);
