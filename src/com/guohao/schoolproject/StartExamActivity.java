@@ -1,20 +1,22 @@
 package com.guohao.schoolproject;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.guohao.custom.Title;
 import com.guohao.entity.ExamTi;
 import com.guohao.fragment.ChooseMoreTiFragment;
 import com.guohao.fragment.ChooseOneTiFragment;
 import com.guohao.fragment.JudgeTiFragment;
 import com.guohao.util.Data;
+import com.guohao.util.StringUtil;
 import com.guohao.util.Util;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
@@ -25,12 +27,14 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.DisplayMetrics;
 import android.util.SparseIntArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -66,6 +70,10 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	
 	private long startTime,endTime,examTime,nextTime;
 	private Boolean onlyOnce = true;
+	//final值
+	private final String TAG_CHOOSE_TI = "tag_choose_ti";
+	//存储TextView的，popuwindow里面的。
+	private List<TextView> textViews;
 	
 	private Handler handler;
 	
@@ -148,6 +156,40 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 		serialNumber.setText("1/"+tiArray.size());
 		tiIndex.setText("1/"+tiArray.size());
 		
+		//popuwindow，选择试题
+		LinearLayout layout = (LinearLayout) windowView.findViewById(R.id.id_linearlayout_select_ti);
+		DisplayMetrics metrics = Util.getDisplayMetrics(mActivity);
+		int width = metrics.widthPixels;
+		int cols = 7;
+		int rows = (int) Math.ceil((double)tiArray.size()/(double)cols);
+		int imagesize = width/cols;
+		int count = 1;
+		int lastRow = -1;
+		if (tiArray.size() <= cols) {
+			cols = tiArray.size();
+		}else {
+			lastRow = tiArray.size()%cols;
+		}
+		for (int i = 0; i < rows; i++) {
+			LinearLayout layout2 = new LinearLayout(mActivity);
+			if (i == rows-1 && lastRow != -1) {
+				cols = lastRow;
+			}
+			for (int j = 0; j < cols; j++) {
+				TextView t = new TextView(mActivity);
+				t.setLayoutParams(new LayoutParams(imagesize, imagesize));
+				t.setText(""+count++);
+				t.setGravity(Gravity.CENTER);
+				t.setTag(TAG_CHOOSE_TI);
+				t.setOnClickListener(this);
+				t.setBackgroundResource(R.drawable.img349);
+				textViews.add(t);
+				layout2.addView(t);
+			}
+			layout.addView(layout2);
+		}
+		
+		
 		customTitle.setImageVisibility(View.VISIBLE);
 		submit.setText("交卷");
 		startTime = p.getLong(Data.EXAM_PAPER_beginTime, -1);
@@ -188,17 +230,13 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 		mViewPager.setOffscreenPageLimit(2);
 		mViewPager.addOnPageChangeListener(this);
 		
+		//选择试题的弹出窗
 		windowView = LayoutInflater.from(mActivity).inflate(R.layout.custom_select_ti, new FrameLayout(mActivity));
 		tiIndex = (TextView) windowView.findViewById(R.id.id_textview_ti_index);
 		
-		PackageManager manager = getPackageManager();
-		int version = -1;
-		try {
-			version = manager.getPackageInfo(getPackageName(), 0).versionCode;
-		} catch (NameNotFoundException e) {
-			e.printStackTrace();
-		}
+		
 		db = Util.getDatabase(mActivity);
+		textViews = new ArrayList<TextView>();
 		
 		customTitle = (Title) findViewById(R.id.id_custom_title);
 		timeTitle = customTitle.getTitle();
@@ -238,15 +276,32 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	
 	@Override
 	public void onClick(View v) {
+		if (v.getTag() != null && v.getTag() instanceof String) {
+			String tag = (String) v.getTag();
+			if (tag.equals(TAG_CHOOSE_TI)) {
+				mViewPager.setCurrentItem(Integer.valueOf(((TextView)v).getText().toString())-1);
+			}
+		}
 		switch (v.getId()) {
 		case R.id.id_textview_title_other:
 			Util.showToast(mActivity, "交卷");
 			break;
 		case R.id.id_linearlayout_choose_ti:
+			//这里---已答题，改变背景颜色---------------------------------------------
+			for (int i = 0; i < tiArray.size(); i++) {
+				Cursor cursor = db.query(Data.EXAM_PAPER_TABLE_NAME, new String[]{"chooseAnswer"}, "dataId=?", new String[]{tiArray.get(i)+""}, null, null, null);
+				while (cursor.moveToNext()) {
+					String chooseAnswer = cursor.getString(cursor.getColumnIndex("chooseAnswer"));
+					if (StringUtil.isEmpty(chooseAnswer)) {
+						textViews.get(i).setBackgroundResource(R.drawable.img349);
+					}else {
+						textViews.get(i).setBackgroundResource(R.drawable.img348);
+					}
+				}
+			}
+			
 			//弹出层
 			alertCeng.setVisibility(View.VISIBLE);
-			
-			
 			//点击 popup外面，dismiss。
 			View dismissView = windowView.findViewById(R.id.id_view_dismiss);
 			dismissView.setOnClickListener(this);

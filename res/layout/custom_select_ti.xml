@@ -19,7 +19,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -43,7 +44,12 @@
                     android:text="0/0"
                     android:textColor="#999" />
             </RelativeLayout>
+            <LinearLayout 
+                android:id="@+id/id_linearlayout_select_ti"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>
