@@ -23,6 +23,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -67,6 +68,11 @@ public class ExamDetailActivity extends Activity {
 						
 						//根据数据库存储是否出错，决定是否跳转
 						if (getExamPaperOK) {
+							//记录下---开始考试的时间---
+							Editor editor = Util.getPreference(mActivity).edit();
+							editor.putLong(Data.EXAM_PAPER_START_TIME, System.currentTimeMillis());
+							editor.commit();
+							
 							StartExamActivity.actionStart(mActivity);
 						}else {
 							Util.showToast(mActivity, "试题解析、存储错误！");

@@ -1,15 +1,22 @@
 package com.guohao.schoolproject;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
+import com.guohao.Interface.HttpCallBack;
 import com.guohao.custom.Title;
 import com.guohao.entity.ExamTi;
+import com.guohao.entity.KV;
 import com.guohao.fragment.ChooseMoreTiFragment;
 import com.guohao.fragment.ChooseOneTiFragment;
 import com.guohao.fragment.JudgeTiFragment;
 import com.guohao.util.Data;
+import com.guohao.util.HttpUtil;
 import com.guohao.util.StringUtil;
 import com.guohao.util.Util;
 
@@ -28,6 +35,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -142,7 +150,9 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 			chooseAnswer = cursor.getString(cursor.getColumnIndex("chooseAnswer"));
 			examTi = new ExamTi(examTiType, content, selectAnswers,chooseAnswer);
 		}
-		cursor.close();
+		if (cursor != null) {
+			cursor.close();
+		}
 		return examTi;
 	}
 
@@ -218,7 +228,9 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 		while (cursor.moveToNext()) {
 			intArray.append(index++, cursor.getInt(cursor.getColumnIndex("dataId")));
 		}
-		cursor.close();
+		if (cursor != null) {
+			cursor.close();
+		}
 	}
 
 	private void initView() {
@@ -267,13 +279,80 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 					if (nextTime > 0) {
 						handler.postDelayed(this, 1*1000);
 					}else {
-						Util.showToast(mActivity, "时间结束！");
+						//提交试卷，计算分数。
+						submitExamPaper();
 					}
 				}
 			}
 		};
 	}
 	
+	protected void submitExamPaper() {
+		Util.showAlertDialog04(mActivity, "正在提交试卷......");
+		Cursor cursor = null;
+		//最后的答题总成绩
+		int score = 0;
+		for (int i = 0; i < tiArray.size(); i++) {
+			int dataId = tiArray.get(i);
+			cursor = db.query(Data.EXAM_PAPER_TABLE_NAME, new String[]{"itemScore","strandAnswer","chooseAnswer"}, "dataId=?", new String[]{dataId+""}, null, null, null);
+			while (cursor.moveToNext()) {
+				int itemScore = cursor.getInt(cursor.getColumnIndex("itemScore"));
+				String strandAnswer = cursor.getString(cursor.getColumnIndex("strandAnswer"));
+				String chooseAnswer = cursor.getString(cursor.getColumnIndex("chooseAnswer"));
+				if (chooseAnswer != null && strandAnswer != null) {
+					if (chooseAnswer.equals(strandAnswer)) {
+						score += itemScore;
+					}
+				}
+			}
+		}
+		if (cursor != null) {
+			cursor.close();
+		}
+		String token = p.getString(Data.TOKEN, "");
+		int examId = p.getInt(Data.EXAM_PAPER_id, -1);
+		int passScore = p.getInt(Data.EXAM_PAPER_passScore, -1);
+		int isPass = (score >= passScore && passScore != -1) ? 1 : 0;
+		long beginTime = Util.getPreference(mActivity).getLong(Data.EXAM_PAPER_START_TIME, -1);
+		long endTime = System.currentTimeMillis();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
+		String startDateTime = format.format(new Date(beginTime));
+		String endDateTime = format.format(new Date(endTime));
+		String useTime = ((endTime-beginTime)/1000)/60+"分"+((endTime-beginTime)/1000)%60+"秒";
+		
+		List<KV> list = new ArrayList<KV>();
+		list.add(new KV("token", token));
+		list.add(new KV("examId", examId+""));
+		list.add(new KV("score", score+""));
+		list.add(new KV("isPass", isPass+""));
+		list.add(new KV("beginTime", startDateTime));
+		list.add(new KV("endTime", endDateTime));
+		list.add(new KV("examTime", useTime));
+		
+		Log.d("guohao", "token："+token);
+		Log.d("guohao", "examId："+examId);
+		Log.d("guohao", "score："+score);
+		Log.d("guohao", "isPass："+isPass);
+		Log.d("guohao", "beginTime："+startDateTime);
+		Log.d("guohao", "endTime："+endDateTime);
+		Log.d("guohao", "examTime："+useTime);
+		
+		HttpUtil.requestData(HttpUtil.getPostHttpUrlConnection(Data.URL_POST_EXAM_PAPER_GRADE), list, new HttpCallBack() {
+			@Override
+			public void onFinish(Object object) {
+				Log.d("guohao", "成功："+object.toString());
+				Util.dismiss();
+			}
+			
+			@Override
+			public void onError(Object object) {
+				Log.d("guohao", "失败："+object.toString());
+				Util.dismiss();
+			}
+		});
+		
+	}
+
 	@Override
 	public void onClick(View v) {
 		if (v.getTag() != null && v.getTag() instanceof String) {
@@ -284,12 +363,14 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 		}
 		switch (v.getId()) {
 		case R.id.id_textview_title_other:
-			Util.showToast(mActivity, "交卷");
+			//提交试卷，计算分数。
+			submitExamPaper();
 			break;
 		case R.id.id_linearlayout_choose_ti:
 			//这里---已答题，改变背景颜色---------------------------------------------
+			Cursor cursor = null;
 			for (int i = 0; i < tiArray.size(); i++) {
-				Cursor cursor = db.query(Data.EXAM_PAPER_TABLE_NAME, new String[]{"chooseAnswer"}, "dataId=?", new String[]{tiArray.get(i)+""}, null, null, null);
+				cursor = db.query(Data.EXAM_PAPER_TABLE_NAME, new String[]{"chooseAnswer"}, "dataId=?", new String[]{tiArray.get(i)+""}, null, null, null);
 				while (cursor.moveToNext()) {
 					String chooseAnswer = cursor.getString(cursor.getColumnIndex("chooseAnswer"));
 					if (StringUtil.isEmpty(chooseAnswer)) {
@@ -298,6 +379,9 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 						textViews.get(i).setBackgroundResource(R.drawable.img348);
 					}
 				}
+			}
+			if (cursor != null) {
+				cursor.close();
 			}
 			
 			//弹出层

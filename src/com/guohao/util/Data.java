@@ -21,6 +21,8 @@ public class Data {
 	public static final String URL_GET_EXAM_PAPER = IP+PROJECT_NAME+"/api/exams/getExams";
 	//获取试题地址
 	public static final String URL_GET_EXAM_TI = IP+PROJECT_NAME+"/api/items/getItems";
+	//提交考试成绩地址
+	public static final String URL_POST_EXAM_PAPER_GRADE = IP+PROJECT_NAME+"/api/records/commitRecord";
 	
 	//根路径
 	public static final String PATH_APP_ROOT = Environment.getExternalStorageDirectory()+"/SchoolExam";
@@ -64,6 +66,12 @@ public class Data {
 	public static final String ID = "id";
 	//令牌
 	public static final String TOKEN = "token";
+	
+	
+	//开始答题的时间
+	public static final String EXAM_PAPER_START_TIME = "exam_paper_start_time";
+	//结束答题时间
+	public static final String EXAM_PAPER_END_TIME = "exam_paper_end_time";
 	
 	//考试试卷---点击的哪一套试卷，将该套试卷的属性保存下来---------------------------------------------------------
 	public static final String EXAM_PAPER_isDelete = "exam_paper_isdelete";
