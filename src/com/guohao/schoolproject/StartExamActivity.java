@@ -8,6 +8,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.guohao.Interface.HttpCallBack;
 import com.guohao.custom.Title;
 import com.guohao.entity.ExamTi;
@@ -29,6 +32,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -75,6 +79,14 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	//键值对，键：第几个Fragment；值：试题主键id。
 	private SparseIntArray tiArray;
 	private int index = 0;
+	//当前页码
+	private int currentPage = 0;
+	//答题最后总成绩
+	private int score;
+	//答题用时
+	private String useTime;
+	//答题合格与否
+	private int isPass;
 	
 	private long startTime,endTime,examTime,nextTime;
 	private Boolean onlyOnce = true;
@@ -84,6 +96,34 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	private List<TextView> textViews;
 	
 	private Handler handler;
+	private Handler handler2 = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			String msgString = msg.obj.toString();;
+			switch (msg.what) {
+			case HttpCallBack.CALL_BACK_OK:
+				Util.dismiss();
+				try {
+					JSONObject object = new JSONObject(msgString);
+					String status = object.getString("status");
+					Util.showToast(mActivity, object.getString("msg"));
+					if (status.equals("1")) {
+						//提交成功之后，将试卷删除，避免第二次作答
+						db.delete(Data.EXAM_PAPER_TABLE_NAME, null, null);
+						ExamGrade.actionStart(mActivity, isPass, score, useTime);
+						finish();
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				break;
+			case HttpCallBack.CALL_BACK_FAIL:
+				Util.dismiss();
+				Util.showToast(mActivity, msgString);
+				break;
+			}
+			
+		}
+	};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +167,6 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 						
 						return judgeTiFragment;
 					}
-					
 				}else {
 					Util.showToast(mActivity, "该题不存在！");
 				}
@@ -291,7 +330,7 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 		Util.showAlertDialog04(mActivity, "正在提交试卷......");
 		Cursor cursor = null;
 		//最后的答题总成绩
-		int score = 0;
+		score = 0;
 		for (int i = 0; i < tiArray.size(); i++) {
 			int dataId = tiArray.get(i);
 			cursor = db.query(Data.EXAM_PAPER_TABLE_NAME, new String[]{"itemScore","strandAnswer","chooseAnswer"}, "dataId=?", new String[]{dataId+""}, null, null, null);
@@ -312,13 +351,13 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 		String token = p.getString(Data.TOKEN, "");
 		int examId = p.getInt(Data.EXAM_PAPER_id, -1);
 		int passScore = p.getInt(Data.EXAM_PAPER_passScore, -1);
-		int isPass = (score >= passScore && passScore != -1) ? 1 : 0;
+		isPass = (score >= passScore && passScore != -1) ? 1 : 0;
 		long beginTime = Util.getPreference(mActivity).getLong(Data.EXAM_PAPER_START_TIME, -1);
 		long endTime = System.currentTimeMillis();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
+		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss",Locale.getDefault());
 		String startDateTime = format.format(new Date(beginTime));
 		String endDateTime = format.format(new Date(endTime));
-		String useTime = ((endTime-beginTime)/1000)/60+"分"+((endTime-beginTime)/1000)%60+"秒";
+		useTime = ((endTime-beginTime)/1000)/60+"分"+((endTime-beginTime)/1000)%60+"秒";
 		
 		List<KV> list = new ArrayList<KV>();
 		list.add(new KV("token", token));
@@ -329,25 +368,21 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 		list.add(new KV("endTime", endDateTime));
 		list.add(new KV("examTime", useTime));
 		
-		Log.d("guohao", "token："+token);
-		Log.d("guohao", "examId："+examId);
-		Log.d("guohao", "score："+score);
-		Log.d("guohao", "isPass："+isPass);
-		Log.d("guohao", "beginTime："+startDateTime);
-		Log.d("guohao", "endTime："+endDateTime);
-		Log.d("guohao", "examTime："+useTime);
-		
 		HttpUtil.requestData(HttpUtil.getPostHttpUrlConnection(Data.URL_POST_EXAM_PAPER_GRADE), list, new HttpCallBack() {
 			@Override
 			public void onFinish(Object object) {
-				Log.d("guohao", "成功："+object.toString());
-				Util.dismiss();
+				Message msg = handler2.obtainMessage();
+				msg.what = HttpCallBack.CALL_BACK_OK;
+				msg.obj = object;
+				handler2.sendMessage(msg);
 			}
 			
 			@Override
 			public void onError(Object object) {
-				Log.d("guohao", "失败："+object.toString());
-				Util.dismiss();
+				Message msg = handler2.obtainMessage();
+				msg.what = HttpCallBack.CALL_BACK_FAIL;
+				msg.obj = object;
+				handler2.sendMessage(msg);
 			}
 		});
 		
@@ -368,21 +403,9 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 			break;
 		case R.id.id_linearlayout_choose_ti:
 			//这里---已答题，改变背景颜色---------------------------------------------
-			Cursor cursor = null;
-			for (int i = 0; i < tiArray.size(); i++) {
-				cursor = db.query(Data.EXAM_PAPER_TABLE_NAME, new String[]{"chooseAnswer"}, "dataId=?", new String[]{tiArray.get(i)+""}, null, null, null);
-				while (cursor.moveToNext()) {
-					String chooseAnswer = cursor.getString(cursor.getColumnIndex("chooseAnswer"));
-					if (StringUtil.isEmpty(chooseAnswer)) {
-						textViews.get(i).setBackgroundResource(R.drawable.img349);
-					}else {
-						textViews.get(i).setBackgroundResource(R.drawable.img348);
-					}
-				}
-			}
-			if (cursor != null) {
-				cursor.close();
-			}
+			setItemColor();
+			//设置当前选中的题的背景颜色
+			textViews.get(currentPage).setBackgroundResource(R.drawable.img350);
 			
 			//弹出层
 			alertCeng.setVisibility(View.VISIBLE);
@@ -420,7 +443,7 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		handler.removeCallbacksAndMessages(null);
+		handler2.removeCallbacksAndMessages(null);
 	}
 
 	@Override
@@ -439,10 +462,32 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	}
 	@Override
 	public void onPageSelected(int index) {
+		currentPage = index;
 		//设置第几题 和 共几题
 		serialNumber.setText((index+1)+"/"+tiArray.size());
 		tiIndex.setText((index+1)+"/"+tiArray.size());
+		//当前是第几题，改变其选项的背景图片（颜色）
+		setItemColor();
+		textViews.get(index).setBackgroundResource(R.drawable.img350);
 	}
+	private void setItemColor() {
+		Cursor cursor = null;
+		for (int i = 0; i < tiArray.size(); i++) {
+			cursor = db.query(Data.EXAM_PAPER_TABLE_NAME, new String[]{"chooseAnswer"}, "dataId=?", new String[]{tiArray.get(i)+""}, null, null, null);
+			while (cursor.moveToNext()) {
+				String chooseAnswer = cursor.getString(cursor.getColumnIndex("chooseAnswer"));
+				if (StringUtil.isEmpty(chooseAnswer)) {
+					textViews.get(i).setBackgroundResource(R.drawable.img349);
+				}else {
+					textViews.get(i).setBackgroundResource(R.drawable.img348);
+				}
+			}
+		}
+		if (cursor != null) {
+			cursor.close();
+		}
+	}
+
 	public int getDataId(int key) {
 		return tiArray.get(key);
 	}

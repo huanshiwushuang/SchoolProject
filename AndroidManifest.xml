@@ -68,6 +68,10 @@
             android:name="com.guohao.schoolproject.StartExamActivity">
             
         </activity>
+        <activity 
+            android:name="com.guohao.schoolproject.ExamGrade">
+            
+        </activity>
     </application>
 
 </manifest>

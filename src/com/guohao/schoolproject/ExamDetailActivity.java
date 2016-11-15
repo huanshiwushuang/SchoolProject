@@ -48,42 +48,50 @@ public class ExamDetailActivity extends Activity {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case HttpCallBack.CALL_BACK_OK:
-				Util.dismiss();
 				String data = msg.obj.toString();
 				try {
 					JSONObject object = new JSONObject(data);
 					String status = object.getString("status");
 					if (status.equals("1")) {
 						object = object.getJSONObject("items");
-						JSONObject chooseOne = object.getJSONObject("单选题");
-						JSONObject chooseMore = object.getJSONObject("多选题");
-						JSONObject judge = object.getJSONObject("判断题");
-						//特别重要---删除数据库---之前存在的数据---试卷、试题
-						//删除之前存在的试题，之后插入这次的试题。
-						db.delete(Data.EXAM_PAPER_TABLE_NAME, null, null);
-						
-						saveExamTiInSqlite(chooseOne, Data.CHOOSE_ONE_TI);
-						saveExamTiInSqlite(chooseMore, Data.CHOOSE_MORE_TI);
-						saveExamTiInSqlite(judge, Data.JUDGE_TI);
-						
-						//根据数据库存储是否出错，决定是否跳转
-						if (getExamPaperOK) {
-							//记录下---开始考试的时间---
-							Editor editor = Util.getPreference(mActivity).edit();
-							editor.putLong(Data.EXAM_PAPER_START_TIME, System.currentTimeMillis());
-							editor.commit();
+						final JSONObject chooseOne = object.getJSONObject("单选题");
+						final JSONObject chooseMore = object.getJSONObject("多选题");
+						final JSONObject judge = object.getJSONObject("判断题");
+						new Thread(new Runnable() {
 							
-							StartExamActivity.actionStart(mActivity);
-						}else {
-							Util.showToast(mActivity, "试题解析、存储错误！");
-						}
+							@Override
+							public void run() {
+								//特别重要---删除数据库---之前存在的数据---试卷、试题
+								//删除之前存在的试题，之后插入这次的试题。
+								db.delete(Data.EXAM_PAPER_TABLE_NAME, null, null);
+								
+								saveExamTiInSqlite(chooseOne, Data.CHOOSE_ONE_TI);
+								saveExamTiInSqlite(chooseMore, Data.CHOOSE_MORE_TI);
+								saveExamTiInSqlite(judge, Data.JUDGE_TI);
+								
+								Util.dismiss();
+								//根据数据库存储是否出错，决定是否跳转
+								if (getExamPaperOK) {
+									//记录下---开始考试的时间---
+									Editor editor = Util.getPreference(mActivity).edit();
+									editor.putLong(Data.EXAM_PAPER_START_TIME, System.currentTimeMillis());
+									editor.commit();
+									
+									StartExamActivity.actionStart(mActivity);
+									finish();
+								}else {
+									Util.showToast(mActivity, "试题解析、存储错误！");
+								}
+							}
+						}).start();
 					}else {
+						Util.dismiss();
 						Util.showToast(mActivity, object.getString("msg"));
 					}
 				} catch (JSONException e) {
+					Util.dismiss();
 					Util.showToast(mActivity, e.toString());
 				}
-				
 				break;
 			case HttpCallBack.CALL_BACK_FAIL:
 				Util.dismiss();

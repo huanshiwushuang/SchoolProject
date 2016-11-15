@@ -42,7 +42,7 @@ public class HttpUtil {
 			for (int i = 0; i < list.size(); i++) {
 				KV kv = list.get(i);
 				String k = URLEncoder.encode(kv.getKey(), Data.ENCODE);
-				String v = URLEncoder.encode(kv.getValue(), Data.ENCODE);
+				String v = URLEncoder.encode(kv.getValue().toString(), Data.ENCODE);
 				if (once) {
 					once = false;
 					address += "?";
@@ -79,6 +79,7 @@ public class HttpUtil {
 					}
 					try {
 						DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
+						Log.d("guohao", "我的参数："+params);
 						dataOutputStream.writeBytes(params);
 					} catch (IOException e) {
 						e.printStackTrace();

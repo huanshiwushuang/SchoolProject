@@ -2,11 +2,11 @@ package com.guohao.entity;
 
 public class KV {
 	private String key;
-	private String value;
+	private Object value;
 	
 	public KV() {}
 	
-	public KV(String key, String value) {
+	public KV(String key, Object value) {
 		this.key = key;
 		this.value = value;
 	}
@@ -17,7 +17,7 @@ public class KV {
 	public void setKey(String key) {
 		this.key = key;
 	}
-	public String getValue() {
+	public Object getValue() {
 		return value;
 	}
 	public void setValue(String value) {
