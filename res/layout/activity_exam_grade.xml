@@ -3,6 +3,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
+
+    <com.guohao.custom.Title
+        android:id="@+id/id_custom_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <ImageView
+            android:id="@+id/id_imageview_img"
+            android:layout_width="190dp"
+            android:layout_height="263dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/img334" />
+		<TextView 
+		    android:id="@+id/id_textview_grade"
+		    android:layout_width="190dp"
+		    android:layout_height="263dp"
+		    android:layout_centerHorizontal="true"
+		    android:textColor="#f00"
+		    android:gravity="center"
+		    android:text="成绩"/>
+        <TextView
+            android:id="@+id/id_textview_use_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:textColor="#666"
+            android:layout_below="@id/id_imageview_img"
+            android:text="用时" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/id_button_back"
+        style="@style/StyleButtonLogin"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="返回" />
 
 </LinearLayout>
