@@ -113,7 +113,7 @@ public class ChooseMoreTiFragment extends Fragment implements OnItemClickListene
 		if (!StringUtil.isEmpty(chooseAnswer)) {
 			resId = R.drawable.img348;
 		}
-		((StartExamActivity)getActivity()).getTextViewList().get(StartExamActivity.currentPage).setBackgroundResource(resId);
+		((StartExamActivity)getActivity()).getTextViewList().get(((StartExamActivity)getActivity()).getCurrentPage()).setBackgroundResource(resId);
 	}
 	
 }

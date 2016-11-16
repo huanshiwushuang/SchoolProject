@@ -42,6 +42,7 @@ import android.util.SparseIntArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -78,7 +79,7 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	private SparseIntArray tiArray;
 	private int index = 0;
 	//当前页码
-	public static int currentPage = 0;
+	private int currentPage = 0;
 	//答题最后总成绩
 	private int score;
 	//答题用时
@@ -124,6 +125,10 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 			
 		}
 	};
+	//getter---setter
+	public int getCurrentPage() {
+		return currentPage;
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -401,7 +406,7 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 			submitExamPaper();
 			break;
 		case R.id.id_linearlayout_choose_ti:
-//			//设置当前选中的题的背景颜色
+			//设置当前选中的题的背景颜色
 			textViews.get(currentPage).setBackgroundResource(R.drawable.img350);
 			
 			//弹出层
@@ -424,6 +429,10 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 			//设置dismiss监听事件
 			popupWindow.setOnDismissListener(this);
 			// 在底部显示
+			//????????????????????????????????????????????????????????????????????
+			if(windowView != null && windowView.getParent() != null) {
+				((ViewGroup)windowView.getParent()).removeAllViews();
+			}
 			popupWindow.showAtLocation(v, Gravity.BOTTOM, 0, 0);
 			break;
 		case R.id.id_view_dismiss:

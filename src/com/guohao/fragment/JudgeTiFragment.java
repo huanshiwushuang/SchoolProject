@@ -103,6 +103,6 @@ public class JudgeTiFragment extends Fragment implements OnItemClickListener {
 		int currentIndex = Integer.valueOf(tiContent.getText().toString().substring(0, dianIndex))-1;
 		db.update(Data.EXAM_PAPER_TABLE_NAME, values, "dataId=?", new String[]{((StartExamActivity)getActivity()).getDataId(currentIndex)+""});
 		//更改切换选项卡的背景图片
-		((StartExamActivity)getActivity()).getTextViewList().get(StartExamActivity.currentPage).setBackgroundResource(R.drawable.img348);
+		((StartExamActivity)getActivity()).getTextViewList().get(((StartExamActivity)getActivity()).getCurrentPage()).setBackgroundResource(R.drawable.img348);
 	}
 }
