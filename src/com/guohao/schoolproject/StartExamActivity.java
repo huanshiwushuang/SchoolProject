@@ -3,7 +3,6 @@ package com.guohao.schoolproject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -39,7 +38,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -80,13 +78,15 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	private SparseIntArray tiArray;
 	private int index = 0;
 	//当前页码
-	private int currentPage = 0;
+	public static int currentPage = 0;
 	//答题最后总成绩
 	private int score;
 	//答题用时
 	private String useTime;
 	//答题合格与否
 	private int isPass;
+	
+	private Cursor cursor;
 	
 	private long startTime,endTime,examTime,nextTime;
 	private Boolean onlyOnce = true;
@@ -177,7 +177,7 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 
 	protected ExamTi getExamTi(int dataId) {
 		ExamTi examTi = null;
-		Cursor cursor = db.query(Data.EXAM_PAPER_TABLE_NAME, new String[]{"examTiType","content","selectAnswers","chooseAnswer"}, "dataId=?", new String[]{dataId+""}, null, null, null);
+		cursor = db.query(Data.EXAM_PAPER_TABLE_NAME, new String[]{"examTiType","content","selectAnswers","chooseAnswer"}, "dataId=?", new String[]{dataId+""}, null, null, null);
 		String examTiType = "";
 		String content = "";
 		String selectAnswers = "";
@@ -263,7 +263,7 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	}
 
 	private void queryDataId(SparseIntArray intArray, String tiType) {
-		Cursor cursor = db.query(Data.EXAM_PAPER_TABLE_NAME, new String[]{"dataId"}, "examTiType=?", new String[]{tiType}, null, null, null);
+		cursor = db.query(Data.EXAM_PAPER_TABLE_NAME, new String[]{"dataId"}, "examTiType=?", new String[]{tiType}, null, null, null);
 		while (cursor.moveToNext()) {
 			intArray.append(index++, cursor.getInt(cursor.getColumnIndex("dataId")));
 		}
@@ -284,7 +284,6 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 		//选择试题的弹出窗
 		windowView = LayoutInflater.from(mActivity).inflate(R.layout.custom_select_ti, new FrameLayout(mActivity));
 		tiIndex = (TextView) windowView.findViewById(R.id.id_textview_ti_index);
-		
 		
 		db = Util.getDatabase(mActivity);
 		textViews = new ArrayList<TextView>();
@@ -328,7 +327,7 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	
 	protected void submitExamPaper() {
 		Util.showAlertDialog04(mActivity, "正在提交试卷......");
-		Cursor cursor = null;
+		cursor = null;
 		//最后的答题总成绩
 		score = 0;
 		for (int i = 0; i < tiArray.size(); i++) {
@@ -402,9 +401,7 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 			submitExamPaper();
 			break;
 		case R.id.id_linearlayout_choose_ti:
-			//这里---已答题，改变背景颜色---------------------------------------------
-			setItemColor();
-			//设置当前选中的题的背景颜色
+//			//设置当前选中的题的背景颜色
 			textViews.get(currentPage).setBackgroundResource(R.drawable.img350);
 			
 			//弹出层
@@ -444,13 +441,13 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	protected void onDestroy() {
 		super.onDestroy();
 		handler2.removeCallbacksAndMessages(null);
+		db.close();
 	}
 
 	@Override
 	public void onDismiss() {
 		alertCeng.setVisibility(View.GONE);
 	}
-
 	
 	@Override
 	public void onPageScrollStateChanged(int arg0) {
@@ -462,32 +459,29 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	}
 	@Override
 	public void onPageSelected(int index) {
+		//更改背景视图
+		setItemColor(currentPage);
+		textViews.get(index).setBackgroundResource(R.drawable.img350);
+		cursor.close();
+		
 		currentPage = index;
 		//设置第几题 和 共几题
 		serialNumber.setText((index+1)+"/"+tiArray.size());
 		tiIndex.setText((index+1)+"/"+tiArray.size());
-		//当前是第几题，改变其选项的背景图片（颜色）
-		setItemColor();
-		textViews.get(index).setBackgroundResource(R.drawable.img350);
 	}
-	private void setItemColor() {
-		Cursor cursor = null;
-		for (int i = 0; i < tiArray.size(); i++) {
-			cursor = db.query(Data.EXAM_PAPER_TABLE_NAME, new String[]{"chooseAnswer"}, "dataId=?", new String[]{tiArray.get(i)+""}, null, null, null);
-			while (cursor.moveToNext()) {
-				String chooseAnswer = cursor.getString(cursor.getColumnIndex("chooseAnswer"));
-				if (StringUtil.isEmpty(chooseAnswer)) {
-					textViews.get(i).setBackgroundResource(R.drawable.img349);
-				}else {
-					textViews.get(i).setBackgroundResource(R.drawable.img348);
-				}
+	private void setItemColor(int currentIndex) {
+		cursor = db.query(Data.EXAM_PAPER_TABLE_NAME, new String[]{"chooseAnswer"}, "dataId=?", new String[]{tiArray.get(currentIndex)+""}, null, null, null);
+		int resid = R.drawable.img349;
+		if (cursor != null && cursor.moveToNext()) {
+			if (!StringUtil.isEmpty(cursor.getString(cursor.getColumnIndex("chooseAnswer")))) {
+				resid = R.drawable.img348;
 			}
 		}
-		if (cursor != null) {
-			cursor.close();
-		}
+		textViews.get(currentIndex).setBackgroundResource(resid);
 	}
-
+	public List<TextView> getTextViewList() {
+		return textViews;
+	}
 	public int getDataId(int key) {
 		return tiArray.get(key);
 	}

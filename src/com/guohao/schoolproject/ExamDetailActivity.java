@@ -27,12 +27,10 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -242,6 +240,7 @@ public class ExamDetailActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 		handler.removeCallbacksAndMessages(null);
+		db.close();
 	}
 	public static void actionStart(Context context) {
 		Intent intent = new Intent(context, ExamDetailActivity.class);
