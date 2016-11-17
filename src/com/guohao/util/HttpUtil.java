@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -72,14 +73,18 @@ public class HttpUtil {
 					String params = "";
 					for (int i = 0; i < list.size(); i++) {
 						KV kv = list.get(i);
-						params += kv.getKey()+"="+kv.getValue();
+						try {
+							params += URLEncoder.encode(kv.getKey(), Data.ENCODE)+"="+URLEncoder.encode(kv.getValue().toString(), Data.ENCODE);
+						} catch (UnsupportedEncodingException e) {
+							e.printStackTrace();
+						}
 						if (i != list.size()-1) {
 							params += "&";
 						}
 					}
 					try {
 						DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
-						Log.d("guohao", "我的参数："+params);
+						Log.d("guohao", "我的POST参数："+params);
 						dataOutputStream.writeBytes(params);
 					} catch (IOException e) {
 						e.printStackTrace();

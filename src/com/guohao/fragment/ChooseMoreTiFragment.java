@@ -98,10 +98,11 @@ public class ChooseMoreTiFragment extends Fragment implements OnItemClickListene
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i)[1].equals("1")) {
 				chooseAnswer += i;
-				if (i != list.size()-1) {
-					chooseAnswer += "|";
-				}
+				chooseAnswer += "|";
 			}
+		}
+		if (chooseAnswer.endsWith("|")) {
+			chooseAnswer = chooseAnswer.substring(0, chooseAnswer.length()-1);
 		}
 		ContentValues values = new ContentValues();
 		values.put("chooseAnswer", chooseAnswer);

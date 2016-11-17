@@ -38,6 +38,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -338,10 +339,11 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 		for (int i = 0; i < tiArray.size(); i++) {
 			int dataId = tiArray.get(i);
 			cursor = db.query(Data.EXAM_PAPER_TABLE_NAME, new String[]{"itemScore","strandAnswer","chooseAnswer"}, "dataId=?", new String[]{dataId+""}, null, null, null);
-			while (cursor.moveToNext()) {
+			if (cursor.moveToNext()) {
 				int itemScore = cursor.getInt(cursor.getColumnIndex("itemScore"));
 				String strandAnswer = cursor.getString(cursor.getColumnIndex("strandAnswer"));
 				String chooseAnswer = cursor.getString(cursor.getColumnIndex("chooseAnswer"));
+				Log.d("guohao", "第"+(i+1)+"个-分数："+itemScore+"-标准："+strandAnswer+"-我的："+chooseAnswer);
 				if (chooseAnswer != null && strandAnswer != null) {
 					if (chooseAnswer.equals(strandAnswer)) {
 						score += itemScore;
@@ -371,6 +373,7 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 		list.add(new KV("beginTime", startDateTime));
 		list.add(new KV("endTime", endDateTime));
 		list.add(new KV("examTime", useTime));
+		Log.d("guohao", "我的用时："+useTime);
 		
 		HttpUtil.requestData(HttpUtil.getPostHttpUrlConnection(Data.URL_POST_EXAM_PAPER_GRADE), list, new HttpCallBack() {
 			@Override
