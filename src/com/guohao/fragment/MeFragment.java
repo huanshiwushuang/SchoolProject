@@ -251,7 +251,6 @@ public class MeFragment extends Fragment implements OnClickListener,OnDismissLis
 								Editor editor = Util.getPreference(activity).edit();
 								editor.putString(Data.HEAD_IMAGE, headImage);
 								editor.commit();
-								//更新头像后，为了避免缓存，须添加随机参数
 								setHeadImage(headImage);
 							}else {
 								Util.showToast(activity, object.getString("msg"));
