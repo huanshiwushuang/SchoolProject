@@ -1,6 +1,8 @@
 package com.guohao.custom;
 
 import com.guohao.schoolproject.R;
+import com.guohao.schoolproject.StartExamActivity;
+import com.guohao.util.Util;
 
 import android.app.Activity;
 import android.content.Context;
@@ -59,6 +61,11 @@ public class Title extends LinearLayout implements OnClickListener {
 	
 	@Override
 	public void onClick(View v) {
-		((Activity)mContext).finish();
+		Activity activity = ((Activity)mContext);
+		if (activity instanceof StartExamActivity) {
+			Util.showAlertDialog07(activity, "是否放弃本次答题？");
+		}else {
+			activity.finish();
+		}
 	}
 }

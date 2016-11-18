@@ -6,13 +6,16 @@ import com.guohao.adapter.MeListviewBgAdapter;
 import com.guohao.schoolproject.LoginActivity;
 import com.guohao.schoolproject.R;
 import com.guohao.schoolproject.StartExamActivity;
+import com.guohao.util.Data;
 import com.guohao.util.Util;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -226,8 +229,25 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 		case Layout06:
 			switch (v.getId()) {
 			case R.id.id_textview_yes:
-				dismiss();
-				StartExamActivity.actionStart(mContext);
+				//继续答题开始---在这之前，计算剩余的答题时间（根据剩余答题时间 和 答题时间范围计算）
+				SharedPreferences p = Util.getPreference(mContext);
+				Editor editor = p.edit();
+				//考试范围的---结束时间---毫秒
+				long endTime = p.getLong(Data.EXAM_PAPER_endTime, -1);
+				long currentTime = System.currentTimeMillis();
+				if (currentTime > endTime) {
+					editor.putBoolean(Data.EXAM_PAPER_IS_COMPLETE, true);
+					editor.commit();
+					Util.showToast(mContext, "考试已截止！");
+				}else {
+					long temp = (endTime/1000)-(currentTime/1000);
+					if (temp < p.getLong(Data.EXAM_PAPER_NEXT_TIME, -1)) {
+						editor.putLong(Data.EXAM_PAPER_NEXT_TIME, temp);
+					}
+					editor.commit();
+					dismiss();
+					StartExamActivity.actionStart(mContext);
+				}
 				break;
 			case R.id.id_textview_no:
 				dismiss();
