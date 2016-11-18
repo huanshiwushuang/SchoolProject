@@ -101,9 +101,30 @@ public class MeFragment extends Fragment implements OnClickListener,OnDismissLis
 	}
 	public void setHeadImage(String address) {
 		address = Data.IP+Data.PROJECT_NAME+(address.startsWith("/")? address : (address ="/"+address))+"?random="+System.currentTimeMillis();
-		ImageLoader loader = ImageLoader.getInstance();
-		Log.d("guohao", "图片地址："+address);
-		loader.displayImage(address, headImageView);
+		final String mAddress = address;
+		final ImageLoader loader = ImageLoader.getInstance();
+		loader.displayImage(address, headImageView, new ImageLoadingListener() {
+			@Override
+			public void onLoadingStarted(String arg0, View arg1) {
+				
+			}
+			@Override
+			public void onLoadingFailed(String arg0, View arg1, FailReason arg2) {
+				new Handler().postDelayed(new Runnable() {
+					public void run() {
+						loader.displayImage(mAddress, headImageView);
+					}
+				}, 2*1000);
+			}
+			@Override
+			public void onLoadingComplete(String arg0, View arg1, Bitmap arg2) {
+				
+			}
+			@Override
+			public void onLoadingCancelled(String arg0, View arg1) {
+				
+			}
+		});
 	}
 	private void initData() {
 		SharedPreferences p = Util.getPreference(getActivity());
