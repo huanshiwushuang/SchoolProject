@@ -1,12 +1,16 @@
 package com.guohao.schoolproject;
 
 import com.guohao.custom.Title;
+import com.guohao.util.Data;
+import com.guohao.util.Util;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -23,6 +27,9 @@ public class ExamGrade extends Activity implements OnClickListener {
 	private Button backBT;
 	private Title customTitle;
 	
+	private Activity mActivity;
+	private SharedPreferences p;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,6 +39,7 @@ public class ExamGrade extends Activity implements OnClickListener {
 		initListener();
 		initBaseData();
 	}
+
 
 
 	private void initBaseData() {
@@ -49,9 +57,16 @@ public class ExamGrade extends Activity implements OnClickListener {
 		gradeTV.setText(score+"分");
 		useTimeTV.setText("用时："+useTime);
 		
+		//考试结束，将考试是否结束---置为true
+		Editor editor = p.edit();
+		editor.putBoolean(Data.EXAM_PAPER_IS_COMPLETE, true);
+		editor.commit();
 	}
 
 	private void initView() {
+		mActivity = ExamGrade.this;
+		p = Util.getPreference(mActivity);
+		
 		customTitle = (Title) findViewById(R.id.id_custom_title);
 		imageIV = (ImageView) findViewById(R.id.id_imageview_img);
 		gradeTV = (TextView) findViewById(R.id.id_textview_grade);
@@ -71,7 +86,11 @@ public class ExamGrade extends Activity implements OnClickListener {
 		intent.putExtra("useTime", useTime);
 		context.startActivity(intent);
 	}
-
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+	}
 
 	@Override
 	public void onClick(View v) {

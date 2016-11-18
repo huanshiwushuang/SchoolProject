@@ -26,6 +26,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -283,6 +285,13 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 		position -= 1;
 		switch (flag) {
 		case Exam_Test:
+			//如果还有尚未答完的试题，询问是否跳转，采用标识位
+			Boolean isComplete = p.getBoolean(Data.EXAM_PAPER_IS_COMPLETE, true);
+			if (!isComplete) {
+				Util.showAlertDialog06(mActivity, "答题尚未完成，是否继续？");
+				return;
+			}
+			
 			ExamPaper examPaper = examPapers.get(position);
 			Editor editor = p.edit();
 			editor.putBoolean(Data.EXAM_PAPER_isDelete, examPaper.getIsDelete());

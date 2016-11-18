@@ -5,6 +5,7 @@ import java.util.List;
 import com.guohao.adapter.MeListviewBgAdapter;
 import com.guohao.schoolproject.LoginActivity;
 import com.guohao.schoolproject.R;
+import com.guohao.schoolproject.StartExamActivity;
 import com.guohao.util.Util;
 
 import android.app.Activity;
@@ -47,6 +48,12 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 	public final static int Layout04 = 7;
 	private ImageView rotateImage;
 	private TextView loadingPrompt;
+	//---布局05---是否提交试卷。
+	public final static int Layout05 = 8;
+	//---布局06---是否继续答题。
+	public final static int Layout06 = 9;
+	//---布局07---是否放弃本次答题
+	public final static int Layout07 = 10;
 	
 	//当前布局
 	private static int currentLayout = Layout01;
@@ -68,6 +75,9 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 	
 	private void initListener() {
 		switch (currentLayout) {
+		case Layout07:
+		case Layout06:
+		case Layout05:
 		case Layout01:
 			mYes.setOnClickListener(this);
 			mNo.setOnClickListener(this);
@@ -93,6 +103,9 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 		inflater = LayoutInflater.from(mContext);
 		
 		switch (currentLayout) {
+		case Layout07:
+		case Layout06:
+		case Layout05:
 		case Layout01:
 			v = inflater.inflate(R.layout.custom_alertdialog, new FrameLayout(mContext));
 			mTitle = (TextView) v.findViewById(R.id.id_textview_title);
@@ -193,6 +206,39 @@ public class MyAlertDialog implements OnClickListener,OnItemClickListener {
 					((Activity)mContext).finish();
 					break;
 				}
+				break;
+			case R.id.id_textview_no:
+				dismiss();
+				break;
+			}
+			break;
+		case Layout05:
+			switch (v.getId()) {
+			case R.id.id_textview_yes:
+				dismiss();
+				((StartExamActivity)mContext).submitExamPaper();
+				break;
+			case R.id.id_textview_no:
+				dismiss();
+				break;
+			}
+			break;
+		case Layout06:
+			switch (v.getId()) {
+			case R.id.id_textview_yes:
+				dismiss();
+				StartExamActivity.actionStart(mContext);
+				break;
+			case R.id.id_textview_no:
+				dismiss();
+				break;
+			}
+			break;
+		case Layout07:
+			switch (v.getId()) {
+			case R.id.id_textview_yes:
+				dismiss();
+				((StartExamActivity)mContext).finish();
 				break;
 			case R.id.id_textview_no:
 				dismiss();

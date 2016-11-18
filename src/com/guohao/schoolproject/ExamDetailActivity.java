@@ -183,6 +183,7 @@ public class ExamDetailActivity extends Activity {
 		customTitle = (Title) findViewById(R.id.id_custom_title);
 		mActivity = ExamDetailActivity.this;
 		p = Util.getPreference(mActivity);
+		db = Util.getDatabase(mActivity);
 		
 		examName = (TextView) findViewById(R.id.id_textview_name);
 		examCourse = (TextView) findViewById(R.id.id_textview_course);
@@ -197,18 +198,6 @@ public class ExamDetailActivity extends Activity {
 	}
 	
 	public void startExam(View view) {
-		//这里点击---开始考试---获取试卷id对应的试题---存储到数据库----使用时，再读取出来
-		//获取试题成功，并存储成功才跳转到答题界面。
-		//创建---数据库
-		PackageManager manager = getPackageManager();
-		PackageInfo info = null;
-		try {
-			info = manager.getPackageInfo(getPackageName(), 0);
-		} catch (NameNotFoundException e) {
-			e.printStackTrace();
-		}
-		MySqliteOpenHelper helper = new MySqliteOpenHelper(mActivity, Data.SCHOOL_PROJECT_DB, null, info.versionCode);
-		db = helper.getReadableDatabase();
 		//请求数据
 		if (db != null) {
 			Util.showAlertDialog04(mActivity, "正在请求试题......");

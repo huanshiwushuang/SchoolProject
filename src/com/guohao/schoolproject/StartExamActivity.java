@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.guohao.Interface.HttpCallBack;
+import com.guohao.custom.MyAlertDialog;
 import com.guohao.custom.Title;
 import com.guohao.entity.ExamTi;
 import com.guohao.entity.KV;
@@ -26,6 +27,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.ColorDrawable;
@@ -202,6 +204,11 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	}
 
 	private void initLocalData() {
+		//开始考试，将考试结束---置为false。
+		Editor editor = p.edit();
+		editor.putBoolean(Data.EXAM_PAPER_IS_COMPLETE, false);
+		editor.commit();
+		
 		//查询试题的---主键id，存储到 HashMap 中。
 		queryDataId(tiArray,Data.CHOOSE_ONE_TI);
 		queryDataId(tiArray,Data.CHOOSE_MORE_TI);
@@ -260,7 +267,12 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 			//计算得到剩余的可答题的时间---毫秒数
 			temp -= currentTime;
 			//计算得到剩余的可答题的时间---秒数
-			nextTime = temp/1000;
+			long i = p.getLong(Data.EXAM_PAPER_NEXT_TIME, -1);
+			if (i == -1) {
+				nextTime = temp/1000;
+			}else {
+				nextTime = i;
+			}
 			handler.post(r);
 		}else {
 			Util.showToast(mActivity, "试卷可答题时间获取失败！");
@@ -324,6 +336,7 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 						handler.postDelayed(this, 1*1000);
 					}else {
 						//提交试卷，计算分数。
+						Util.showToast(mActivity, "考试时间结束！");
 						submitExamPaper();
 					}
 				}
@@ -331,7 +344,7 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 		};
 	}
 	
-	protected void submitExamPaper() {
+	public void submitExamPaper() {
 		Util.showAlertDialog04(mActivity, "正在提交试卷......");
 		cursor = null;
 		//最后的答题总成绩
@@ -406,7 +419,12 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 		switch (v.getId()) {
 		case R.id.id_textview_title_other:
 			//提交试卷，计算分数。
-			submitExamPaper();
+			Cursor cursor = db.query(Data.EXAM_PAPER_TABLE_NAME, new String[]{"chooseAnswer"}, "chooseAnswer=? or chooseAnswer is null", new String[]{""}, null, null, null);
+			String string = "是否提交试卷？";
+			if (cursor != null && cursor.moveToNext()) {
+				string = "答题尚未完成，"+string;
+			}
+			Util.showAlertDialog05(mActivity, string);
 			break;
 		case R.id.id_linearlayout_choose_ti:
 			//设置当前选中的题的背景颜色
@@ -454,8 +472,16 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 		super.onDestroy();
 		handler2.removeCallbacksAndMessages(null);
 		db.close();
+		//如果中途答题Activity被销毁，记录剩余时间，下一次接着做
+		Editor editor = p.edit();
+		editor.putLong(Data.EXAM_PAPER_NEXT_TIME, nextTime);
+		editor.commit();
 	}
-
+	@Override
+	public void onBackPressed() {
+		Util.showAlertDialog07(mActivity, "是否放弃本次答题？");
+	}
+	
 	@Override
 	public void onDismiss() {
 		alertCeng.setVisibility(View.GONE);

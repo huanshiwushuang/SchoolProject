@@ -72,6 +72,10 @@ public class Data {
 	public static final String EXAM_PAPER_START_TIME = "exam_paper_start_time";
 	//结束答题时间
 	public static final String EXAM_PAPER_END_TIME = "exam_paper_end_time";
+	//答题 Activity 被销毁，剩余答题时间保存
+	public static final String EXAM_PAPER_NEXT_TIME = "exam_paper_next_time";
+	//标识位，答题是否结束
+	public static final String EXAM_PAPER_IS_COMPLETE = "exam_paper_is_complete";
 	
 	//考试试卷---点击的哪一套试卷，将该套试卷的属性保存下来---------------------------------------------------------
 	public static final String EXAM_PAPER_isDelete = "exam_paper_isdelete";
