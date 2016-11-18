@@ -84,7 +84,6 @@ public class HttpUtil {
 					}
 					try {
 						DataOutputStream dataOutputStream = new DataOutputStream(connection.getOutputStream());
-						Log.d("guohao", "我的POST参数："+params);
 						dataOutputStream.writeBytes(params);
 					} catch (IOException e) {
 						e.printStackTrace();

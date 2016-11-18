@@ -39,7 +39,6 @@ public class MySqliteOpenHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(CREATE_TABLE_EXAM_PAPER);
-		Util.showToast(mContext, "执行了---创建表命令");
 	}
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

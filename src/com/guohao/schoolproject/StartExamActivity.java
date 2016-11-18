@@ -11,7 +11,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.guohao.Interface.HttpCallBack;
-import com.guohao.custom.MyAlertDialog;
 import com.guohao.custom.Title;
 import com.guohao.entity.ExamTi;
 import com.guohao.entity.KV;
@@ -40,7 +39,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -251,6 +249,20 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 			layout.addView(layout2);
 		}
 		
+		//初始化时---先遍历一次答过的题，用于继续答题直接进入的时候。
+		//注意：必须在 textviews 这个选项卡的视图---创建以后。
+		Cursor cursor = db.query(Data.EXAM_PAPER_TABLE_NAME, new String[]{"chooseAnswer"}, null, null, null, null, "dataId asc");
+		int j = 0;
+		while (cursor != null && cursor.moveToNext()) {
+			String choose = cursor.getString(cursor.getColumnIndex("chooseAnswer"));
+			if (!StringUtil.isEmpty(choose)) {
+				textViews.get(j).setBackgroundResource(R.drawable.img348);
+			}
+			j++;
+		}
+		if (cursor != null) {
+			cursor.close();
+		}
 		
 		customTitle.setImageVisibility(View.VISIBLE);
 		submit.setText("交卷");
@@ -322,7 +334,7 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 				if (nextTime > 0) {
 					long second = --nextTime;
 					if (second <= 5*60 && onlyOnce) {
-						Util.showToast(mActivity, "剩余时间不多啦！");
+						Util.showToast(mActivity, "剩余时间不多啦！---"+second+"---"+nextTime+"---"+(5*60));
 						onlyOnce = false;
 					}
 					String hours = second/60/60+"";
@@ -346,7 +358,6 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	
 	public void submitExamPaper() {
 		Util.showAlertDialog04(mActivity, "正在提交试卷......");
-		cursor = null;
 		//最后的答题总成绩
 		score = 0;
 		for (int i = 0; i < tiArray.size(); i++) {
@@ -356,7 +367,6 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 				int itemScore = cursor.getInt(cursor.getColumnIndex("itemScore"));
 				String strandAnswer = cursor.getString(cursor.getColumnIndex("strandAnswer"));
 				String chooseAnswer = cursor.getString(cursor.getColumnIndex("chooseAnswer"));
-				Log.d("guohao", "第"+(i+1)+"个-分数："+itemScore+"-标准："+strandAnswer+"-我的："+chooseAnswer);
 				if (chooseAnswer != null && strandAnswer != null) {
 					if (chooseAnswer.equals(strandAnswer)) {
 						score += itemScore;
@@ -386,7 +396,6 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 		list.add(new KV("beginTime", startDateTime));
 		list.add(new KV("endTime", endDateTime));
 		list.add(new KV("examTime", useTime));
-		Log.d("guohao", "我的用时："+useTime);
 		
 		HttpUtil.requestData(HttpUtil.getPostHttpUrlConnection(Data.URL_POST_EXAM_PAPER_GRADE), list, new HttpCallBack() {
 			@Override
@@ -471,6 +480,7 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	protected void onDestroy() {
 		super.onDestroy();
 		handler2.removeCallbacksAndMessages(null);
+		handler.removeCallbacksAndMessages(null);
 		db.close();
 		//如果中途答题Activity被销毁，记录剩余时间，下一次接着做
 		Editor editor = p.edit();
