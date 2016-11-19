@@ -63,7 +63,7 @@ public class Title extends LinearLayout implements OnClickListener {
 	public void onClick(View v) {
 		Activity activity = ((Activity)mContext);
 		if (activity instanceof StartExamActivity) {
-			Util.showAlertDialog07(activity, "是否放弃本次答题？");
+			Util.showAlertDialog05(activity, "是否放弃本次答题？", MyAlertDialog.Layout07);
 		}else {
 			activity.finish();
 		}

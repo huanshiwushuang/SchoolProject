@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import com.guohao.Interface.HttpCallBack;
 import com.guohao.adapter.AnswerShowAdapter;
+import com.guohao.custom.MyAlertDialog;
 import com.guohao.custom.Title;
 import com.guohao.entity.ExamPaper;
 import com.guohao.entity.KV;
@@ -285,7 +286,7 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 			//如果还有尚未答完的试题，询问是否跳转，采用标识位
 			Boolean isComplete = p.getBoolean(Data.EXAM_PAPER_IS_COMPLETE, true);
 			if (!isComplete) {
-				Util.showAlertDialog06(mActivity, "答题尚未完成，是否继续？");
+				Util.showAlertDialog05(mActivity, "答题尚未完成，是否继续？", MyAlertDialog.Layout06);
 				return;
 			}
 			

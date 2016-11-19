@@ -65,26 +65,8 @@ public class Util {
 		alertDialog.show();
 		return alertDialog;
 	}
-    public static MyAlertDialog showAlertDialog05(Context context, String message) {
-    	alertDialog = new MyAlertDialog(context, MyAlertDialog.Layout05);
-    	alertDialog.setTitle("提示信息");
-    	alertDialog.setMessage(message);
-    	alertDialog.setYesText("确定");
-    	alertDialog.setNoText("取消");
-    	alertDialog.show();
-    	return alertDialog;
-	}
-    public static MyAlertDialog showAlertDialog06(Context context, String message) {
-    	alertDialog = new MyAlertDialog(context, MyAlertDialog.Layout06);
-    	alertDialog.setTitle("提示信息");
-    	alertDialog.setMessage(message);
-    	alertDialog.setYesText("确定");
-    	alertDialog.setNoText("取消");
-    	alertDialog.show();
-    	return alertDialog;
-	}
-    public static MyAlertDialog showAlertDialog07(Context context, String message) {
-    	alertDialog = new MyAlertDialog(context, MyAlertDialog.Layout07);
+    public static MyAlertDialog showAlertDialog05(Context context, String message, int flag) {
+    	alertDialog = new MyAlertDialog(context, flag);
     	alertDialog.setTitle("提示信息");
     	alertDialog.setMessage(message);
     	alertDialog.setYesText("确定");

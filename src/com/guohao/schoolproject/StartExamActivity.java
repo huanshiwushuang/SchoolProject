@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.guohao.Interface.HttpCallBack;
+import com.guohao.custom.MyAlertDialog;
 import com.guohao.custom.Title;
 import com.guohao.entity.ExamTi;
 import com.guohao.entity.KV;
@@ -202,10 +203,7 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	}
 
 	private void initLocalData() {
-		//开始考试，将考试结束---置为false。
-		Editor editor = p.edit();
-		editor.putBoolean(Data.EXAM_PAPER_IS_COMPLETE, false);
-		editor.commit();
+		
 		
 		//查询试题的---主键id，存储到 HashMap 中。
 		queryDataId(tiArray,Data.CHOOSE_ONE_TI);
@@ -251,18 +249,26 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 		
 		//初始化时---先遍历一次答过的题，用于继续答题直接进入的时候。
 		//注意：必须在 textviews 这个选项卡的视图---创建以后。
-		Cursor cursor = db.query(Data.EXAM_PAPER_TABLE_NAME, new String[]{"chooseAnswer"}, null, null, null, null, "dataId asc");
-		int j = 0;
-		while (cursor != null && cursor.moveToNext()) {
-			String choose = cursor.getString(cursor.getColumnIndex("chooseAnswer"));
-			if (!StringUtil.isEmpty(choose)) {
-				textViews.get(j).setBackgroundResource(R.drawable.img348);
+		//如果 = false，证明这次进来是---继续答题---必须在下面置为 false 之前判断，默认为true，表示完成了
+		if (!p.getBoolean(Data.EXAM_PAPER_IS_COMPLETE, true)) {
+			Cursor cursor = db.query(Data.EXAM_PAPER_TABLE_NAME, new String[]{"chooseAnswer"}, null, null, null, null, "dataId asc");
+			int j = 0;
+			while (cursor != null && cursor.moveToNext()) {
+				String choose = cursor.getString(cursor.getColumnIndex("chooseAnswer"));
+				if (!StringUtil.isEmpty(choose)) {
+					textViews.get(j).setBackgroundResource(R.drawable.img348);
+				}
+				j++;
 			}
-			j++;
+			if (cursor != null) {
+				cursor.close();
+			}
 		}
-		if (cursor != null) {
-			cursor.close();
-		}
+		
+		//开始考试，将考试结束---置为false。
+		Editor editor = p.edit();
+		editor.putBoolean(Data.EXAM_PAPER_IS_COMPLETE, false);
+		editor.commit();
 		
 		customTitle.setImageVisibility(View.VISIBLE);
 		submit.setText("交卷");
@@ -433,7 +439,7 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 			if (cursor != null && cursor.moveToNext()) {
 				string = "答题尚未完成，"+string;
 			}
-			Util.showAlertDialog05(mActivity, string);
+			Util.showAlertDialog05(mActivity, string, MyAlertDialog.Layout05);
 			break;
 		case R.id.id_linearlayout_choose_ti:
 			//设置当前选中的题的背景颜色
@@ -489,7 +495,7 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	}
 	@Override
 	public void onBackPressed() {
-		Util.showAlertDialog07(mActivity, "是否放弃本次答题？");
+		Util.showAlertDialog05(mActivity, "是否放弃本次答题？", MyAlertDialog.Layout07);
 	}
 	
 	@Override
