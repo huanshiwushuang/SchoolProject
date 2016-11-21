@@ -65,7 +65,8 @@ public class LoginActivity extends Activity implements OnKeyListener {
 						editor.putString(Data.TOKEN, object.getString("token"));
 						
 						editor.putString(Data.ACCOUNT, account);
-						editor.putString(Data.PWD, password);
+						//密码---加密保存本地
+						editor.putString(Data.PWD, StringUtil.encodeMD5(password));
 						editor.commit();
 						
 						MainActivity.actionStart(activity);

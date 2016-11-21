@@ -64,7 +64,7 @@ public class SettingActivity extends Activity implements OnClickListener,TextWat
 					String status = object.getString("status");
 					if (status.equals("1")) {
 						Editor editor = Util.getPreference(activity).edit();
-						editor.putString(Data.PWD, pwdNew);
+						editor.putString(Data.PWD, StringUtil.encodeMD5(pwdNew));
 						editor.commit();
 						
 						Util.showToast(activity, object.getString("msg"));
@@ -154,7 +154,7 @@ public class SettingActivity extends Activity implements OnClickListener,TextWat
 				Util.showToast(activity, "非法新密码");
 				return;
 			}
-			String encodePwd = Util.getPreference(activity).getString(Data.PASSWORD, "");
+			String encodePwd = Util.getPreference(activity).getString(Data.PWD, "");
 			if (!StringUtil.encodeMD5(pwdOld).equals(encodePwd)) {
 				Util.showToast(activity, "旧密码错误");
 				return;
