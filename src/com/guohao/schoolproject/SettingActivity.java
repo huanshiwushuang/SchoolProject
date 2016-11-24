@@ -155,7 +155,7 @@ public class SettingActivity extends Activity implements OnClickListener,TextWat
 				return;
 			}
 			String encodePwd = Util.getPreference(activity).getString(Data.PWD, "");
-			if (!StringUtil.encodeMD5(pwdOld).equals(encodePwd)) {
+			if (!pwdOld.equals(encodePwd)) {
 				Util.showToast(activity, "旧密码错误");
 				return;
 			}
