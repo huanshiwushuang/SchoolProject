@@ -78,6 +78,8 @@ public class Data {
 	public static final String EXAM_PAPER_IS_COMPLETE = "exam_paper_is_complete";
 	//标识位，是否提交了新试卷，需要移除已答试卷
 	public static final String EXAM_PAPER_IS_SUBMIT = "exam_paper_is_submit";
+	//保存该试卷允许答题时间---秒数
+	public static final String EXAM_PAPER_ALLOW_TIME = "exam_paper_allow_time";
 	
 	//考试试卷---点击的哪一套试卷，将该套试卷的属性保存下来---------------------------------------------------------
 	public static final String EXAM_PAPER_isDelete = "exam_paper_isdelete";

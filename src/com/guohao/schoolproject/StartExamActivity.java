@@ -40,6 +40,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -203,8 +204,6 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 	}
 
 	private void initLocalData() {
-		
-		
 		//查询试题的---主键id，存储到 HashMap 中。
 		queryDataId(tiArray,Data.CHOOSE_ONE_TI);
 		queryDataId(tiArray,Data.CHOOSE_MORE_TI);
@@ -286,8 +285,12 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 			temp -= currentTime;
 			//计算得到剩余的可答题的时间---秒数
 			long i = p.getLong(Data.EXAM_PAPER_NEXT_TIME, -1);
+			Log.d("guohao", "是不是："+i);
 			if (i == -1) {
 				nextTime = temp/1000;
+				Editor editor2 = p.edit();
+				editor2.putLong(Data.EXAM_PAPER_ALLOW_TIME, nextTime);
+				editor2.commit();
 			}else {
 				nextTime = i;
 			}
@@ -388,11 +391,13 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 		int passScore = p.getInt(Data.EXAM_PAPER_passScore, -1);
 		isPass = (score >= passScore && passScore != -1) ? 1 : 0;
 		long beginTime = Util.getPreference(mActivity).getLong(Data.EXAM_PAPER_START_TIME, -1);
-		long endTime = System.currentTimeMillis();
+		
 		SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss",Locale.getDefault());
 		String startDateTime = format.format(new Date(beginTime));
-		String endDateTime = format.format(new Date(endTime));
-		useTime = ((endTime-beginTime)/1000)/60+"分"+((endTime-beginTime)/1000)%60+"秒";
+		String endDateTime = format.format(new Date(System.currentTimeMillis()));
+		//用时=允许用时-剩下时间（单位：秒）
+		long useSeconds = p.getLong(Data.EXAM_PAPER_ALLOW_TIME, -1)-nextTime;
+		useTime = useSeconds/60/60+"时"+useSeconds/60%60+"分"+useSeconds%60+"秒";
 		
 		List<KV> list = new ArrayList<KV>();
 		list.add(new KV("token", token));

@@ -30,6 +30,7 @@ import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -329,14 +330,16 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 		super.onResume();
 		//如果提交了试卷之后，回到这个试卷展示页面，需要移除之前答过的试卷
 		if (p.getBoolean(Data.EXAM_PAPER_IS_SUBMIT, false)) {
-			list.remove(clickExamPaper);
-			examPapers.remove(clickExamPaper);
-			//刷新界面
-			adapter.notifyDataSetChanged();
-			//将是否提交新试卷---重置为false
-			Editor editor = p.edit();
-			editor.putBoolean(Data.EXAM_PAPER_IS_SUBMIT, false);
-			editor.commit();
+			if (clickExamPaper > -1 && clickExamPaper < list.size()) {
+				list.remove(clickExamPaper);
+				examPapers.remove(clickExamPaper);
+				//刷新界面
+				adapter.notifyDataSetChanged();
+				//将是否提交新试卷---重置为false
+				Editor editor = p.edit();
+				editor.putBoolean(Data.EXAM_PAPER_IS_SUBMIT, false);
+				editor.commit();
+			}
 		}
 	}
 	

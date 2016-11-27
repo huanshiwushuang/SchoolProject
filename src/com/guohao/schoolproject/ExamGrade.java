@@ -62,6 +62,8 @@ public class ExamGrade extends Activity implements OnClickListener {
 		editor.putBoolean(Data.EXAM_PAPER_IS_COMPLETE, true);
 		//标识位---是否提交了试卷，需要在试卷页面移除已答过的提交的试卷
 		editor.putBoolean(Data.EXAM_PAPER_IS_SUBMIT, true);
+		//一定要清除这个----这个等于 -1 表示这张试卷是第一次开始计时。而不是退出之后的重新计时
+		editor.putLong(Data.EXAM_PAPER_NEXT_TIME, -1);
 		editor.commit();
 	}
 
