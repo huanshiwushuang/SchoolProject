@@ -9,47 +9,49 @@
         android:layout_width="match_parent"
         android:layout_height="100dp" />
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:background="#fff"
-        android:scrollbarSize="3dp"
-        android:scrollbarThumbVertical="@color/scrollBar" >
+        android:orientation="vertical" >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="50dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="答题卡"
+                android:textColor="#999" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="答题卡"
-                    android:textColor="#999" />
+            <TextView
+                android:id="@+id/id_textview_ti_index"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="0/0"
+                android:textColor="#999" />
+        </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/id_textview_ti_index"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:text="0/0"
-                    android:textColor="#999" />
-            </RelativeLayout>
-            <LinearLayout 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbarSize="3dp"
+            android:scrollbarThumbVertical="@color/scrollBar" >
+
+            <LinearLayout
                 android:id="@+id/id_linearlayout_select_ti"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical" >
             </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+        </ScrollView>
+    </LinearLayout>
+
 </LinearLayout>
