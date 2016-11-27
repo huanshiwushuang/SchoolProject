@@ -55,6 +55,9 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 	private SharedPreferences p;
 	private String token;
 	
+	//用户点击的试卷是哪一个，记录下载，在答题之后清除对应试卷，防止重复多次答题。
+	private int clickExamPaper = -1;
+	
 	private List<ExamPaper> examPapers;
 	
 	private List<Object[]> list;
@@ -93,6 +96,10 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 					JSONObject object = new JSONObject(msg.obj.toString());
 					String status = object.getString("status");
 					if (status.equals("1")) {
+						//如果刷新，需要清除旧数据
+						examPapers.clear();
+						list.clear();
+						
 						JSONArray array = object.getJSONArray("exams");
 						for (int i = 0; i < array.length(); i++) {
 							object = array.getJSONObject(i);
@@ -308,11 +315,28 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 			editor.putInt(Data.EXAM_PAPER_examTime, examPaper.getExamTime());
 			editor.putString(Data.EXAM_PAPER_descript, examPaper.getDescript());
 			editor.commit();
+			clickExamPaper = position;
 			ExamDetailActivity.actionStart(mActivity);
 			break;
 		case Exam_Record:
 			ChapterListActivity.actionStart(mActivity);
 			break;
+		}
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		//如果提交了试卷之后，回到这个试卷展示页面，需要移除之前答过的试卷
+		if (p.getBoolean(Data.EXAM_PAPER_IS_SUBMIT, false)) {
+			list.remove(clickExamPaper);
+			examPapers.remove(clickExamPaper);
+			//刷新界面
+			adapter.notifyDataSetChanged();
+			//将是否提交新试卷---重置为false
+			Editor editor = p.edit();
+			editor.putBoolean(Data.EXAM_PAPER_IS_SUBMIT, false);
+			editor.commit();
 		}
 	}
 	

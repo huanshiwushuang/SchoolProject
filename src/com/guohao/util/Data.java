@@ -76,6 +76,8 @@ public class Data {
 	public static final String EXAM_PAPER_NEXT_TIME = "exam_paper_next_time";
 	//标识位，答题是否结束
 	public static final String EXAM_PAPER_IS_COMPLETE = "exam_paper_is_complete";
+	//标识位，是否提交了新试卷，需要移除已答试卷
+	public static final String EXAM_PAPER_IS_SUBMIT = "exam_paper_is_submit";
 	
 	//考试试卷---点击的哪一套试卷，将该套试卷的属性保存下来---------------------------------------------------------
 	public static final String EXAM_PAPER_isDelete = "exam_paper_isdelete";

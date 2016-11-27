@@ -60,6 +60,8 @@ public class ExamGrade extends Activity implements OnClickListener {
 		//考试结束，将考试是否结束---置为true
 		Editor editor = p.edit();
 		editor.putBoolean(Data.EXAM_PAPER_IS_COMPLETE, true);
+		//标识位---是否提交了试卷，需要在试卷页面移除已答过的提交的试卷
+		editor.putBoolean(Data.EXAM_PAPER_IS_SUBMIT, true);
 		editor.commit();
 	}
 
