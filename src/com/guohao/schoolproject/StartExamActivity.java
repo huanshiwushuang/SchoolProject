@@ -285,7 +285,6 @@ public class StartExamActivity extends FragmentActivity implements OnClickListen
 			temp -= currentTime;
 			//计算得到剩余的可答题的时间---秒数
 			long i = p.getLong(Data.EXAM_PAPER_NEXT_TIME, -1);
-			Log.d("guohao", "是不是："+i);
 			if (i == -1) {
 				nextTime = temp/1000;
 				Editor editor2 = p.edit();

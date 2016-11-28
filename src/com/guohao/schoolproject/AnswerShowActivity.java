@@ -35,6 +35,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class AnswerShowActivity extends Activity implements OnRefreshListener<ListView>,OnItemClickListener {
 	private static int flag = 0;
@@ -58,6 +59,8 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 	
 	//用户点击的试卷是哪一个，记录下载，在答题之后清除对应试卷，防止重复多次答题。
 	private int clickExamPaper = -1;
+	//显示---没有更多了
+	private TextView promptTV;
 	
 	private List<ExamPaper> examPapers;
 	
@@ -79,17 +82,22 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 							testString = object.getString("course")+"（"+object.getString("name")+"）";
 							list.add(new Object[]{imageId,testString});
 						}
+						if (list.size() <= 0) {
+							promptTV.setText("没有更多了");
+						}else {
+							promptTV.setText("");
+						}
 						adapter.notifyDataSetChanged();
 					}else {
-						Util.showToast(mActivity, object.getString("msg"));
+						promptTV.setText(object.getString("msg"));
 					}
 				} catch (JSONException e) {
-					Util.showToast(mActivity, e.toString());
+					promptTV.setText(e.toString());
 				}
 				break;
 			case Get_Course_Fail:
 				Util.dismiss();
-				Util.showToast(mActivity, msg.obj.toString());
+				promptTV.setText(msg.obj.toString());
 				break;
 			case Get_Exam_Paper_OK:
 				Util.dismiss();
@@ -131,17 +139,22 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 							examPapers.add(paper);
 							list.add(new Object[]{imageId,name});
 						}
+						if (list.size() <= 0) {
+							promptTV.setText("没有更多了");
+						}else {
+							promptTV.setText("");
+						}
 						adapter.notifyDataSetChanged();
 					}else {
-						Util.showToast(mActivity, object.getString("msg"));
+						promptTV.setText(object.getString("msg"));
 					}
 				} catch (JSONException e) {
-					Util.showToast(mActivity, e.toString());
+					promptTV.setText(e.toString());
 				}
 				break;
 			case Get_Exam_Paper_Fail:
 				Util.dismiss();
-				Util.showToast(mActivity, msg.obj.toString());
+				promptTV.setText(msg.obj.toString());
 				break;
 			case Get_Exam_Ti_OK:
 				
@@ -259,6 +272,8 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 		adapter = new AnswerShowAdapter(mActivity, R.layout.custom_answer_show_bg, list);
 		customTitle = (Title) findViewById(R.id.id_custom_title);
 		
+		promptTV = (TextView) findViewById(R.id.id_textview_no_have_more);
+		
 		pullListView = (PullToRefreshListView) findViewById(R.id.id_pulllistview);
 		pullListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
 		ILoadingLayout loadingLayout = pullListView.getLoadingLayoutProxy();
@@ -291,6 +306,8 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 		position -= 1;
 		switch (flag) {
 		case Exam_Test:
+			//这个点击的位置----一定要写对位置，否则如果是继续答题，就直接跳转了。
+			clickExamPaper = position;
 			//如果还有尚未答完的试题，询问是否跳转，采用标识位
 			Boolean isComplete = p.getBoolean(Data.EXAM_PAPER_IS_COMPLETE, true);
 			if (!isComplete) {
@@ -316,7 +333,6 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 			editor.putInt(Data.EXAM_PAPER_examTime, examPaper.getExamTime());
 			editor.putString(Data.EXAM_PAPER_descript, examPaper.getDescript());
 			editor.commit();
-			clickExamPaper = position;
 			ExamDetailActivity.actionStart(mActivity);
 			break;
 		case Exam_Record:
@@ -333,6 +349,10 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 			if (clickExamPaper > -1 && clickExamPaper < list.size()) {
 				list.remove(clickExamPaper);
 				examPapers.remove(clickExamPaper);
+				//如果提交试卷后，没有试卷了，需提示。
+				if (list.size() <= 0) {
+					promptTV.setText("没有更多了");
+				}
 				//刷新界面
 				adapter.notifyDataSetChanged();
 				//将是否提交新试卷---重置为false
