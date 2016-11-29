@@ -29,9 +29,11 @@
             android:layout_height="match_parent"
             android:fastScrollEnabled="false"
             android:orientation="vertical"
+            android:overScrollMode="never"
             android:scrollbarSize="3dp"
             android:scrollbarThumbVertical="@color/scrollBar"
             ptr:ptrAnimationStyle="flip"
+            ptr:ptrShowIndicator="false"
             ptr:ptrDrawable="@drawable/default_ptr_flip" />
 
         <TextView

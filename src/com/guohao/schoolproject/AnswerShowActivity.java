@@ -20,6 +20,7 @@ import com.guohao.util.Util;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import android.app.Activity;
@@ -37,7 +38,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class AnswerShowActivity extends Activity implements OnRefreshListener<ListView>,OnItemClickListener {
+public class AnswerShowActivity extends Activity implements OnRefreshListener2<ListView>,OnItemClickListener {
 	private static int flag = 0;
 	public static final int Exam_Test = 1;
 	public static final int Exam_Record = 2;
@@ -56,6 +57,8 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 	private String testString;
 	private SharedPreferences p;
 	private String token;
+	
+	private ILoadingLayout loadingLayout;
 	
 	//用户点击的试卷是哪一个，记录下载，在答题之后清除对应试卷，防止重复多次答题。
 	private int clickExamPaper = -1;
@@ -275,11 +278,18 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 		promptTV = (TextView) findViewById(R.id.id_textview_no_have_more);
 		
 		pullListView = (PullToRefreshListView) findViewById(R.id.id_pulllistview);
-		pullListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
-		ILoadingLayout loadingLayout = pullListView.getLoadingLayoutProxy();
+		pullListView.setMode(PullToRefreshBase.Mode.BOTH);
+		loadingLayout = pullListView.getLoadingLayoutProxy(true, false);
+		
 		loadingLayout.setPullLabel("下拉刷新");
 		loadingLayout.setRefreshingLabel("正在刷新...");
 		loadingLayout.setReleaseLabel("松开刷新");
+		
+		loadingLayout = pullListView.getLoadingLayoutProxy(false, true);
+		loadingLayout.setPullLabel("上拉加载");
+		loadingLayout.setRefreshingLabel("正在加载...");
+		loadingLayout.setReleaseLabel("松开加载");
+		
 		pullListView.setOnRefreshListener(this);
 	}
 
@@ -291,9 +301,17 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 	}
 
 	@Override
-	public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+	public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
 		new Handler().postDelayed(new Runnable() {
-			
+			@Override
+			public void run() {
+				pullListView.onRefreshComplete();
+			}
+		}, 3*1000);
+	}
+	@Override
+	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
 				pullListView.onRefreshComplete();
@@ -368,4 +386,5 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener<Li
 		super.onDestroy();
 		handler.removeCallbacksAndMessages(null);
 	}
+
 }
