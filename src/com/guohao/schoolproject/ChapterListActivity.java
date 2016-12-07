@@ -1,31 +1,23 @@
 package com.guohao.schoolproject;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.guohao.adapter.AnswerShowAdapter;
 import com.guohao.custom.Title;
+import com.guohao.util.Data;
 import com.guohao.util.Util;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.TextView;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 
-public class ChapterListActivity extends Activity implements OnClickListener,OnItemClickListener {
+public class ChapterListActivity extends Activity {
 	private Title customTitle;
-	private TextView testSelf;
 	private Activity mActivity;
-	private ListView listview;
-	private List<Object[]> list;
-	private AnswerShowAdapter adapter;
-	private int imageId;
+	private SharedPreferences p;
+	
+	private TextView courseName,examPaperName,studentId,grade,startTime,endTime,isPass,useTime;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,51 +26,38 @@ public class ChapterListActivity extends Activity implements OnClickListener,OnI
 		
 		initView();
 		initBaseData();
-		initNetworkData();
-		initAdapter();
-		initListener();
-	}
-
-	private void initListener() {
-		testSelf.setOnClickListener(this);
-		listview.setOnItemClickListener(this);
-	}
-	private void initAdapter() {
-		listview.setAdapter(adapter);
-	}
-	private void initNetworkData() {
-		String testString = "书籍大全测试";
-		for (int i = 0; i < 15; i++) {
-			list.add(new Object[]{imageId,testString});
-		}
 	}
 	private void initBaseData() {
 		customTitle.setImageVisibility(View.VISIBLE);
-		customTitle.setTitleText("章节列表");
-		customTitle.setTitleOtherText("自测");
+		customTitle.setTitleText("记录详情");
+		
+		courseName.setText("课程名："+p.getString(Data.EXAM_PAPER_course_name, "暂无"));
+		examPaperName.setText("试卷名："+p.getString(Data.EXAM_PAPER_exam_paper_name, "暂无"));
+		studentId.setText(p.getString(Data.EXAM_PAPER_student_id, "暂无"));
+		grade.setText(p.getString(Data.EXAM_PAPER_grade, "暂无"));
+		startTime.setText(p.getString(Data.EXAM_PAPER_start_time, "暂无"));
+		endTime.setText(p.getString(Data.EXAM_PAPER_end_time, "暂无"));
+		isPass.setText(p.getString(Data.EXAM_PAPER_is_pass, "暂无"));
+		useTime.setText(p.getString(Data.EXAM_PAPER_use_time, "暂无"));
 	}
 	private void initView() {
 		mActivity = ChapterListActivity.this;
-		list = new ArrayList<Object[]>();
-		imageId = R.drawable.img15;
-		adapter = new AnswerShowAdapter(mActivity, R.layout.custom_answer_show_bg, list);
+		p = Util.getPreference(mActivity);
 		
 		customTitle = (Title) findViewById(R.id.id_custom_title);
-		testSelf = customTitle.getTitleOther();
-		listview = (ListView) findViewById(R.id.id_listview);
+		
+		courseName = (TextView) findViewById(R.id.id_textview_course_name);
+		examPaperName = (TextView) findViewById(R.id.id_textview_exam_paper_name);
+		studentId = (TextView) findViewById(R.id.id_textview_student_id);
+		grade = (TextView) findViewById(R.id.id_textview_grade);
+		startTime = (TextView) findViewById(R.id.id_textview_start_time);
+		endTime = (TextView) findViewById(R.id.id_textview_end_time);
+		isPass = (TextView) findViewById(R.id.id_textview_is_pass);
+		useTime = (TextView) findViewById(R.id.id_textview_use_time);
 	}
 	
 	public static void actionStart(Context context) {
 		Intent intent = new Intent(context, ChapterListActivity.class);
 		context.startActivity(intent);
-	}
-
-	@Override
-	public void onClick(View v) {
-		Util.showToast(mActivity, "自测");
-	}
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		Util.showToast(mActivity, "选择了第："+position+"个");
 	}
 }

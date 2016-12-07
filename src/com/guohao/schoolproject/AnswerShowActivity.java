@@ -13,6 +13,7 @@ import com.guohao.adapter.AnswerShowAdapter;
 import com.guohao.custom.MyAlertDialog;
 import com.guohao.custom.Title;
 import com.guohao.entity.ExamPaper;
+import com.guohao.entity.ExamRecord;
 import com.guohao.entity.KV;
 import com.guohao.util.Data;
 import com.guohao.util.HttpUtil;
@@ -20,7 +21,6 @@ import com.guohao.util.Util;
 import com.handmark.pulltorefresh.library.ILoadingLayout;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import android.app.Activity;
@@ -31,14 +31,13 @@ import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class AnswerShowActivity extends Activity implements OnRefreshListener2<ListView>,OnItemClickListener {
+public class AnswerShowActivity extends Activity implements OnItemClickListener {
 	private static int flag = 0;
 	public static final int Exam_Test = 1;
 	public static final int Exam_Record = 2;
@@ -48,8 +47,8 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener2<L
 	private final int Get_Course_Fail = 5;
 	private final int Get_Exam_Paper_OK = 6;
 	private final int Get_Exam_Paper_Fail = 7;
-	private final int Get_Exam_Ti_OK = 8;
-	private final int Get_Exam_Ti_Fail = 9;
+	private final int Get_Exam_Record_OK = 10;
+	private final int Get_Exam_Record_Fail = 11;
 	
 	private Title customTitle;
 	private int imageId;
@@ -60,10 +59,15 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener2<L
 	
 	private ILoadingLayout loadingLayout;
 	
-	//用户点击的试卷是哪一个，记录下载，在答题之后清除对应试卷，防止重复多次答题。
+	//用户点击的试卷是哪一个，记录下来，在答题之后清除对应试卷，防止重复多次答题。
 	private int clickExamPaper = -1;
 	//显示---没有更多了
 	private TextView promptTV;
+	
+	//考试记录---加载的页码
+	private int examRecordPage = 1;
+	//保存考试记录的---list
+	private List<ExamRecord> examRecords;
 	
 	private List<ExamPaper> examPapers;
 	
@@ -108,10 +112,6 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener2<L
 					JSONObject object = new JSONObject(msg.obj.toString());
 					String status = object.getString("status");
 					if (status.equals("1")) {
-						//如果刷新，需要清除旧数据
-						examPapers.clear();
-						list.clear();
-						
 						JSONArray array = object.getJSONArray("exams");
 						for (int i = 0; i < array.length(); i++) {
 							object = array.getJSONObject(i);
@@ -159,11 +159,50 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener2<L
 				Util.dismiss();
 				promptTV.setText(msg.obj.toString());
 				break;
-			case Get_Exam_Ti_OK:
-				
+			case Get_Exam_Record_OK:
+				Util.dismiss();
+				try {
+					JSONObject object = new JSONObject(msg.obj.toString());
+					String status = object.getString("status");
+					if (status.equals("1")) {
+						JSONArray array = object.getJSONArray("records");
+						if (array.length() <= 0) {
+							if (list.size() <= 0) {
+								promptTV.setText("没有更多了");
+							}else {
+								Util.showToast(mActivity, "没有更多了");
+							}
+						}else {
+							promptTV.setText("");
+							for (int i = 0; i < array.length(); i++) {
+								object = array.getJSONObject(i);
+								testString = object.getString("examName");
+								list.add(new Object[]{imageId,testString});
+								examRecords.add(new ExamRecord(object.getString("stuNumber"),
+																object.getString("score"), 
+																object.getString("examName"), 
+																object.getString("course"), 
+																object.getString("beginTime"), 
+																object.getString("endTime"), 
+																object.getString("isPass"), 
+																object.getString("examTime")));
+							}
+							adapter.notifyDataSetChanged();
+							//数据加载成功，且有数据，当前的page +1，下拉刷新的时候，本体的增加，这里增加。
+							examRecordPage++;
+						}
+					}else {
+						Util.showToast(mActivity, object.getString("msg"));
+					}
+				} catch (JSONException e) {
+					Util.showToast(mActivity, e.toString());
+				}
+				pullListView.onRefreshComplete();
 				break;
-			case Get_Exam_Ti_Fail:
-				
+			case Get_Exam_Record_Fail:
+				Util.dismiss();
+				Util.showToast(mActivity, msg.obj.toString());
+				pullListView.onRefreshComplete();
 				break;
 			}
 		}
@@ -236,14 +275,35 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener2<L
 				}
 			});
 			break;
-		default:
-			for (int i = 0; i < 15; i++) {
-				list.add(new Object[]{imageId,testString});
-			}
+		case Exam_Record:
+			Util.showAlertDialog04(mActivity, "正在请求数据......");
+			getExamRecord(examRecordPage);
 			break;
 		}
-		
 	}
+	private void getExamRecord(int page) {
+		List<KV> mList = new ArrayList<KV>();
+		mList.add(new KV("token", token));
+		mList.add(new KV("page", page));
+		HttpURLConnection connection = HttpUtil.getPostHttpUrlConnection(Data.URL_GET_EXAM_RECORD);
+		HttpUtil.requestData(connection, mList, new HttpCallBack() {
+			@Override
+			public void onFinish(Object object) {
+				Message msg = handler.obtainMessage();
+				msg.what = Get_Exam_Record_OK;
+				msg.obj = object;
+				handler.sendMessage(msg);
+			}
+			@Override
+			public void onError(Object object) {
+				Message msg = handler.obtainMessage();
+				msg.what = Get_Exam_Record_Fail;
+				msg.obj = object;
+				handler.sendMessage(msg);
+			}
+		});
+	}
+
 	private void initBaseData() {
 		customTitle.setImageVisibility(View.VISIBLE);
 		token = p.getString(Data.TOKEN, "");
@@ -278,19 +338,29 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener2<L
 		promptTV = (TextView) findViewById(R.id.id_textview_no_have_more);
 		
 		pullListView = (PullToRefreshListView) findViewById(R.id.id_pulllistview);
-		pullListView.setMode(PullToRefreshBase.Mode.BOTH);
-		loadingLayout = pullListView.getLoadingLayoutProxy(true, false);
 		
-		loadingLayout.setPullLabel("下拉刷新");
-		loadingLayout.setRefreshingLabel("正在刷新...");
-		loadingLayout.setReleaseLabel("松开刷新");
 		
-		loadingLayout = pullListView.getLoadingLayoutProxy(false, true);
-		loadingLayout.setPullLabel("上拉加载");
-		loadingLayout.setRefreshingLabel("正在加载...");
-		loadingLayout.setReleaseLabel("松开加载");
-		
-		pullListView.setOnRefreshListener(this);
+		switch (flag) {
+		case Exam_Record:
+			examRecords = new ArrayList<ExamRecord>();
+			
+			pullListView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
+			loadingLayout = pullListView.getLoadingLayoutProxy(false, true);
+			loadingLayout.setPullLabel("上拉加载");
+			loadingLayout.setRefreshingLabel("正在加载...");
+			loadingLayout.setReleaseLabel("松开加载");
+			pullListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
+
+				@Override
+				public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+					getExamRecord(examRecordPage+1);
+				}
+			});
+			break;
+		default:
+			pullListView.setMode(PullToRefreshBase.Mode.DISABLED);
+			break;
+		}
 	}
 
 
@@ -298,25 +368,6 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener2<L
 		Intent intent = new Intent(context, AnswerShowActivity.class);
 		context.startActivity(intent);
 		AnswerShowActivity.flag = flag;
-	}
-
-	@Override
-	public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				pullListView.onRefreshComplete();
-			}
-		}, 3*1000);
-	}
-	@Override
-	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				pullListView.onRefreshComplete();
-			}
-		}, 3*1000);
 	}
 
 	@Override
@@ -354,6 +405,23 @@ public class AnswerShowActivity extends Activity implements OnRefreshListener2<L
 			ExamDetailActivity.actionStart(mActivity);
 			break;
 		case Exam_Record:
+			ExamRecord examRecord = examRecords.get(position);
+			Editor edit = p.edit();
+			String isPass = "";
+			if (examRecord.getIsPass().equals("true")) {
+				isPass = "是";
+			}else {
+				isPass = "否";
+			}
+			edit.putString(Data.EXAM_PAPER_course_name, examRecord.getCourse());
+			edit.putString(Data.EXAM_PAPER_exam_paper_name, examRecord.getExamName());
+			edit.putString(Data.EXAM_PAPER_student_id, examRecord.getStuNumber());
+			edit.putString(Data.EXAM_PAPER_grade, examRecord.getScore());
+			edit.putString(Data.EXAM_PAPER_start_time, examRecord.getBeginTime());
+			edit.putString(Data.EXAM_PAPER_end_time, examRecord.getEndTime());
+			edit.putString(Data.EXAM_PAPER_is_pass, isPass);
+			edit.putString(Data.EXAM_PAPER_use_time, examRecord.getExamTime());
+			edit.commit();
 			ChapterListActivity.actionStart(mActivity);
 			break;
 		}

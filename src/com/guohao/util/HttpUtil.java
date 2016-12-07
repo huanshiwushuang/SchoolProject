@@ -15,8 +15,6 @@ import java.util.List;
 import com.guohao.Interface.HttpCallBack;
 import com.guohao.entity.KV;
 
-import android.util.Log;
-
 public class HttpUtil {
 	public static final String POST = "POST";
 	public static final String GET = "GET";

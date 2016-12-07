@@ -39,7 +39,7 @@ public class SettingBg extends FrameLayout implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.id_setting01:
-			Util.showToast(mContext, "版本更新");
+			Util.showToast(mContext, "版本更新，敬请期待");
 			break;
 		case R.id.id_setting02:
 			SettingActivity.actionStart(mContext, SettingActivity.SUGGEST);

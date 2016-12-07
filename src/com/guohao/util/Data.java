@@ -23,6 +23,8 @@ public class Data {
 	public static final String URL_GET_EXAM_TI = IP+PROJECT_NAME+"/api/items/getItems";
 	//提交考试成绩地址
 	public static final String URL_POST_EXAM_PAPER_GRADE = IP+PROJECT_NAME+"/api/records/commitRecord";
+	//获取考试记录地址
+	public static final String URL_GET_EXAM_RECORD = IP+PROJECT_NAME+"/api/records/getRecords";
 	
 	//根路径
 	public static final String PATH_APP_ROOT = Environment.getExternalStorageDirectory()+"/SchoolExam";
@@ -97,4 +99,14 @@ public class Data {
 	public static final String EXAM_PAPER_endTime = "exam_paper_endtime";
 	public static final String EXAM_PAPER_examTime = "exam_paper_examtime";
 	public static final String EXAM_PAPER_descript = "exam_paper_descript";
+	
+	//考试记录---详情字段-------------------------------------------------------------------------------------------
+	public static final String EXAM_PAPER_course_name = "exam_paper_course_name";
+	public static final String EXAM_PAPER_exam_paper_name = "exam_paper_exam_paper_name";
+	public static final String EXAM_PAPER_student_id = "exam_paper_student_id";
+	public static final String EXAM_PAPER_grade = "exam_paper_grade";
+	public static final String EXAM_PAPER_start_time = "exam_paper_start_time";
+	public static final String EXAM_PAPER_end_time = "exam_paper_end_time";
+	public static final String EXAM_PAPER_is_pass = "exam_paper_is_pass";
+	public static final String EXAM_PAPER_use_time = "exam_paper_use_time";
 }

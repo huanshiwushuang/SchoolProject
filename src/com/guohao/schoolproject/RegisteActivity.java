@@ -8,11 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 
 public class RegisteActivity extends Activity {
 	private Title customTitle;
-	private EditText phoneNum,vCode,pwd;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +27,6 @@ public class RegisteActivity extends Activity {
 	}
 	private void initView() {
 		customTitle = (Title) findViewById(R.id.id_custom_title);
-		phoneNum = (EditText) findViewById(R.id.id_edittext_phone_num);
-		vCode = (EditText) findViewById(R.id.id_edittext_v_code);
-		pwd = (EditText) findViewById(R.id.id_edittext_pwd);
 	}
 	
 	

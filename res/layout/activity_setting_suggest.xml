@@ -24,7 +24,7 @@
             android:textCursorDrawable="@drawable/custom_shape_cursor"
             android:textSize="13sp"
             android:gravity="left"
-            android:hint="请输入您的宝贵意见"
+            android:hint="暂时不支持意见反馈，无法提交哦！！！"
             android:inputType="textMultiLine"
             android:maxLength="255"
             android:scrollbarSize="3dp"

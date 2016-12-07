@@ -1,12 +1,10 @@
 package com.guohao.java;
 
 import com.guohao.util.Data;
-import com.guohao.util.Util;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
-import android.util.Log;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class MySqliteOpenHelper extends SQLiteOpenHelper {
