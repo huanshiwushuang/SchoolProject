@@ -64,7 +64,7 @@ public class SettingActivity extends Activity implements OnClickListener,TextWat
 					String status = object.getString("status");
 					if (status.equals("1")) {
 						Editor editor = Util.getPreference(activity).edit();
-						editor.putString(Data.PWD, StringUtil.encodeMD5(pwdNew));
+						editor.putString(Data.PWD, pwdNew);
 						editor.commit();
 						
 						Util.showToast(activity, object.getString("msg"));
@@ -166,7 +166,7 @@ public class SettingActivity extends Activity implements OnClickListener,TextWat
 			}
 			//隐藏键盘
 			getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-			//弹出正在登陆提示框
+			//弹出正在修改提示框
 			myAlertDialog = Util.showAlertDialog04(activity, "正在修改密码......");
 			myAlertDialog.getAlertDialog().setOnKeyListener(this);
 			//构建参数
