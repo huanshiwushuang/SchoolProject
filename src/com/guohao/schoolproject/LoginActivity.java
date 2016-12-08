@@ -32,14 +32,14 @@ import android.widget.EditText;
 
 public class LoginActivity extends Activity implements OnKeyListener {
 	private Title customTitle;
-	private EditText phoneNum,pwd;
+	private EditText phoneNum, pwd;
 	private Activity activity;
-	
+
 	private MyAlertDialog myAlertDialog;
-	
+
 	private String account;
 	private String password;
-	
+
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			switch (msg.what) {
@@ -50,7 +50,7 @@ public class LoginActivity extends Activity implements OnKeyListener {
 					String status = object.getString("status");
 					if (status.equals("1")) {
 						object = object.getJSONObject("user");
-						
+
 						Editor editor = Util.getPreference(activity).edit();
 						editor.putString(Data.STU_NUMBER, object.getString("stuNumber"));
 						editor.putString(Data.GRADE, object.getString("garde"));
@@ -60,14 +60,14 @@ public class LoginActivity extends Activity implements OnKeyListener {
 						editor.putString(Data.CLASS_NO, object.getString("classNo"));
 						editor.putString(Data.ID, object.getString("id"));
 						editor.putString(Data.TOKEN, object.getString("token"));
-						
+
 						editor.putString(Data.ACCOUNT, account);
 						editor.putString(Data.PWD, password);
 						editor.commit();
-						
+
 						MainActivity.actionStart(activity);
 						finish();
-					}else {
+					} else {
 						Util.showToast(activity, object.getString("msg"));
 					}
 				} catch (JSONException e) {
@@ -81,29 +81,28 @@ public class LoginActivity extends Activity implements OnKeyListener {
 			}
 		}
 	};
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		
+
 		initView();
 		initData();
 	}
+
 	private void initData() {
 		customTitle.setTitleText("登录");
 	}
+
 	private void initView() {
 		customTitle = (Title) findViewById(R.id.id_custom_title);
 		phoneNum = (EditText) findViewById(R.id.id_edittext_phone_num);
 		pwd = (EditText) findViewById(R.id.id_edittext_pwd);
-		
+
 		activity = LoginActivity.this;
 	}
-	
-	
-	
-	
+
 	public void login(View view) {
 		account = phoneNum.getText().toString();
 		password = pwd.getText().toString();
@@ -122,17 +121,17 @@ public class LoginActivity extends Activity implements OnKeyListener {
 			Util.showToast(activity, "无可用网络");
 			return;
 		}
-		//弹出正在登陆提示框
+		// 弹出正在登陆提示框
 		myAlertDialog = Util.showAlertDialog04(activity, "正在登录......");
 		myAlertDialog.getAlertDialog().setOnKeyListener(this);
-		//构建参数
+		// 构建参数
 		List<KV> list = new ArrayList<KV>();
 		list.add(new KV("stuNumber", account));
 		list.add(new KV("password", password));
-		//发起POST登录请求
+		// 发起POST登录请求
 		HttpURLConnection connection = HttpUtil.getPostHttpUrlConnection(Data.URL_LOGIN);
-		connection.setConnectTimeout(6*1000);
-		connection.setReadTimeout(6*1000);
+		connection.setConnectTimeout(6 * 1000);
+		connection.setReadTimeout(6 * 1000);
 		HttpUtil.requestData(connection, list, new HttpCallBack() {
 			@Override
 			public void onFinish(Object object) {
@@ -141,6 +140,7 @@ public class LoginActivity extends Activity implements OnKeyListener {
 				msg.obj = object;
 				handler.sendMessage(msg);
 			}
+
 			@Override
 			public void onError(Object object) {
 				Message msg = handler.obtainMessage();
@@ -149,23 +149,9 @@ public class LoginActivity extends Activity implements OnKeyListener {
 				handler.sendMessage(msg);
 			}
 		});
-		
+
 	}
-	public void registe(View view) {
-		RegisteActivity.actionStart(LoginActivity.this);
-		overridePendingTransition(R.anim.anim_in_trans, R.anim.anim_out_trans);
-	}
-	public void forgetPwd(View view) {
-		ForgetPwdActivity.actionStart(LoginActivity.this);
-		overridePendingTransition(R.anim.anim_in_trans, R.anim.anim_out_trans);
-	}
-	public void loginWeiXin(View view) {
-		Util.showToast(LoginActivity.this, "点击微信登录");
-	}
-	public void loginQQ(View view) {
-		Util.showToast(LoginActivity.this, "点击QQ登录");
-	}
-	
+
 	@Override
 	public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 		switch (event.getAction()) {
@@ -177,12 +163,13 @@ public class LoginActivity extends Activity implements OnKeyListener {
 		}
 		return false;
 	}
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		handler.removeCallbacksAndMessages(null);
 	}
-	
+
 	public static void actionStart(Context c) {
 		Intent intent = new Intent(c, LoginActivity.class);
 		c.startActivity(intent);
