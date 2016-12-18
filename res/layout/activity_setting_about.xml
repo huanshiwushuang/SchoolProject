@@ -27,7 +27,7 @@
             android:layout_below="@id/id_imageview_pic"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
-            android:text="在线职工答题系统v1.0"
+            android:text="在线学生答题系统v1.0"
             android:textColor="#429DE3" />
     </RelativeLayout>
 
@@ -60,7 +60,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:text="在线职工答题系统"
+            android:text="在线学生答题系统"
             android:textColor="#9B9B9B" />
     </RelativeLayout>
 
@@ -171,7 +171,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:text="XXX科技技术有限公司"
+            android:text="guohao.gh@qq.com"
             android:textColor="#9B9B9B" />
     </RelativeLayout>
 

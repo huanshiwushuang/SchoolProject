@@ -134,7 +134,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/id_linearlayout_record"
-            android:background="@drawable/img302" />
+            android:background="@drawable/img351" />
 
         <ImageView
             android:layout_width="40dp"
